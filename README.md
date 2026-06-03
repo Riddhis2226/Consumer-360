@@ -114,7 +114,9 @@ G --> H[Power BI Dashboard]
 ## 📊 Dashboard Preview
 
 <p align="center">
-  <img src="dashboards/dashboard_preview.png" width="70%" />
+  <img src="dashboards/Screenshot 2026-06-03 175821.png" width="70%" />
+  <img src="dashboards/Screenshot 2026-06-03 175822.png" width="70%" />
+  <img src="dashboards/Screenshot 2026-06-03 175823.png" width="70%" />
 </p>
 
 ---
