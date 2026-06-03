@@ -115,8 +115,8 @@ G --> H[Power BI Dashboard]
 
 <p align="center">
   <img src="dashboards/Screenshot 2026-06-03 175821.png" width="70%" />
-  <img src="dashboards/Screenshot 2026-06-03 175822.png" width="70%" />
-  <img src="dashboards/Screenshot 2026-06-03 175823.png" width="70%" />
+  <img src="dashboards/Screenshot 2026-06-03 175841.png" width="70%" />
+  <img src="dashboards/Screenshot 2026-06-03 175858.png" width="70%" />
 </p>
 
 ---
@@ -128,7 +128,10 @@ Consumer360-Customer-Analytics/
 │
 ├── dashboards/
 │   ├── Consumer 360.pbix
-│   └── Consumer 360 - BI dashboard.pdf
+│   ├── Consumer 360 - BI dashboard.pdf
+│   ├── Screenshot 2026-06-03 175821.png
+│   ├── Screenshot 2026-06-03 175841.png
+│   └── Screenshot 2026-06-03 175858.png
 │
 ├── datasets/
 │   └── dataset (CSV and DB files).zip
@@ -182,14 +185,6 @@ Consumer360-Customer-Analytics/
 * Recommendation systems
 * Real-time streaming analytics
 * Cloud deployment (AWS / GCP)
-
----
-
-## 👩‍💻 Author
-
-**Riddhima**
-B.Tech CSE (Data Science)
-Aspiring Data Analyst / ML Engineer
 
 ---
 
