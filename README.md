@@ -1,192 +1,96 @@
-<div align="center">
-
-<img src="https://capsule-render.vercel.app/api?type=waving&color=0:0F2027,50:2C5364,100:00F7FF&height=220&section=header&text=Consumer360&fontSize=60&fontColor=ffffff&animation=fadeIn&fontAlignY=38&desc=Customer%20Segmentation%20%26%20Lifetime%20Value%20Engine&descAlignY=58&descSize=20" width="100%"/>
-
-<img src="https://readme-typing-svg.demolab.com?font=Fira+Code&weight=600&size=24&duration=2500&pause=800&color=00F7FF&center=true&vCenter=true&width=800&lines=RFM+Segmentation+%E2%80%A2+Cohort+Analysis;Market+Basket+Mining+%E2%80%A2+CLV+Modeling;SQL+%E2%80%A2+Python+%E2%80%A2+Power+BI+%E2%80%A2+Production-Ready" />
+<img src="assets/banner.svg" width="100%" alt="Consumer360 — Customer Segmentation & Lifetime Value Engine"/>
 
 <br/>
 
-![Python](https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=python&logoColor=white)
-![SQL](https://img.shields.io/badge/SQL-CC2927?style=for-the-badge&logo=microsoftsqlserver&logoColor=white)
-![Pandas](https://img.shields.io/badge/Pandas-150458?style=for-the-badge&logo=pandas&logoColor=white)
-![NumPy](https://img.shields.io/badge/NumPy-013243?style=for-the-badge&logo=numpy&logoColor=white)
-![Power BI](https://img.shields.io/badge/Power%20BI-F2C811?style=for-the-badge&logo=powerbi&logoColor=black)
-![Jupyter](https://img.shields.io/badge/Jupyter-F37626?style=for-the-badge&logo=jupyter&logoColor=white)
+![license](https://img.shields.io/badge/license-MIT-3a3530?style=flat-square)
+![python](https://img.shields.io/badge/python-3a3530?style=flat-square)
+![sql](https://img.shields.io/badge/sql-3a3530?style=flat-square)
+![power bi](https://img.shields.io/badge/power%20bi-3a3530?style=flat-square)
 
-<img src="https://img.shields.io/badge/status-production--ready-brightgreen?style=flat-square"/>
-<img src="https://img.shields.io/badge/license-MIT-blue?style=flat-square"/>
-<img src="https://img.shields.io/badge/domain-Retail%20Analytics-orange?style=flat-square"/>
-<img src="https://img.shields.io/github/last-commit/YOUR-USERNAME/Consumer360-Customer-Analytics?style=flat-square&color=00F7FF"/>
+## The problem
 
-</div>
+A retail chain can see that customers are leaving. What it can't see, from a transaction log alone, is *which* customers matter most, *when* they start to disengage, and *what* to do about it before they're gone. That gap — between raw point-of-sale data and an actual retention decision — is what this project closes.
 
-<img src="https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/rainbow.gif" width="100%">
+## The approach
 
-## 🎯 What This Is
+Consumer360 takes a transaction table through five analytical passes, each answering one question a retention or marketing team would actually ask:
 
-A retail chain is bleeding customers and doesn't know why. **Consumer360** turns raw POS/transaction logs into a decision-ready customer intelligence layer — who's about to churn, who's secretly a whale, and what to sell them next — packaged end-to-end from raw CSV to a live Power BI dashboard.
-
-<table align="center">
-<tr>
-<td align="center" width="25%">
-
-### 🐋
-**Whale Detection**
-Surface the top-value customers driving disproportionate revenue
-
-</td>
-<td align="center" width="25%">
-
-### ⚠️
-**Churn Signals**
-Flag at-risk and lapsed customers before they're gone
-
-</td>
-<td align="center" width="25%">
-
-### 📈
-**Lifecycle Insight**
-Cohort retention curves across acquisition periods
-
-</td>
-<td align="center" width="25%">
-
-### 🎯
-**Growth Levers**
-Product-affinity rules for cross-sell / bundling
-
-</td>
-</tr>
-</table>
-
-<img src="https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/rainbow.gif" width="100%">
-
-## 🔄 Pipeline
-
-```mermaid
-%%{init: {'theme':'dark', 'themeVariables': {'primaryColor':'#0F2027','primaryTextColor':'#00F7FF','primaryBorderColor':'#00F7FF','lineColor':'#2C5364','secondaryColor':'#150458','tertiaryColor':'#1a1a2e'}}}%%
-flowchart LR
-    A(["🗂️ Raw Retail Data"]) --> B["⚙️ ELT Processing"]
-    B --> C[("🗄️ SQL Database")]
-    C --> D["🎯 RFM Segmentation"]
-    D --> E["📊 Cohort Analysis"]
-    E --> F["🛒 Market Basket Mining"]
-    F --> G["💰 CLV Modeling"]
-    G --> H(["📈 Power BI Dashboard"])
-
-    style A fill:#0F2027,stroke:#00F7FF,color:#fff
-    style H fill:#0F2027,stroke:#00F7FF,color:#fff
-```
-
-## ⚡ Core Modules
-
-<details open>
-<summary><b>🔹 RFM Segmentation</b></summary>
-<br/>
-
-Algorithmic 1–5 scoring across **Recency, Frequency, Monetary** dimensions, mapped into actionable tiers:
-
-| Tier | Meaning |
+| Pass | Question it answers |
 |---|---|
-| 🏆 Champions | Bought recently, often, and big |
-| 💎 Loyal Customers | Consistent repeat buyers |
-| ⚠️ At Risk | Used to buy often, gone quiet |
-| ☠️ Lost | Long inactive, low value |
+| **RFM Segmentation** | Who are our best customers, and who's already slipping away? |
+| **Cohort Analysis** | Does *when* someone was acquired predict how long they'll stay? |
+| **Market Basket Analysis** | What do customers buy together, and what should we recommend next? |
+| **CLV Modeling** | Which customers are worth the marketing spend to save? |
+| **Power BI Dashboard** | How does a non-technical stakeholder explore all of this themselves? |
 
-</details>
+Each pass lives in its own notebook, in order, so nothing is a black box — you can open `notebooks/RFM + SEGEMENTATION.ipynb` and see exactly how a customer ends up labeled "Champion" vs. "At Risk."
 
-<details>
-<summary><b>🔹 Cohort Analysis</b></summary>
-<br/>
+<img src="assets/pipeline.svg" width="100%" alt="pipeline: raw data → ELT → SQL → RFM → cohort + basket analysis → CLV → Power BI"/>
 
-Tracks retention by acquisition month to answer questions like:
-> *Do holiday-acquired customers retain better than customers acquired in an average month?*
+## What the analysis actually shows
 
-Outputs a retention heatmap across the customer lifecycle.
+- **Churn isn't gradual — it's front-loaded.** Retention drops hardest in the first month after acquisition, then levels off. Whatever a retention strategy does, it has to happen early.
+- **Value is concentrated, not evenly spread.** A small "Champions" segment accounts for a disproportionate share of revenue — the RFM model exists specifically to make that segment visible and actionable.
+- **Purchases aren't independent events.** The market basket rules surface real product affinities, which is what turns "we should cross-sell" from a guess into a specific, testable recommendation.
+- **Acquisition timing matters.** Cohort retention curves differ by acquisition period, which is useful for planning *when* to run acquisition campaigns, not just how.
 
-</details>
+## RFM segments, defined
 
-<details>
-<summary><b>🔹 Market Basket Analysis</b></summary>
-<br/>
+| Segment | What it means |
+|---|---|
+| 🏆 Champions | Recent, frequent, high-spend — the core of the business |
+| 💎 Loyal Customers | Reliable repeat buyers, not yet top-tier spenders |
+| ⚠️ At Risk | Used to be regular, has gone quiet — the segment worth acting on first |
+| ☠️ Lost | Long inactive, low historical value |
 
-Apriori / FP-Growth association-rule mining over transaction baskets to surface rules like:
-> *Customers who buy Product A are significantly more likely to also buy Product B.*
+## Stack
 
-Powers cross-sell and bundling recommendations.
+`SQL` for storage and RFM scoring queries · `Python (Pandas, NumPy)` for ELT, cohort math, and Apriori/FP-Growth basket mining · `Power BI` for the stakeholder-facing dashboard.
 
-</details>
-
-<details>
-<summary><b>🔹 Customer Lifetime Value (CLV)</b></summary>
-<br/>
-
-Probabilistic modeling to project forward purchase behavior and estimate long-term customer value — used to prioritize retention spend where it actually pays off.
-
-</details>
-
-<img src="https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/rainbow.gif" width="100%">
-
-## 📊 Dashboard
-
-<div align="center">
-<img src="dashboards/Screenshot 2026-06-03 175821.png" width="90%"/>
-<br/><br/>
-<img src="dashboards/Screenshot 2026-06-03 175841.png" width="90%"/>
-<br/><br/>
-<img src="dashboards/Screenshot 2026-06-03 175858.png" width="90%"/>
-</div>
-
-## 🧪 Key Insights
-
-- 📉 **Early churn is the biggest leak** — retention drops sharply within the first month post-acquisition
-- 💰 **Revenue is concentrated** — a small slice of "Champion" customers drives a disproportionate share of total revenue
-- 📈 **Retention stabilizes** after the initial lifecycle stage, meaning early intervention matters most
-- 🛒 **Product affinities are actionable** — clear cross-sell rules emerge from basket analysis
-
-## 📁 Project Structure
+## Repository layout
 
 ```
 Consumer360-Customer-Analytics/
 │
-├── 📊 dashboards/
+├── dashboards/
 │   ├── Consumer 360.pbix
 │   ├── Consumer 360 - BI dashboard.pdf
-│   └── *.png
+│   └── *.png                          (dashboard screenshots)
 │
-├── 🗃️ datasets/
+├── datasets/
 │   └── dataset (CSV + DB files).zip
 │
-├── 📓 notebooks/
+├── notebooks/
 │   ├── ELT processing.ipynb
 │   ├── LOAD TO SQL.ipynb
-│   ├── RFM + SEGMENTATION.ipynb
+│   ├── RFM + SEGEMENTATION.ipynb
 │   ├── COHORT ANALYSIS.ipynb
 │   └── MARKET BASKET ANALYSIS.ipynb
 │
+├── assets/                            (README graphics)
 ├── README.md
 └── LICENSE (MIT)
 ```
 
-## 🔮 Future Scope
+## Dashboard
 
-- 🤖 ML-based churn prediction
-- 🎯 Recommendation engine
-- ⏱️ Real-time streaming analytics
-- ☁️ Cloud deployment (AWS / GCP)
+<p align="center">
+  <img src="dashboards/Screenshot 2026-06-03 175821.png" width="90%"/>
+</p>
+<p align="center">
+  <img src="dashboards/Screenshot 2026-06-03 175841.png" width="90%"/>
+</p>
+<p align="center">
+  <img src="dashboards/Screenshot 2026-06-03 175858.png" width="90%"/>
+</p>
 
-<img src="https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/rainbow.gif" width="100%">
+## Where this goes next
 
-<div align="center">
+- Churn prediction as a proper supervised model, not just an RFM heuristic
+- A recommendation layer built on top of the basket-analysis rules
+- Streaming ingestion instead of batch ELT
+- Cloud deployment (AWS / GCP) so the dashboard reflects live data
 
-### 🛠️ Built With
+<br/>
 
-<img src="https://skillicons.dev/icons?i=python,postgres,git,powerbi&theme=dark" />
-
-<br/><br/>
-
-<img src="https://capsule-render.vercel.app/api?type=waving&color=0:00F7FF,100:0F2027&height=100&section=footer" width="100%"/>
-
-**⭐ If this project helped you, consider starring the repo!**
-
-</div>
+<p align="center"><sub>MIT licensed · built as part of a portfolio of retail, finance, healthcare, and logistics analytics projects</sub></p>
