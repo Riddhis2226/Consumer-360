@@ -1,193 +1,192 @@
-# 🚀 Consumer360 – Customer Segmentation & Lifetime Value Engine
+<div align="center">
 
-<p align="center">
-  <img src="https://readme-typing-svg.herokuapp.com?color=00F7FF&size=28&center=true&vCenter=true&width=900&lines=Retail+Analytics+System;RFM+Segmentation+%7C+Cohort+Analysis;Market+Basket+%7C+CLV+Modeling;Power+BI+Dashboard+%7C+Customer+Intelligence" />
-</p>
+<img src="https://capsule-render.vercel.app/api?type=waving&color=0:0F2027,50:2C5364,100:00F7FF&height=220&section=header&text=Consumer360&fontSize=60&fontColor=ffffff&animation=fadeIn&fontAlignY=38&desc=Customer%20Segmentation%20%26%20Lifetime%20Value%20Engine&descAlignY=58&descSize=20" width="100%"/>
 
----
+<img src="https://readme-typing-svg.demolab.com?font=Fira+Code&weight=600&size=24&duration=2500&pause=800&color=00F7FF&center=true&vCenter=true&width=800&lines=RFM+Segmentation+%E2%80%A2+Cohort+Analysis;Market+Basket+Mining+%E2%80%A2+CLV+Modeling;SQL+%E2%80%A2+Python+%E2%80%A2+Power+BI+%E2%80%A2+Production-Ready" />
 
-## 📊 Overview
+<br/>
 
-**Consumer360** is a production-grade retail analytics system designed to transform raw transactional data into actionable customer intelligence.
+![Python](https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=python&logoColor=white)
+![SQL](https://img.shields.io/badge/SQL-CC2927?style=for-the-badge&logo=microsoftsqlserver&logoColor=white)
+![Pandas](https://img.shields.io/badge/Pandas-150458?style=for-the-badge&logo=pandas&logoColor=white)
+![NumPy](https://img.shields.io/badge/NumPy-013243?style=for-the-badge&logo=numpy&logoColor=white)
+![Power BI](https://img.shields.io/badge/Power%20BI-F2C811?style=for-the-badge&logo=powerbi&logoColor=black)
+![Jupyter](https://img.shields.io/badge/Jupyter-F37626?style=for-the-badge&logo=jupyter&logoColor=white)
 
-It enables businesses to:
+<img src="https://img.shields.io/badge/status-production--ready-brightgreen?style=flat-square"/>
+<img src="https://img.shields.io/badge/license-MIT-blue?style=flat-square"/>
+<img src="https://img.shields.io/badge/domain-Retail%20Analytics-orange?style=flat-square"/>
+<img src="https://img.shields.io/github/last-commit/YOUR-USERNAME/Consumer360-Customer-Analytics?style=flat-square&color=00F7FF"/>
 
-* 🐋 Identify high-value customers (**Whales**)
-* ⚠️ Detect churn-risk customers
-* 📈 Understand behavioral and lifecycle patterns
-* 🎯 Drive data-driven marketing strategies
+</div>
 
----
+<img src="https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/rainbow.gif" width="100%">
 
-## 🧠 Use Case (Production Scenario)
+## 🎯 What This Is
 
-A major retail chain is experiencing significant customer churn.
+A retail chain is bleeding customers and doesn't know why. **Consumer360** turns raw POS/transaction logs into a decision-ready customer intelligence layer — who's about to churn, who's secretly a whale, and what to sell them next — packaged end-to-end from raw CSV to a live Power BI dashboard.
 
-The objective is to build a **scalable analytical framework** that:
+<table align="center">
+<tr>
+<td align="center" width="25%">
 
-* Segments customers using **RFM (Recency, Frequency, Monetary)**
-* Identifies high-value vs at-risk users
-* Enables targeted retention and engagement strategies
+### 🐋
+**Whale Detection**
+Surface the top-value customers driving disproportionate revenue
 
----
+</td>
+<td align="center" width="25%">
 
-## ✨ Product Features
+### ⚠️
+**Churn Signals**
+Flag at-risk and lapsed customers before they're gone
 
-### 📊 Core Analytics
+</td>
+<td align="center" width="25%">
 
-* Sales Trends Over Time
-* Revenue by Geographical Region
-* Top 10 Bestselling Products
+### 📈
+**Lifecycle Insight**
+Cohort retention curves across acquisition periods
 
----
+</td>
+<td align="center" width="25%">
 
-### ⚡ Advanced Intelligence
+### 🎯
+**Growth Levers**
+Product-affinity rules for cross-sell / bundling
 
-#### 🔹 RFM Segmentation
+</td>
+</tr>
+</table>
 
-* Algorithmic scoring (1–5 scale)
-* Customer classification:
+<img src="https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/rainbow.gif" width="100%">
 
-  * Champions
-  * Loyal Customers
-  * At Risk
-  * Lost Customers
-
----
-
-#### 🔹 Cohort Analysis
-
-* Retention tracking across time
-* Customer lifecycle behavior
-* Answers:
-
-  > Do holiday-acquired customers retain better than others?
-
----
-
-#### 🔹 Market Basket Analysis
-
-* Association Rule Mining (Apriori / FP-Growth)
-* Product affinity detection
-* Example:
-
-  > Customers buying Product A also buy Product B
-
----
-
-#### 🔹 Customer Lifetime Value (CLV)
-
-* Predict future purchase behavior
-* Estimate long-term customer value using probabilistic models
-
----
-
-## ⚙️ Tech Stack
-
-<p align="center">
-
-![SQL](https://img.shields.io/badge/SQL-CC2927?style=for-the-badge\&logo=microsoftsqlserver)
-![Python](https://img.shields.io/badge/Python-3776AB?style=for-the-badge\&logo=python\&logoColor=white)
-![NumPy](https://img.shields.io/badge/NumPy-013243?style=for-the-badge\&logo=numpy)
-![Pandas](https://img.shields.io/badge/Pandas-150458?style=for-the-badge\&logo=pandas)
-![Power BI](https://img.shields.io/badge/PowerBI-F2C811?style=for-the-badge\&logo=powerbi)
-
-</p>
-
----
-
-## 🔄 System Pipeline
+## 🔄 Pipeline
 
 ```mermaid
-graph LR
-A[Raw Retail Data] --> B[ELT Processing]
-B --> C[SQL Database]
-C --> D[RFM Segmentation]
-D --> E[Cohort Analysis]
-E --> F[Market Basket Analysis]
-F --> G[CLV Modeling]
-G --> H[Power BI Dashboard]
+%%{init: {'theme':'dark', 'themeVariables': {'primaryColor':'#0F2027','primaryTextColor':'#00F7FF','primaryBorderColor':'#00F7FF','lineColor':'#2C5364','secondaryColor':'#150458','tertiaryColor':'#1a1a2e'}}}%%
+flowchart LR
+    A(["🗂️ Raw Retail Data"]) --> B["⚙️ ELT Processing"]
+    B --> C[("🗄️ SQL Database")]
+    C --> D["🎯 RFM Segmentation"]
+    D --> E["📊 Cohort Analysis"]
+    E --> F["🛒 Market Basket Mining"]
+    F --> G["💰 CLV Modeling"]
+    G --> H(["📈 Power BI Dashboard"])
+
+    style A fill:#0F2027,stroke:#00F7FF,color:#fff
+    style H fill:#0F2027,stroke:#00F7FF,color:#fff
 ```
 
----
+## ⚡ Core Modules
 
-## 📊 Dashboard Preview
+<details open>
+<summary><b>🔹 RFM Segmentation</b></summary>
+<br/>
 
-<p align="center">
-  <img src="dashboards/Screenshot 2026-06-03 175821.png" width="70%" />
-  <img src="dashboards/Screenshot 2026-06-03 175841.png" width="70%" />
-  <img src="dashboards/Screenshot 2026-06-03 175858.png" width="70%" />
-</p>
+Algorithmic 1–5 scoring across **Recency, Frequency, Monetary** dimensions, mapped into actionable tiers:
 
----
+| Tier | Meaning |
+|---|---|
+| 🏆 Champions | Bought recently, often, and big |
+| 💎 Loyal Customers | Consistent repeat buyers |
+| ⚠️ At Risk | Used to buy often, gone quiet |
+| ☠️ Lost | Long inactive, low value |
+
+</details>
+
+<details>
+<summary><b>🔹 Cohort Analysis</b></summary>
+<br/>
+
+Tracks retention by acquisition month to answer questions like:
+> *Do holiday-acquired customers retain better than customers acquired in an average month?*
+
+Outputs a retention heatmap across the customer lifecycle.
+
+</details>
+
+<details>
+<summary><b>🔹 Market Basket Analysis</b></summary>
+<br/>
+
+Apriori / FP-Growth association-rule mining over transaction baskets to surface rules like:
+> *Customers who buy Product A are significantly more likely to also buy Product B.*
+
+Powers cross-sell and bundling recommendations.
+
+</details>
+
+<details>
+<summary><b>🔹 Customer Lifetime Value (CLV)</b></summary>
+<br/>
+
+Probabilistic modeling to project forward purchase behavior and estimate long-term customer value — used to prioritize retention spend where it actually pays off.
+
+</details>
+
+<img src="https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/rainbow.gif" width="100%">
+
+## 📊 Dashboard
+
+<div align="center">
+<img src="dashboards/Screenshot 2026-06-03 175821.png" width="90%"/>
+<br/><br/>
+<img src="dashboards/Screenshot 2026-06-03 175841.png" width="90%"/>
+<br/><br/>
+<img src="dashboards/Screenshot 2026-06-03 175858.png" width="90%"/>
+</div>
+
+## 🧪 Key Insights
+
+- 📉 **Early churn is the biggest leak** — retention drops sharply within the first month post-acquisition
+- 💰 **Revenue is concentrated** — a small slice of "Champion" customers drives a disproportionate share of total revenue
+- 📈 **Retention stabilizes** after the initial lifecycle stage, meaning early intervention matters most
+- 🛒 **Product affinities are actionable** — clear cross-sell rules emerge from basket analysis
 
 ## 📁 Project Structure
 
 ```
 Consumer360-Customer-Analytics/
 │
-├── dashboards/
+├── 📊 dashboards/
 │   ├── Consumer 360.pbix
 │   ├── Consumer 360 - BI dashboard.pdf
-│   ├── Screenshot 2026-06-03 175821.png
-│   ├── Screenshot 2026-06-03 175841.png
-│   └── Screenshot 2026-06-03 175858.png
+│   └── *.png
 │
-├── datasets/
-│   └── dataset (CSV and DB files).zip
+├── 🗃️ datasets/
+│   └── dataset (CSV + DB files).zip
 │
-├── notebooks/
+├── 📓 notebooks/
 │   ├── ELT processing.ipynb
 │   ├── LOAD TO SQL.ipynb
-│   ├── RFM + SEGEMENTATION.ipynb
+│   ├── RFM + SEGMENTATION.ipynb
 │   ├── COHORT ANALYSIS.ipynb
 │   └── MARKET BASKET ANALYSIS.ipynb
 │
 ├── README.md
-└── MIT LICENSE
+└── LICENSE (MIT)
 ```
-
----
-
-## 📌 Workflow
-
-1. Data Extraction & Cleaning (ELT)
-2. Load structured data into SQL
-3. Perform RFM Segmentation
-4. Conduct Cohort Retention Analysis
-5. Generate Market Basket Rules
-6. Build Power BI Dashboard
-
----
-
-## 🧪 Key Concepts
-
-* RFM Segmentation
-* Cohort Analysis
-* Association Rule Mining
-* Customer Lifetime Value (CLV)
-* Behavioral Analytics
-
----
-
-## 🚀 Key Insights
-
-* Customer retention drops sharply after the first month (early churn)
-* High-value customers drive a disproportionate share of revenue
-* Retention stabilizes after initial lifecycle stage
-* Product associations enable effective cross-selling strategies
-
----
 
 ## 🔮 Future Scope
 
-* ML-based churn prediction
-* Recommendation systems
-* Real-time streaming analytics
-* Cloud deployment (AWS / GCP)
+- 🤖 ML-based churn prediction
+- 🎯 Recommendation engine
+- ⏱️ Real-time streaming analytics
+- ☁️ Cloud deployment (AWS / GCP)
 
----
+<img src="https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/rainbow.gif" width="100%">
 
-<p align="center">
-✨ Transforming Data into Customer Intelligence ✨
-</p>
+<div align="center">
+
+### 🛠️ Built With
+
+<img src="https://skillicons.dev/icons?i=python,postgres,git,powerbi&theme=dark" />
+
+<br/><br/>
+
+<img src="https://capsule-render.vercel.app/api?type=waving&color=0:00F7FF,100:0F2027&height=100&section=footer" width="100%"/>
+
+**⭐ If this project helped you, consider starring the repo!**
+
+</div>
