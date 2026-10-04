@@ -1,4 +1,4 @@
-<img src="assets/banner.svg" width="100%" alt="Consumer360 — Customer Segmentation & Lifetime Value Engine"/>
+<img src="assets/banner.pngg" width="100%" alt="Consumer360 — Customer Segmentation & Lifetime Value Engine"/>
 
 <br/>
 
