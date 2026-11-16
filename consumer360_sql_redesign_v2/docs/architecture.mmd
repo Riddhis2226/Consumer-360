@@ -1,0 +1,16 @@
+flowchart TD
+  A[UCI Online Retail II CSVs] --> B[stg.online_retail_raw]
+  B --> C[Typed parsing + overlap reconciliation + DQ]
+  C --> D[dw.fact_transaction_line]
+  C --> E[dw.dim_customer / product / country / date]
+  D --> F[dw.mv_customer_360]
+  E --> F
+  F --> G[dw.v_rfm + validation]
+  D --> H[dw.v_cohort_retention]
+  D --> I[dw.v_customer_purchase_sequence]
+  G --> J[mart aggregate tables]
+  H --> J
+  F --> K[mart_private.customer_segments]
+  L[ops run log + DQ results] --- C
+  M[Power BI / Streamlit / Supabase] --> J
+  N[Restricted local access] --> K
