@@ -1,4 +1,4 @@
-﻿[project]
+[project]
 name = "consumer-360"
 version = "0.1.0"
 description = "Consumer360 retail analytics, customer segmentation, and lifetime value engine"
@@ -6,14 +6,23 @@ readme = "README.md"
 requires-python = ">=3.11"
 dependencies = [
     "ipykernel>=7.4.0",
+    "jupyter>=1.1.1",
     "jupyterlab>=4.6.6",
+    "lab>=8.11",
+    "lifetimes>=0.11.3",
+    "matplotlib>=3.11.2",
+    "mlxtend>=0.25.0",
     "numpy>=2.4.6",
     "pandas>=3.1.1",
+    "plotly>=7.1.0",
     "psycopg[binary]>=3.3.9",
     "pyarrow>=26.0.1",
     "python-dotenv>=1.2.4",
     "pyyaml>=6.0.3",
+    "scipy>=1.17.1",
+    "seaborn>=0.13.2",
     "sqlalchemy>=2.1.9",
+    "statsmodels>=0.15.0",
 ]
 
 [project.scripts]
