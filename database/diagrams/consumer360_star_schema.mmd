@@ -1,0 +1,34 @@
+﻿erDiagram
+    DIM_CUSTOMER ||--o{ FACT_SALES : customer_key
+    DIM_PRODUCT  ||--o{ FACT_SALES : product_key
+
+    DIM_CUSTOMER {
+        bigint customer_key PK
+        varchar customer_id UK
+        varchar country
+        timestamp first_purchase_at
+        timestamp last_purchase_at
+    }
+
+    DIM_PRODUCT {
+        bigint product_key PK
+        varchar stock_code UK
+        text canonical_description
+        varchar product_class
+        boolean is_merchandise
+        boolean needs_review
+    }
+
+    FACT_SALES {
+        bigint fact_sales_key PK
+        bigint staging_id FK
+        bigint customer_key FK
+        bigint product_key FK
+        varchar invoice
+        timestamp invoice_date
+        varchar reporting_category
+        numeric quantity
+        numeric unit_price
+        numeric merchandise_line_amount
+        numeric non_merchandise_line_amount
+    }

@@ -1,0 +1,93 @@
+﻿{
+    "project":  "Consumer360",
+    "process":  "raw_source_ingestion",
+    "generated_at_utc":  "2026-11-18T08:00:18.579672+00:00",
+    "source_directory":  "data/raw",
+    "source_files_processed":  2,
+    "total_rows":  1067371,
+    "files":  [
+                  {
+                      "file_name":  "online_retail_II_2009-10.csv",
+                      "file_size_bytes":  43820738,
+                      "encoding":  "utf-8-sig",
+                      "row_count":  525461,
+                      "column_count":  8,
+                      "columns":  [
+                                      "Invoice",
+                                      "StockCode",
+                                      "Description",
+                                      "Quantity",
+                                      "InvoiceDate",
+                                      "Price",
+                                      "Customer ID",
+                                      "Country"
+                                  ],
+                      "missing_values":  {
+                                             "Invoice":  0,
+                                             "StockCode":  0,
+                                             "Description":  2928,
+                                             "Quantity":  0,
+                                             "InvoiceDate":  0,
+                                             "Price":  0,
+                                             "Customer ID":  107927,
+                                             "Country":  0
+                                         },
+                      "exact_duplicate_rows":  6865,
+                      "invalid_quantity_values":  0,
+                      "invalid_price_values":  0,
+                      "invalid_invoice_dates":  0,
+                      "negative_quantity_rows":  12326,
+                      "zero_quantity_rows":  0,
+                      "negative_price_rows":  3,
+                      "zero_price_rows":  3687,
+                      "cancellation_invoice_rows":  10206,
+                      "distinct_invoice_count":  28816,
+                      "distinct_stock_code_count":  4632,
+                      "distinct_customer_count":  4383,
+                      "date_min":  "2009-12-01T07:45:00",
+                      "date_max":  "2010-12-09T20:01:00"
+                  },
+                  {
+                      "file_name":  "online_retail_II_2010-11.csv",
+                      "file_size_bytes":  45005814,
+                      "encoding":  "utf-8-sig",
+                      "row_count":  541910,
+                      "column_count":  8,
+                      "columns":  [
+                                      "Invoice",
+                                      "StockCode",
+                                      "Description",
+                                      "Quantity",
+                                      "InvoiceDate",
+                                      "Price",
+                                      "Customer ID",
+                                      "Country"
+                                  ],
+                      "missing_values":  {
+                                             "Invoice":  0,
+                                             "StockCode":  0,
+                                             "Description":  1454,
+                                             "Quantity":  0,
+                                             "InvoiceDate":  0,
+                                             "Price":  0,
+                                             "Customer ID":  135080,
+                                             "Country":  0
+                                         },
+                      "exact_duplicate_rows":  5268,
+                      "invalid_quantity_values":  0,
+                      "invalid_price_values":  0,
+                      "invalid_invoice_dates":  0,
+                      "negative_quantity_rows":  10624,
+                      "zero_quantity_rows":  0,
+                      "negative_price_rows":  2,
+                      "zero_price_rows":  2515,
+                      "cancellation_invoice_rows":  9288,
+                      "distinct_invoice_count":  25900,
+                      "distinct_stock_code_count":  4070,
+                      "distinct_customer_count":  4372,
+                      "date_min":  "2010-12-01T08:26:00",
+                      "date_max":  "2011-12-09T12:50:00"
+                  }
+              ],
+    "source_files_modified":  false
+}

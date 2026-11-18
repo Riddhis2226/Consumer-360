@@ -1,0 +1,34 @@
+﻿[project]
+name = "consumer-360"
+version = "0.1.0"
+description = "Consumer360 retail analytics, customer segmentation, and lifetime value engine"
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = [
+    "ipykernel>=7.4.0",
+    "jupyterlab>=4.6.6",
+    "numpy>=2.4.6",
+    "pandas>=3.1.1",
+    "psycopg[binary]>=3.3.9",
+    "pyarrow>=26.0.1",
+    "python-dotenv>=1.2.4",
+    "pyyaml>=6.0.3",
+    "sqlalchemy>=2.1.9",
+]
+
+[project.scripts]
+consumer360 = "consumer360.cli:main"
+
+[dependency-groups]
+dev = [
+    "pytest>=9.2.0",
+    "ruff>=0.17.5",
+]
+
+[build-system]
+requires = ["uv_build>=0.13.0,<0.14.0"]
+build-backend = "uv_build"
+
+[tool.uv.build-backend]
+module-name = "consumer360"
+module-root = "src"
