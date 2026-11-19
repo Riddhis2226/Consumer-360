@@ -3,7 +3,6 @@
 from __future__ import annotations
 
 import logging
-from collections import Counter
 from pathlib import Path
 
 import pandas as pd
@@ -85,12 +84,37 @@ def read_source(path: Path) -> pd.DataFrame:
     return frame
 
 
-def calculate_hashes(frame: pd.DataFrame) -> pd.Series:
-    """Create deterministic row fingerprints from source columns."""
-    return pd.util.hash_pandas_object(
-        frame[COLUMNS],
-        index=False,
-    )
+def reconcile_cross_file_overlap(
+    first: pd.DataFrame,
+    second: pd.DataFrame,
+) -> tuple[pd.Series, int]:
+    """Return a mask retaining second-file rows not present in the first.
+
+    Matching is performed on all source columns using pandas' exact
+    MultiIndex equality semantics. This avoids treating a fingerprint
+    collision as proof that two source rows are identical. Multiplicity
+    must match for every shared row; within-file duplicates are preserved.
+    """
+    first_index = pd.MultiIndex.from_frame(first[COLUMNS])
+    second_index = pd.MultiIndex.from_frame(second[COLUMNS])
+
+    first_counts = first_index.value_counts(sort=False)
+    second_counts = second_index.value_counts(sort=False)
+    shared = first_counts.index.intersection(second_counts.index)
+
+    if len(shared):
+        left_counts = first_counts.reindex(shared).to_numpy()
+        right_counts = second_counts.reindex(shared).to_numpy()
+        mismatched = int((left_counts != right_counts).sum())
+        if mismatched:
+            raise ValueError(
+                f"Overlap multiplicity changed: {mismatched} shared "
+                "source rows have different counts. No records were loaded."
+            )
+
+    keep_second = ~second_index.isin(first_index)
+    overlap_rows = int((~keep_second).sum())
+    return pd.Series(keep_second, index=second.index), overlap_rows
 
 
 def prepare_for_database(
@@ -146,35 +170,8 @@ def run_staging_load() -> None:
     logger.info("Reading second source file.")
     second = read_source(RAW_DIR / SOURCE_FILES[1])
 
-    # Count row occurrences in both files.
-    first_hashes = calculate_hashes(first)
-    second_hashes = calculate_hashes(second)
-
-    first_counts = Counter(first_hashes.tolist())
-    second_counts = Counter(second_hashes.tolist())
-
-    shared_hashes = set(first_counts) & set(second_counts)
-
-    # The audit established equal multiplicity for every shared hash.
-    mismatched = [
-        value
-        for value in shared_hashes
-        if first_counts[value] != second_counts[value]
-    ]
-
-    if mismatched:
-        raise ValueError(
-            f"Overlap multiplicity changed: {len(mismatched)} "
-            "shared row fingerprints have different counts. "
-            "No records were loaded."
-        )
-
-    overlap_rows = int(
-        second_hashes.isin(shared_hashes).sum()
-    )
-
-    # Keep all first-file rows and only non-overlapping second-file rows.
-    second_keep = ~second_hashes.isin(shared_hashes)
+    # Keep all first-file rows and remove only exact cross-file matches.
+    second_keep, overlap_rows = reconcile_cross_file_overlap(first, second)
     second_clean = second.loc[second_keep].copy()
 
     first_prepared = prepare_for_database(
