@@ -69,10 +69,16 @@ jobs:
           PGPASSWORD: postgres
         run: |
           psql -h localhost -U postgres -d consumer360 -v ON_ERROR_STOP=1 -c "
-            SELECT to_regclass('staging.retail_transactions') IS NOT NULL AS staging_exists,
-                   to_regclass('analytics.cleaned_transactions_v2') IS NOT NULL AS classified_exists,
-                   to_regclass('analytics.dim_customer') IS NOT NULL AS customer_dim_exists,
-                   to_regclass('analytics.dim_product') IS NOT NULL AS product_dim_exists,
-                   to_regclass('analytics.fact_sales') IS NOT NULL AS fact_exists,
-                   to_regclass('analytics.vw_single_customer') IS NOT NULL AS scv_exists;
+            DO \$\$
+            BEGIN
+              IF to_regclass('staging.retail_transactions') IS NULL
+                 OR to_regclass('analytics.cleaned_transactions_v2') IS NULL
+                 OR to_regclass('analytics.dim_customer') IS NULL
+                 OR to_regclass('analytics.dim_product') IS NULL
+                 OR to_regclass('analytics.fact_sales') IS NULL
+                 OR to_regclass('analytics.vw_single_customer') IS NULL THEN
+                RAISE EXCEPTION 'One or more required Week 1 database objects are missing';
+              END IF;
+            END
+            \$\$;
           "
