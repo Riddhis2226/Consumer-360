@@ -4,7 +4,7 @@ from __future__ import annotations
 
 import json
 import logging
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 from pathlib import Path
 from typing import Any
 
@@ -109,8 +109,8 @@ def profile_source(
         "file_name": path.name,
         "file_size_bytes": path.stat().st_size,
         "encoding": encoding,
-        "row_count": int(len(dataframe)),
-        "column_count": int(len(dataframe.columns)),
+        "row_count": len(dataframe),
+        "column_count": len(dataframe.columns),
         "columns": list(dataframe.columns),
         "missing_values": {
             column: int(count)
@@ -183,7 +183,7 @@ def run_ingestion() -> dict[str, Any]:
     report: dict[str, Any] = {
         "project": "Consumer360",
         "process": "raw_source_ingestion",
-        "generated_at_utc": datetime.now(timezone.utc).isoformat(),
+        "generated_at_utc": datetime.now(UTC).isoformat(),
         "source_directory": str(RAW_DATA_DIR),
         "source_files_processed": len(file_reports),
         "total_rows": sum(item["row_count"] for item in file_reports),
