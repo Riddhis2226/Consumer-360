@@ -36,7 +36,7 @@ jobs:
       - name: Run unit tests
         run: uv run pytest -q
       - name: Lint
-        run: uv run ruff check .
+        run: uv run ruff check src tests
 
   postgres-migrations:
     runs-on: ubuntu-latest
