@@ -95,11 +95,8 @@ def reconcile_cross_file_overlap(
     collision as proof that two source rows are identical. Multiplicity
     must match for every shared row; within-file duplicates are preserved.
     """
-    first_index = pd.MultiIndex.from_frame(first[COLUMNS])
-    second_index = pd.MultiIndex.from_frame(second[COLUMNS])
-
-    first_counts = first_index.value_counts(sort=False)
-    second_counts = second_index.value_counts(sort=False)
+    first_counts = first[COLUMNS].value_counts(dropna=False, sort=False)
+    second_counts = second[COLUMNS].value_counts(dropna=False, sort=False)
     shared = first_counts.index.intersection(second_counts.index)
 
     if len(shared):
@@ -112,7 +109,22 @@ def reconcile_cross_file_overlap(
                 "source rows have different counts. No records were loaded."
             )
 
-    keep_second = ~second_index.isin(first_index)
+    # pandas merge uses null-safe key matching and preserves left row order.
+    # Carry an explicit position so the mask is aligned to the source frame.
+    second_keys = second[COLUMNS].copy()
+    second_keys["_row_position"] = range(len(second_keys))
+    matches = second_keys.merge(
+        first[COLUMNS].drop_duplicates(),
+        on=COLUMNS,
+        how="left",
+        indicator=True,
+        sort=False,
+    )
+    keep_second = (
+        matches.sort_values("_row_position")["_merge"]
+        .eq("left_only")
+        .to_numpy()
+    )
     overlap_rows = int((~keep_second).sum())
     return pd.Series(keep_second, index=second.index), overlap_rows
 
