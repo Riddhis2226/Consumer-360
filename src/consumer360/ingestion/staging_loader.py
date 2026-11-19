@@ -90,9 +90,8 @@ def reconcile_cross_file_overlap(
 ) -> tuple[pd.Series, int]:
     """Return a mask retaining second-file rows not present in the first.
 
-    Matching is performed on all source columns using pandas' exact
-    MultiIndex equality semantics. This avoids treating a fingerprint
-    collision as proof that two source rows are identical. Multiplicity
+    Matching is performed on every source column, with null-safe equality.
+    Fingerprints are not used as proof that two source rows are identical. Multiplicity
     must match for every shared row; within-file duplicates are preserved.
     """
     first_counts = first[COLUMNS].value_counts(dropna=False, sort=False)
