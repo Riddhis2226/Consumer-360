@@ -1,4 +1,8 @@
-﻿CREATE TABLE IF NOT EXISTS staging.retail_transactions (
+-- Create the project schemas before creating schema-qualified objects.
+CREATE SCHEMA IF NOT EXISTS staging;
+CREATE SCHEMA IF NOT EXISTS analytics;
+
+CREATE TABLE IF NOT EXISTS staging.retail_transactions (
     staging_id BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
 
     invoice VARCHAR(20),
