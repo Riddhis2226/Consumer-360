@@ -1,13 +1,16 @@
-﻿erDiagram
+erDiagram
     DIM_CUSTOMER ||--o{ FACT_SALES : customer_key
-    DIM_PRODUCT  ||--o{ FACT_SALES : product_key
+    DIM_PRODUCT ||--o{ FACT_SALES : product_key
+    STAGING_RETAIL_TRANSACTIONS ||--o| FACT_SALES : staging_id
 
     DIM_CUSTOMER {
         bigint customer_key PK
         varchar customer_id UK
         varchar country
+        integer country_count
         timestamp first_purchase_at
         timestamp last_purchase_at
+        boolean is_unknown
     }
 
     DIM_PRODUCT {
@@ -19,6 +22,10 @@
         boolean needs_review
     }
 
+    STAGING_RETAIL_TRANSACTIONS {
+        bigint staging_id PK
+    }
+
     FACT_SALES {
         bigint fact_sales_key PK
         bigint staging_id FK
@@ -26,8 +33,9 @@
         bigint product_key FK
         varchar invoice
         timestamp invoice_date
+        varchar source_category
         varchar reporting_category
-        numeric quantity
+        integer quantity
         numeric unit_price
         numeric merchandise_line_amount
         numeric non_merchandise_line_amount
