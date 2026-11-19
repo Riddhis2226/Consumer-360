@@ -1,0 +1,78 @@
+name: Week 1 quality gates
+
+on:
+  push:
+    branches: [main, "fix/**"]
+  pull_request:
+    branches: [main]
+
+jobs:
+  python:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v5
+        with:
+          enable-cache: true
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Install dependencies
+        run: uv sync --all-groups
+      - name: Validate notebook JSON and code cells
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          path = Path("notebooks/01_week1_data_foundation_audit.ipynb")
+          notebook = json.loads(path.read_text(encoding="utf-8"))
+          assert notebook["nbformat"] == 4 and notebook["cells"]
+          for cell in notebook["cells"]:
+              assert cell["cell_type"] in {"markdown", "code"}
+              if cell["cell_type"] == "code":
+                  compile("".join(cell["source"]), str(path), "exec")
+          print(f"Notebook valid: {len(notebook['cells'])} cells")
+          PY
+      - name: Run unit tests
+        run: uv run pytest -q
+      - name: Lint
+        run: uv run ruff check .
+
+  postgres-migrations:
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:18
+        env:
+          POSTGRES_DB: consumer360
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U postgres -d consumer360"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 10
+    steps:
+      - uses: actions/checkout@v4
+      - name: Apply Week 1 migrations to a clean database
+        env:
+          PGPASSWORD: postgres
+        run: |
+          for migration in database/migrations/00{1,2,3,4,5}_*.sql; do
+            echo "Applying $migration"
+            psql -h localhost -U postgres -d consumer360 -v ON_ERROR_STOP=1 -f "$migration"
+          done
+      - name: Verify Week 1 objects
+        env:
+          PGPASSWORD: postgres
+        run: |
+          psql -h localhost -U postgres -d consumer360 -v ON_ERROR_STOP=1 -c "
+            SELECT to_regclass('staging.retail_transactions') IS NOT NULL AS staging_exists,
+                   to_regclass('analytics.cleaned_transactions_v2') IS NOT NULL AS classified_exists,
+                   to_regclass('analytics.dim_customer') IS NOT NULL AS customer_dim_exists,
+                   to_regclass('analytics.dim_product') IS NOT NULL AS product_dim_exists,
+                   to_regclass('analytics.fact_sales') IS NOT NULL AS fact_exists,
+                   to_regclass('analytics.vw_single_customer') IS NOT NULL AS scv_exists;
+          "
