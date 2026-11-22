@@ -37,16 +37,15 @@
 
 ## Technical Architecture
 
-```
+```mermaid
 flowchart LR
-    A[Raw Transaction Ledger] --> B[Data Audit & RFM Engineering<br/>week1_eda.ipynb]
-    B --> C[(Local PostgreSQL<br/>retail_analytics)]
-    C --> D[SQL Views & Affinity Engine<br/>week2_views.sql · week2_market_basket.sql]
-    C --> E[K-Means & Cohort Modeling<br/>week2_segmentation.ipynb · week2_cohorts.ipynb]
-    D --> F[(Managed Cloud PostgreSQL)]
+    A["Raw Transaction Ledger"] --> B["Data Audit & RFM Engineering\nweek1_eda.ipynb"]
+    B --> C[("Local PostgreSQL\nretail_analytics")]
+    C --> D["SQL Views & Affinity Engine\nweek2_views.sql + week2_market_basket.sql"]
+    C --> E["K-Means & Cohort Modeling\nweek2_segmentation.ipynb + week2_cohorts.ipynb"]
+    D --> F[("Managed Cloud PostgreSQL")]
     E --> F
-    F --> G[Live Streamlit BI Platform<br/>app.py]
-
+    F --> G["Live Streamlit BI Platform\napp.py"]
 ```
 
 ### Data & Analytics Engineering Decisions
