@@ -1,0 +1,100 @@
+2026-11-22 22:09:00,942 [INFO] Starting Consumer-360 ETL pipeline (target=local)
+2026-11-22 22:09:02,935 [INFO] Cleaned transactions: 399,568 rows
+2026-11-22 22:09:03,258 [INFO] Built RFM & K-Means segments for 4,285 customers
+2026-11-22 22:09:03,457 [INFO] Built cohort retention matrix: 91 rows
+2026-11-22 22:09:05,343 [INFO] Syncing tables to Local PostgreSQL...
+2026-11-22 22:09:05,660 [ERROR] Database sync failed for Local PostgreSQL: (psycopg2.errors.DependentObjectsStillExist) cannot drop table cleaned_transactions because other objects depend on it
+DETAIL:  view vw_monthly_kpis depends on table cleaned_transactions
+view vw_country_performance depends on table cleaned_transactions
+HINT:  Use DROP ... CASCADE to drop the dependent objects too.
+
+[SQL: 
+DROP TABLE cleaned_transactions]
+(Background on this error at: https://sqlalche.me/e/21/2j85)
+Traceback (most recent call last):
+  File "C:\Users\acer\Downloads\Consumer-360\.venv\Lib\site-packages\sqlalchemy\engine\base.py", line 1977, in _exec_single_context
+    self.dialect.do_execute(
+  File "C:\Users\acer\Downloads\Consumer-360\.venv\Lib\site-packages\sqlalchemy\engine\default.py", line 1192, in do_execute
+    cursor.execute(statement, parameters)
+psycopg2.errors.DependentObjectsStillExist: cannot drop table cleaned_transactions because other objects depend on it
+DETAIL:  view vw_monthly_kpis depends on table cleaned_transactions
+view vw_country_performance depends on table cleaned_transactions
+HINT:  Use DROP ... CASCADE to drop the dependent objects too.
+
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\acer\Downloads\Consumer-360\scripts\run_etl.py", line 306, in main
+    aff_df = sync_database(engine=eng, label=label, clean_pg=clean_pg, rfm_df=rfm_df, seg_df=seg_df, coh_df=coh_df, logger=logger)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\acer\Downloads\Consumer-360\scripts\run_etl.py", line 242, in sync_database
+    clean_pg.to_sql("cleaned_transactions", engine, if_exists="replace", index=False, chunksize=5000, method="multi")
+  File "C:\Users\acer\Downloads\Consumer-360\.venv\Lib\site-packages\pandas\core\generic.py", line 3074, in to_sql
+    return sql.to_sql(
+           ^^^^^^^^^^^
+  File "C:\Users\acer\Downloads\Consumer-360\.venv\Lib\site-packages\pandas\io\sql.py", line 891, in to_sql
+    return pandas_sql.to_sql(
+           ^^^^^^^^^^^^^^^^^^
+  File "C:\Users\acer\Downloads\Consumer-360\.venv\Lib\site-packages\pandas\io\sql.py", line 2081, in to_sql
+    table = self.prep_table(
+            ^^^^^^^^^^^^^^^^
+  File "C:\Users\acer\Downloads\Consumer-360\.venv\Lib\site-packages\pandas\io\sql.py", line 1986, in prep_table
+    table.create()
+  File "C:\Users\acer\Downloads\Consumer-360\.venv\Lib\site-packages\pandas\io\sql.py", line 1040, in create
+    self.pd_sql.drop_table(self.name, self.schema)
+  File "C:\Users\acer\Downloads\Consumer-360\.venv\Lib\site-packages\pandas\io\sql.py", line 2138, in drop_table
+    self.get_table(table_name, schema).drop(bind=self.con)
+  File "C:\Users\acer\Downloads\Consumer-360\.venv\Lib\site-packages\sqlalchemy\sql\schema.py", line 1574, in drop
+    bind._run_ddl_visitor(ddl.SchemaDropper, self, checkfirst=checkfirst)
+  File "C:\Users\acer\Downloads\Consumer-360\.venv\Lib\site-packages\sqlalchemy\engine\base.py", line 2455, in _run_ddl_visitor
+    ).traverse_single(element)
+      ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\acer\Downloads\Consumer-360\.venv\Lib\site-packages\sqlalchemy\sql\visitors.py", line 650, in traverse_single
+    return meth(obj, **kw)
+           ^^^^^^^^^^^^^^^
+  File "C:\Users\acer\Downloads\Consumer-360\.venv\Lib\site-packages\sqlalchemy\sql\ddl.py", line 1716, in visit_table
+    table_dropper_ddl._invoke_with(self.connection)
+  File "C:\Users\acer\Downloads\Consumer-360\.venv\Lib\site-packages\sqlalchemy\sql\ddl.py", line 337, in _invoke_with
+    return bind.execute(self)
+           ^^^^^^^^^^^^^^^^^^
+  File "C:\Users\acer\Downloads\Consumer-360\.venv\Lib\site-packages\sqlalchemy\engine\base.py", line 1494, in execute
+    return meth(
+           ^^^^^
+  File "C:\Users\acer\Downloads\Consumer-360\.venv\Lib\site-packages\sqlalchemy\sql\ddl.py", line 203, in _execute_on_connection
+    return connection._execute_ddl(
+           ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\acer\Downloads\Consumer-360\.venv\Lib\site-packages\sqlalchemy\engine\base.py", line 1603, in _execute_ddl
+    ret = self._execute_context(
+          ^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\acer\Downloads\Consumer-360\.venv\Lib\site-packages\sqlalchemy\engine\base.py", line 1868, in _execute_context
+    return self._exec_single_context(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\acer\Downloads\Consumer-360\.venv\Lib\site-packages\sqlalchemy\engine\base.py", line 1996, in _exec_single_context
+    self._handle_dbapi_exception(
+  File "C:\Users\acer\Downloads\Consumer-360\.venv\Lib\site-packages\sqlalchemy\engine\base.py", line 2351, in _handle_dbapi_exception
+    raise sqlalchemy_exception.with_traceback(exc_info[2]) from e
+  File "C:\Users\acer\Downloads\Consumer-360\.venv\Lib\site-packages\sqlalchemy\engine\base.py", line 1977, in _exec_single_context
+    self.dialect.do_execute(
+  File "C:\Users\acer\Downloads\Consumer-360\.venv\Lib\site-packages\sqlalchemy\engine\default.py", line 1192, in do_execute
+    cursor.execute(statement, parameters)
+sqlalchemy.exc.InternalError: (psycopg2.errors.DependentObjectsStillExist) cannot drop table cleaned_transactions because other objects depend on it
+DETAIL:  view vw_monthly_kpis depends on table cleaned_transactions
+view vw_country_performance depends on table cleaned_transactions
+HINT:  Use DROP ... CASCADE to drop the dependent objects too.
+
+[SQL: 
+DROP TABLE cleaned_transactions]
+(Background on this error at: https://sqlalche.me/e/21/2j85)
+2026-11-22 22:11:19,903 [INFO] Starting Consumer-360 ETL pipeline (target=local)
+2026-11-22 22:11:21,657 [INFO] Cleaned transactions: 399,568 rows
+2026-11-22 22:11:21,898 [INFO] Built RFM & K-Means segments for 4,285 customers
+2026-11-22 22:11:22,050 [INFO] Built cohort retention matrix: 91 rows
+2026-11-22 22:11:23,493 [INFO] Syncing tables to Local PostgreSQL...
+2026-11-22 22:12:23,116 [INFO] Executed week2_views.sql on Local PostgreSQL
+2026-11-22 22:12:47,180 [INFO] Executed week2_market_basket.sql on Local PostgreSQL
+2026-11-22 22:12:47,272 [INFO] Verified Local PostgreSQL.cleaned_transactions: 399,568 rows
+2026-11-22 22:12:47,274 [INFO] Verified Local PostgreSQL.customer_segments: 4,285 rows
+2026-11-22 22:12:47,275 [INFO] Verified Local PostgreSQL.cohort_retention: 91 rows
+2026-11-22 22:12:47,282 [INFO] Verified Local PostgreSQL.product_affinity: 51,240 rows
+2026-11-22 22:12:47,803 [INFO] Consumer-360 ETL pipeline completed successfully.
