@@ -28,16 +28,16 @@ st.markdown(
             border: 1px solid #e2e8f0;
             border-left: 4px solid #0f766e;
             border-radius: 10px;
-            padding: 0.9rem 1.1rem;
+            padding: 0.9rem 1rem;
             box-shadow: 0 1px 3px rgba(15, 23, 42, 0.05);
         }
         [data-testid="stMetricLabel"] {
-            font-size: 0.85rem;
+            font-size: 0.82rem;
             font-weight: 600;
             color: #475569;
         }
         [data-testid="stMetricValue"] {
-            font-size: 1.65rem;
+            font-size: 1.28rem;
             font-weight: 700;
             color: #0f172a;
         }
@@ -64,23 +64,30 @@ load_dotenv(PROJECT_ROOT / ".env")
 def _get_secret(key: str) -> str | None:
     try:
         if key in st.secrets:
-            return str(st.secrets[key])
+            return str(st.secrets[key]).strip()
     except Exception:
         pass
-    return os.getenv(key)
+    val = os.getenv(key)
+    return val.strip() if val else None
 
 
 @st.cache_data(ttl=3600, show_spinner="Loading retail analytics data...")
-def load_data() -> tuple[pd.DataFrame, pd.DataFrame, pd.DataFrame, pd.DataFrame, str]:
+def load_data() -> tuple[pd.DataFrame, pd.DataFrame, pd.DataFrame, pd.DataFrame, str, str | None]:
+    fallback_reason = None
     supabase_url = _get_secret("SUPABASE_DB_URL")
     if supabase_url:
+        if supabase_url.startswith("postgres://"):
+            supabase_url = supabase_url.replace("postgres://", "postgresql+psycopg2://", 1)
+        elif supabase_url.startswith("postgresql://"):
+            supabase_url = supabase_url.replace("postgresql://", "postgresql+psycopg2://", 1)
         try:
-            engine = create_engine(supabase_url, connect_args={"connect_timeout": 5})
+            engine = create_engine(supabase_url, connect_args={"connect_timeout": 10})
             with engine.connect() as conn:
                 conn.execute(text("SELECT 1"))
-            return _read_sql_tables(engine, "Supabase PostgreSQL")
-        except Exception:
-            pass
+            tx, seg, coh, aff, label = _read_sql_tables(engine, "Supabase PostgreSQL")
+            return tx, seg, coh, aff, label, None
+        except Exception as exc:
+            fallback_reason = f"Supabase error: {type(exc).__name__}: {exc}"
 
     pg_password = _get_secret("PG_PASSWORD")
     if pg_password:
@@ -95,7 +102,8 @@ def load_data() -> tuple[pd.DataFrame, pd.DataFrame, pd.DataFrame, pd.DataFrame,
             )
             with engine.connect() as conn:
                 conn.execute(text("SELECT 1"))
-            return _read_sql_tables(engine, f"Local PostgreSQL ({pg_db})")
+            tx, seg, coh, aff, label = _read_sql_tables(engine, f"Local PostgreSQL ({pg_db})")
+            return tx, seg, coh, aff, label, fallback_reason
         except Exception:
             pass
 
@@ -104,7 +112,7 @@ def load_data() -> tuple[pd.DataFrame, pd.DataFrame, pd.DataFrame, pd.DataFrame,
     coh = pd.read_csv(DATA_DIR / "cohort_retention_week2.csv")
     aff = pd.read_csv(DATA_DIR / "product_affinity_week2.csv")
     tx["invoice_date"] = pd.to_datetime(tx["invoice_date"])
-    return tx, seg, coh, aff, "CSV (data/processed/)"
+    return tx, seg, coh, aff, "CSV (data/processed/)", fallback_reason
 
 
 def _read_sql_tables(
@@ -118,11 +126,13 @@ def _read_sql_tables(
     return tx, seg, coh, aff, source_label
 
 
-tx_df, seg_df, coh_df, aff_df, data_source = load_data()
+tx_df, seg_df, coh_df, aff_df, data_source, fallback_reason = load_data()
 
 with st.sidebar:
     st.markdown("### Dashboard Filters")
     st.success(f"Connected: **{data_source}**")
+    if fallback_reason:
+        st.warning(fallback_reason)
 
     min_date = tx_df["invoice_date"].min().date()
     max_date = tx_df["invoice_date"].max().date()
@@ -243,7 +253,7 @@ with tab1:
         )
         fig_trend.update_yaxes(title_text="Revenue (£)", secondary_y=False, showgrid=True)
         fig_trend.update_yaxes(title_text="Orders", secondary_y=True, showgrid=False)
-        st.plotly_chart(fig_trend, use_container_width=True)
+        st.plotly_chart(fig_trend, width="stretch")
 
     c1, c2 = st.columns(2)
     with c1:
@@ -265,7 +275,7 @@ with tab1:
                 template="plotly_white",
             )
             fig_country.update_layout(margin=dict(t=55, b=25, l=10, r=15), height=370)
-            st.plotly_chart(fig_country, use_container_width=True)
+            st.plotly_chart(fig_country, width="stretch")
 
     with c2:
         with st.container(border=True):
@@ -285,7 +295,7 @@ with tab1:
                 template="plotly_white",
             )
             fig_hour.update_layout(margin=dict(t=55, b=25, l=10, r=15), height=370)
-            st.plotly_chart(fig_hour, use_container_width=True)
+            st.plotly_chart(fig_hour, width="stretch")
 
 with tab2:
     c1, c2 = st.columns([1.2, 1])
@@ -312,7 +322,7 @@ with tab2:
             )
             fig_seg.update_traces(texttemplate="%{text:,} customers", textposition="outside")
             fig_seg.update_layout(margin=dict(t=55, b=25, l=10, r=75), height=370)
-            st.plotly_chart(fig_seg, use_container_width=True)
+            st.plotly_chart(fig_seg, width="stretch")
 
     with c2:
         with st.container(border=True):
@@ -332,7 +342,7 @@ with tab2:
             cluster_summary["avg_monetary"] = cluster_summary["avg_monetary"].round(2)
             cluster_summary["total_revenue"] = cluster_summary["total_revenue"].round(2)
             st.markdown("#### K-Means Cluster Profiles")
-            st.dataframe(cluster_summary, use_container_width=True, hide_index=True, height=320)
+            st.dataframe(cluster_summary, width="stretch", hide_index=True, height=320)
 
     with st.container(border=True):
         scatter_df = filtered_seg.copy()
@@ -354,13 +364,13 @@ with tab2:
             template="plotly_white",
         )
         fig_scatter.update_layout(margin=dict(t=55, b=25, l=10, r=10), height=400)
-        st.plotly_chart(fig_scatter, use_container_width=True)
+        st.plotly_chart(fig_scatter, width="stretch")
 
     with st.container(border=True):
         st.markdown("#### Customer Segment Explorer")
         st.dataframe(
             filtered_seg.sort_values("monetary", ascending=False).head(500),
-            use_container_width=True,
+            width="stretch",
             hide_index=True,
         )
         st.download_button(
@@ -392,7 +402,7 @@ with tab3:
             template="plotly_white",
         )
         fig_heat.update_layout(margin=dict(t=55, b=25, l=10, r=10), height=460)
-        st.plotly_chart(fig_heat, use_container_width=True)
+        st.plotly_chart(fig_heat, width="stretch")
 
     with st.container(border=True):
         avg_ret = (
@@ -416,7 +426,7 @@ with tab3:
         )
         fig_curve.update_traces(line=dict(width=3), marker=dict(size=8))
         fig_curve.update_layout(margin=dict(t=55, b=25, l=10, r=10), height=350)
-        st.plotly_chart(fig_curve, use_container_width=True)
+        st.plotly_chart(fig_curve, width="stretch")
 
 with tab4:
     with st.container(border=True):
@@ -464,7 +474,7 @@ with tab4:
                 template="plotly_white",
             )
             fig_pairs.update_layout(margin=dict(t=55, b=25, l=10, r=10), height=440)
-            st.plotly_chart(fig_pairs, use_container_width=True)
+            st.plotly_chart(fig_pairs, width="stretch")
 
     with st.container(border=True):
         st.dataframe(
@@ -479,7 +489,7 @@ with tab4:
                     "lift",
                 ]
             ].head(500),
-            use_container_width=True,
+            width="stretch",
             hide_index=True,
         )
         st.download_button(
