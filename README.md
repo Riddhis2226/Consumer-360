@@ -1,6 +1,6 @@
-&lt;div align=&quot;center&quot;&gt;
+<div align="center">
 
-&lt;img src=&quot;assets/banner.png&quot; alt=&quot;Consumer-360 Retail Analytics Banner&quot; width=&quot;100%&quot; /&gt;
+<img src="assets/banner.png" alt="Consumer-360 Retail Analytics Banner" width="100%" />
 
 # Consumer-360 Retail Analytics
 
