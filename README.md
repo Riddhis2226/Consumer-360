@@ -1,6 +1,6 @@
-&lt;div align=&quot;center&quot;&gt;
+<div align="center">
 
-&lt;img src=&quot;assets/banner.png&quot; alt=&quot;Consumer-360 Retail Analytics Banner&quot; width=&quot;100%&quot; /&gt;
+<img src="assets/banner.png" alt="Consumer-360 Retail Analytics Banner" width="100%" />
 
 # Consumer-360 Retail Analytics
 
@@ -16,7 +16,7 @@
 
 *Bridging **Data Engineering & Statistical Modeling** with **Commercial Strategy & Revenue Optimization** across **399,568** retail transactions.*
 
-&lt;/div&gt;
+</div>
 
 ---
 
@@ -83,8 +83,8 @@ flowchart LR
 
 ## Analytical Deep Dive
 
-&lt;details&gt;
-&lt;summary&gt;&lt;b&gt;1. RFM &amp; K-Means Segmentation Breakdown&lt;/b&gt;&lt;/summary&gt;
+<details>
+<summary><b>1. RFM & K-Means Segmentation Breakdown</b></summary>
 
 | RFM Segment | Customers | Customer Share | Total Revenue | Revenue Share | Avg Recency | Avg Frequency |
 | :--- | ---: | ---: | ---: | ---: | ---: | ---: |
@@ -96,10 +96,10 @@ flowchart LR
 
 - **K-Means Validation (`k=4`):** **Cluster 3** (`762` customers: `456` Champions + `306` Loyalists) captures **£5,587,685.98** (`64.67%` of total revenue) with an average spend of **£7,332.92**.
 
-&lt;/details&gt;
+</details>
 
-&lt;details&gt;
-&lt;summary&gt;&lt;b&gt;2. Cohort Retention &amp; Market Basket Benchmarks&lt;/b&gt;&lt;/summary&gt;
+<details>
+<summary><b>2. Cohort Retention & Market Basket Benchmarks</b></summary>
 
 - **Cohort Retention (`M+0` – `M+12`):** Average retention progresses from **20.52%** (`M+1`) to **29.98%** (`M+11`), anchored by the `2009-12` cohort (`951` customers) peaking at **49.63%** in `M+11`.
 - **Top Co-Purchased SKU Pairs (`pair_count >= 20`):**
@@ -112,7 +112,7 @@ flowchart LR
 | `WOODEN PICTURE FRAME WHITE FINISH` | `WOODEN FRAME ANTIQUE WHITE` | **554** | **12.73x** |
 | `RED RETROSPOT JUMBO BAG` | `JUMBO BAG STRAWBERRY` | **549** | 6.96x |
 
-&lt;/details&gt;
+</details>
 
 ---
 
@@ -124,6 +124,7 @@ flowchart LR
 - &lt;kbd&gt;Market Basket&lt;/kbd&gt; — Live SKU keyword search with adjustable `Min Co-Purchased Baskets` and `Min Lift` sliders for bundle discovery.
 
 ---
+<div align="left">
 
 ## Repository Structure
 
@@ -155,10 +156,11 @@ Consumer-360/
 └── uv.lock                             # Locked dependency tree
 ```
 
+</div>
 ---
 
-&lt;details&gt;
-&lt;summary&gt;&lt;b&gt;Local Reproduction&lt;/b&gt;&lt;/summary&gt;
+<details>
+<summary><b>Local Reproduction</b></summary>
 
 ```bash
 # 1. Install dependencies
@@ -173,4 +175,4 @@ uv run streamlit run app.py
 
 For cloud deployment, configure your database connection credentials in your hosting platform's **Secrets** manager.
 
-&lt;/details&gt;
+</details>
