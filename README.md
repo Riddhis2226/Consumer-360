@@ -1,12 +1,10 @@
 <div align="center">
 
+<img src="assets/banner.png" alt="Consumer-360 Retail Analytics Banner" width="100%" />
+
 # Consumer-360 Retail Analytics
 
 **End-to-End Customer Intelligence Pipeline, Commercial Strategy & Live Cloud BI Platform**
-
-
-
-
 
 
 
