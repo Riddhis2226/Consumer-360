@@ -118,10 +118,10 @@ flowchart LR
 
 ## Interactive BI Modules ([Open Live App](https://consumer-360.streamlit.app/))
 
-- &lt;kbd&gt;Executive Overview&lt;/kbd&gt; — Dual-axis Monthly Net Revenue & Order Volume trend, Top 10 Countries ranking, and Hourly Order Volume profile.
-- &lt;kbd&gt;Customer Segmentation&lt;/kbd&gt; — RFM revenue vs. headcount, K-Means cluster profiles, Recency vs. Monetary (log-scale) scatter plot, and filtered CSV export.
-- &lt;kbd&gt;Cohort Retention&lt;/kbd&gt; — Annotated `M+0` to `M+12` retention heatmap and average retention trajectory.
-- &lt;kbd&gt;Market Basket&lt;/kbd&gt; — Live SKU keyword search with adjustable `Min Co-Purchased Baskets` and `Min Lift` sliders for bundle discovery.
+- <kbd>Executive Overview</kbd> — Dual-axis Monthly Net Revenue & Order Volume trend, Top 10 Countries ranking, and Hourly Order Volume profile.
+- <kbd>Customer Segmentation</kbd> — RFM revenue vs. headcount, K-Means cluster profiles, Recency vs. Monetary (log-scale) scatter plot, and filtered CSV export.
+- <kbd>Cohort Retention</kbd> — Annotated `M+0` to `M+12` retention heatmap and average retention trajectory.
+- <kbd>Market Basket</kbd> — Live SKU keyword search with adjustable `Min Co-Purchased Baskets` and `Min Lift` sliders for bundle discovery.
 
 ---
 <div align="left">
@@ -175,4 +175,4 @@ uv run streamlit run app.py
 
 For cloud deployment, configure your database connection credentials in your hosting platform's **Secrets** manager.
 
-</details>
+&lt;/details&gt;
