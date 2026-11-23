@@ -125,8 +125,12 @@ def load_data() -> tuple[pd.DataFrame, pd.DataFrame, pd.DataFrame, pd.DataFrame]
 tx_df, seg_df, coh_df, aff_df = load_data()
 
 with st.sidebar:
-    st.markdown("### Dashboard Filters")
+    st.markdown("### Transaction & Segment Filters")
     st.success("Connected: **Supabase PostgreSQL**")
+    st.caption(
+        "**Filter scope:** Date, Country & Segment filter **KPIs** and **Executive Overview**. "
+        "Country & Segment also filter **Customer Segmentation**."
+    )
 
     min_date = tx_df["invoice_date"].min().date()
     max_date = tx_df["invoice_date"].max().date()
@@ -296,6 +300,7 @@ with tab1:
         st.plotly_chart(fig_hour, width="stretch")
 
 with tab2:
+    st.caption("RFM & K-Means metrics reflect full 13-month customer history, filtered by Country and RFM Segment.")
     c1, c2 = st.columns([1.2, 1])
     with c1, st.container(border=True):
         seg_summary = (
@@ -377,6 +382,7 @@ with tab2:
         )
 
 with tab3:
+    st.info("Scope: Pre-aggregated across the full 13-month dataset (2009-12 to 2010-12, all countries).")
     with st.container(border=True):
         pivot_ret = coh_df.pivot(
             index="cohort_month", columns="cohort_index", values="retention_pct"
@@ -425,6 +431,7 @@ with tab3:
         st.plotly_chart(fig_curve, width="stretch")
 
 with tab4:
+    st.info("Scope: Pre-aggregated market basket rules across all 18,966 orders (all dates and countries).")
     with st.container(border=True):
         f1, f2, f3 = st.columns([2, 1, 1])
         with f1:

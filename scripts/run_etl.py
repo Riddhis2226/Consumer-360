@@ -132,7 +132,7 @@ def build_rfm_and_segments(
             return "Loyal Customers"
         if row["r_score"] >= 3 and row["f_score"] <= 2:
             return "Potential Loyalists"
-        if row["r_score"] <= 2 and row["m_score"] >= 3:
+        if row["r_score"] <= 2 and (row["f_score"] >= 3 or row["m_score"] >= 3):
             return "At Risk"
         return "Hibernating / Lost"
 
@@ -332,7 +332,7 @@ def main() -> None:
             )
             aff_df.to_csv(PROCESSED_DIR / "product_affinity_week2.csv", index=False)
         except SQLAlchemyError as exc:
-            logger.exception("Database sync failed for %s: %s", label, exc)
+            logger.exception("Database sync failed for %s: %s", label, exc)  # noqa: TRY401
             raise
 
     logger.info("Consumer-360 ETL pipeline completed successfully.")
