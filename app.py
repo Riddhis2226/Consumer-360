@@ -458,16 +458,18 @@ def inject_css(t: dict[str, str]) -> None:
         .pill-accent {{ background: {t['accent_soft']}; color: {t['accent']}; }}
 
         .c360-bar-track {{
-            width: 84px;
-            height: 6px;
+            width: 88px;
+            height: 7px;
             border-radius: 999px;
-            background: {t['bg_pill']};
+            background: {t['border']};
             overflow: hidden;
             display: inline-block;
             vertical-align: middle;
             margin-right: 0.45rem;
+            text-align: left;
         }}
         .c360-bar-fill {{
+            display: block;
             height: 100%;
             border-radius: 999px;
         }}
