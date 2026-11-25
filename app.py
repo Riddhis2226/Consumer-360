@@ -191,7 +191,7 @@ def inject_css(t: dict[str, str]) -> None:
         }}
 
         .block-container {{
-            padding-top: 0.9rem !important;
+            padding-top: 1.85rem !important;
             padding-bottom: 2.5rem !important;
             padding-left: 1.75rem !important;
             padding-right: 1.75rem !important;
@@ -240,39 +240,97 @@ def inject_css(t: dict[str, str]) -> None:
             border-radius: 999px;
         }}
 
-        /* Sleek Pill Navigation */
-        div[data-testid="stRadio"] > div[role="radiogroup"] {{
-            display: flex !important;
-            flex-direction: row !important;
-            flex-wrap: wrap !important;
-            gap: 0.4rem !important;
-            align-items: center;
-        }}
-        div[data-testid="stRadio"] > div[role="radiogroup"] > label {{
-            background: {t['bg_pill']} !important;
-            border: 1px solid {t['border']} !important;
+        /* Native Button & Pill Navigation Styling (Dark & Light consistent) */
+        div[data-testid="stButton"] button {{
             border-radius: 8px !important;
-            padding: 0.36rem 0.85rem !important;
-            margin: 0 !important;
-            cursor: pointer;
-            transition: all 0.15s ease;
+            font-size: 0.81rem !important;
+            font-weight: 600 !important;
+            padding: 0.38rem 0.75rem !important;
+            min-height: 2.25rem !important;
+            transition: all 0.15s ease !important;
+            white-space: nowrap !important;
         }}
-        div[data-testid="stRadio"] > div[role="radiogroup"] > label:hover {{
+        div[data-testid="stButton"] button[kind="secondary"],
+        div[data-testid="stButton"] button[data-testid="stBaseButton-secondary"] {{
+            background-color: {t['bg_pill']} !important;
+            color: {t['text_primary']} !important;
+            border: 1px solid {t['border']} !important;
+        }}
+        div[data-testid="stButton"] button[kind="secondary"]:hover,
+        div[data-testid="stButton"] button[data-testid="stBaseButton-secondary"]:hover {{
             border-color: {t['accent']} !important;
+            color: {t['accent']} !important;
         }}
-        div[data-testid="stRadio"] > div[role="radiogroup"] > label[data-checked="true"],
-        div[data-testid="stRadio"] > div[role="radiogroup"] > label:has(input:checked) {{
-            background: {t['accent_soft']} !important;
+        div[data-testid="stButton"] button[kind="primary"],
+        div[data-testid="stButton"] button[data-testid="stBaseButton-primary"] {{
+            background-color: {t['accent_soft']} !important;
+            color: {t['accent']} !important;
             border: 1px solid {t['accent']} !important;
         }}
-        div[data-testid="stRadio"] > div[role="radiogroup"] > label > div:first-child {{
-            display: none !important;
+        div[data-testid="stButton"] button[kind="primary"]:hover,
+        div[data-testid="stButton"] button[data-testid="stBaseButton-primary"]:hover {{
+            background-color: {t['accent']} !important;
+            color: #FFFFFF !important;
         }}
-        div[data-testid="stRadio"] > div[role="radiogroup"] > label p {{
-            font-size: 0.82rem !important;
-            font-weight: 600 !important;
+
+        /* Full Dark/Light Theme Overrides for Streamlit Inputs, Selectboxes & Checkboxes */
+        div[data-testid="stWidgetLabel"] p,
+        div[data-testid="stCheckbox"] label p,
+        div[data-testid="stMarkdownContainer"] p {{
+            color: {t['text_primary']};
+        }}
+        section[data-testid="stSidebar"] div[data-testid="stWidgetLabel"] p,
+        section[data-testid="stSidebar"] div[data-testid="stCheckbox"] label p {{
+            color: {t['text_secondary']} !important;
+        }}
+        div[data-baseweb="select"] > div,
+        div[data-baseweb="input"] > div,
+        div[data-baseweb="base-input"] {{
+            background-color: {t['bg_pill']} !important;
+            border: 1px solid {t['border_strong']} !important;
+            border-radius: 8px !important;
             color: {t['text_primary']} !important;
-            margin: 0 !important;
+        }}
+        div[data-baseweb="select"] span,
+        div[data-baseweb="select"] input,
+        div[data-baseweb="input"] input,
+        div[data-baseweb="base-input"] input {{
+            color: {t['text_primary']} !important;
+            -webkit-text-fill-color: {t['text_primary']} !important;
+        }}
+        div[data-baseweb="input"] input::placeholder,
+        div[data-baseweb="base-input"] input::placeholder,
+        div[data-baseweb="select"] input::placeholder {{
+            color: {t['text_muted']} !important;
+            -webkit-text-fill-color: {t['text_muted']} !important;
+        }}
+        div[data-baseweb="select"] svg {{
+            fill: {t['text_secondary']} !important;
+            color: {t['text_secondary']} !important;
+        }}
+        div[data-baseweb="popover"] > div,
+        ul[role="listbox"] {{
+            background-color: {t['bg_card']} !important;
+            border: 1px solid {t['border_strong']} !important;
+            color: {t['text_primary']} !important;
+        }}
+        li[role="option"] {{
+            background-color: {t['bg_card']} !important;
+            color: {t['text_primary']} !important;
+        }}
+        li[role="option"]:hover,
+        li[role="option"][aria-selected="true"] {{
+            background-color: {t['accent_soft']} !important;
+            color: {t['text_primary']} !important;
+        }}
+        div[data-baseweb="tag"] {{
+            background-color: {t['accent_soft']} !important;
+            color: {t['text_primary']} !important;
+            border: 1px solid {t['accent']} !important;
+        }}
+        div[data-testid="stCheckbox"] label span[role="checkbox"] {{
+            background-color: {t['bg_pill']} !important;
+            border-color: {t['border_strong']} !important;
         }}
 
         /* Executive BI Insight Strip */
@@ -560,10 +618,8 @@ def inject_css(t: dict[str, str]) -> None:
                 gap: 0.35rem;
                 font-size: 0.79rem;
             }}
-            div[data-testid="stRadio"] > div[role="radiogroup"] > label {{
-                padding: 0.3rem 0.65rem !important;
-            }}
-            div[data-testid="stRadio"] > div[role="radiogroup"] > label p {{
+            div[data-testid="stButton"] button {{
+                padding: 0.3rem 0.55rem !important;
                 font-size: 0.75rem !important;
             }}
             table.c360-table {{
@@ -1058,17 +1114,19 @@ with st.container(border=True):
             st.session_state.ui_theme = "Light" if theme_name == "Dark" else "Dark"
             st.rerun()
 
-    selected_tab = st.radio(
-        "Navigation",
-        nav_tabs,
-        index=nav_tabs.index(st.session_state.active_tab),
-        horizontal=True,
-        label_visibility="collapsed",
-    )
-    if selected_tab != st.session_state.active_tab:
-        st.session_state.active_tab = selected_tab
-        st.session_state.show_export_panel = False
-        st.rerun()
+    nav_cols = st.columns(len(nav_tabs), gap="small")
+    for idx, (col, tab_name) in enumerate(zip(nav_cols, nav_tabs, strict=True)):
+        is_active = st.session_state.active_tab == tab_name
+        if col.button(
+            tab_name,
+            key=f"nav_tab_{idx}",
+            type="primary" if is_active else "secondary",
+            use_container_width=True,
+        ):
+            if not is_active:
+                st.session_state.active_tab = tab_name
+                st.session_state.show_export_panel = False
+                st.rerun()
 
 # Active filter summary banner
 active_chips: list[str] = []
@@ -1331,7 +1389,7 @@ if tab == "Executive Overview":
             fig_conc.update_xaxes(ticksuffix="%", range=[0, max_share * 1.24], title="Share of Total (%)")
             fig_conc.update_yaxes(title="")
             st.plotly_chart(
-                style_plotly(fig_conc, T, height=378, bottom_margin=64, grid="x"),
+                style_plotly(fig_conc, T, height=418, bottom_margin=64, grid="x"),
                 use_container_width=True,
                 config=PLOT_CONFIG,
             )
