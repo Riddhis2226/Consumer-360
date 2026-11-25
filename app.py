@@ -1,8 +1,8 @@
 """
-Consumer-360 | Business Intelligence & Retail Analytics Platform
-Portable Streamlit application with automatic Supabase -> Local PostgreSQL -> Local CSV fallback,
-Dark & Light UI themes, responsive desktop/mobile layout, sidebar BI slicers, live executive insights,
-distinct-color world map, and custom HTML performance tables.
+Consumer-360 | Lightweight Business Intelligence & Retail Analytics Platform
+Ultra-fast portable Streamlit app with SQL-side aggregation, lazy tab loading,
+automatic Supabase -> Local PostgreSQL -> Local CSV fallback, Dark & Light UI themes,
+responsive desktop/mobile layout, distinct-color world map, and custom HTML tables.
 """
 
 from __future__ import annotations
@@ -30,7 +30,7 @@ st.set_page_config(
 )
 
 # -----------------------------------------------------------------------------
-# 2. PORTABLE ENV & PATH RESOLUTION (SEAMLESS UNDER THE HOOD)
+# 2. PORTABLE ENV & PATH RESOLUTION
 # -----------------------------------------------------------------------------
 APP_DIR = Path(__file__).resolve().parent
 
@@ -581,25 +581,8 @@ def inject_css(t: dict[str, str]) -> None:
 
 
 # -----------------------------------------------------------------------------
-# 5. PORTABLE DATA LOADING (AUTO: SUPABASE -> LOCAL POSTGRES -> LOCAL CSV)
+# 5. LIGHTWEIGHT DATA ENGINE (SQL-SIDE AGGREGATION + LAZY TAB LOADING)
 # -----------------------------------------------------------------------------
-TABLE_FILES = {
-    "cohort_retention": "cohort_retention.csv",
-    "product_bundles": "product_bundles.csv",
-    "customer_segments": "customer_segments.csv",
-    "customer_rfm_metrics": "customer_rfm_metrics.csv",
-    "retail_transactions": "retail_transactions.csv",
-}
-
-BI_DATASET_LABELS = {
-    "Customer Segments": "customer_segments",
-    "Cohort Retention": "cohort_retention",
-    "Product Bundles": "product_bundles",
-    "Customer RFM Metrics": "customer_rfm_metrics",
-    "Retail Transactions": "retail_transactions",
-}
-
-
 def build_pg_uri(host: str, port: str, db: str, user: str, password: str, sslmode: str) -> str:
     return (
         f"postgresql+psycopg2://{quote_plus(user)}:{quote_plus(password)}"
@@ -607,60 +590,213 @@ def build_pg_uri(host: str, port: str, db: str, user: str, password: str, sslmod
     )
 
 
-@st.cache_data(ttl=600, show_spinner=False)
-def load_all_data() -> dict[str, pd.DataFrame]:
-    """Automatically load all 5 BI tables (Supabase -> Local PostgreSQL -> Local CSV)."""
+@st.cache_resource(show_spinner=False)
+def get_db_engine():
+    """Return a cached SQLAlchemy engine (Supabase -> Local PG), or None for CSV fallback."""
     from sqlalchemy import create_engine, text
     from sqlalchemy.exc import SQLAlchemyError
 
-    def try_postgres(uri: str) -> dict[str, pd.DataFrame] | None:
+    candidates: list[tuple[str, str]] = []
+    supa_host = get_config("SUPABASE_DB_HOST", ENV_MAP)
+    supa_user = get_config("SUPABASE_DB_USER", ENV_MAP)
+    supa_pass = get_config("SUPABASE_DB_PASSWORD", ENV_MAP)
+    if supa_host and supa_user and supa_pass:
+        candidates.append(
+            (
+                build_pg_uri(
+                    supa_host,
+                    get_config("SUPABASE_DB_PORT", ENV_MAP, "5432"),
+                    get_config("SUPABASE_DB_NAME", ENV_MAP, "postgres"),
+                    supa_user,
+                    supa_pass,
+                    "require",
+                ),
+                "supabase",
+            )
+        )
+
+    pg_host = get_config("PG_HOST", ENV_MAP, "localhost")
+    pg_user = get_config("PG_USER", ENV_MAP, "postgres")
+    pg_pass = get_config("PG_PASSWORD", ENV_MAP)
+    if pg_host and pg_user and pg_pass:
+        candidates.append(
+            (
+                build_pg_uri(
+                    pg_host,
+                    get_config("PG_PORT", ENV_MAP, "5432"),
+                    get_config("PG_DB", ENV_MAP, "retail_analytics"),
+                    pg_user,
+                    pg_pass,
+                    "prefer",
+                ),
+                "local",
+            )
+        )
+
+    for uri, _label in candidates:
         try:
             engine = create_engine(uri, pool_pre_ping=True, connect_args={"connect_timeout": 5})
             with engine.connect() as conn:
                 conn.execute(text("SELECT 1"))
-                return {tbl: pd.read_sql(f'SELECT * FROM public."{tbl}"', conn) for tbl in TABLE_FILES}
+            return engine
         except (SQLAlchemyError, OSError):
-            return None
+            continue
+    return None
 
-    def try_csv() -> dict[str, pd.DataFrame] | None:
-        if not DEFAULT_DATA_DIR.exists():
-            return None
-        dfs = {}
-        for tbl, fname in TABLE_FILES.items():
-            fpath = DEFAULT_DATA_DIR / fname
-            if not fpath.exists():
-                return None
-            dfs[tbl] = pd.read_csv(fpath)
-        return dfs
 
-    supa_host = get_config("SUPABASE_DB_HOST", ENV_MAP)
-    supa_port = get_config("SUPABASE_DB_PORT", ENV_MAP, "5432")
-    supa_db = get_config("SUPABASE_DB_NAME", ENV_MAP, "postgres")
-    supa_user = get_config("SUPABASE_DB_USER", ENV_MAP)
-    supa_pass = get_config("SUPABASE_DB_PASSWORD", ENV_MAP)
+@st.cache_data(ttl=1800, show_spinner=False)
+def load_core_bi_data() -> dict[str, pd.DataFrame]:
+    """
+    Ultra-lightweight startup loader (~7,000 rows total instead of ~460,000 rows).
+    Aggregates retail_transactions in SQL so cold starts finish in seconds with minimal RAM.
+    """
+    engine = get_db_engine()
+    if engine is not None:
+        sql_summary = """
+            SELECT
+                t."Year-Month",
+                t."Country",
+                COALESCE(s."Customer Tier", 'Other') AS "Customer Tier",
+                COALESCE(s."Buyer Group", 'Other') AS "Buyer Group",
+                SUM(t."Line Revenue") AS "Revenue",
+                COUNT(DISTINCT t."Invoice No") AS "Orders",
+                COUNT(DISTINCT t."Customer ID") AS "Customers",
+                SUM(t."Quantity") AS "Units",
+                COUNT(*) AS "Lines"
+            FROM public.retail_transactions t
+            LEFT JOIN public.customer_segments s ON t."Customer ID" = s."Customer ID"
+            GROUP BY 1, 2, 3, 4
+        """
+        sql_timing = """
+            SELECT
+                t."Year-Month",
+                t."Country",
+                COALESCE(s."Customer Tier", 'Other') AS "Customer Tier",
+                COALESCE(s."Buyer Group", 'Other') AS "Buyer Group",
+                TO_CHAR(t."Order Date", 'FMDay') AS "Weekday",
+                t."Order Hour",
+                SUM(t."Line Revenue") AS "Revenue"
+            FROM public.retail_transactions t
+            LEFT JOIN public.customer_segments s ON t."Customer ID" = s."Customer ID"
+            WHERE t."Order Date" IS NOT NULL
+            GROUP BY 1, 2, 3, 4, 5, 6
+        """
+        with engine.connect() as conn:
+            return {
+                "cohort_retention": pd.read_sql("SELECT * FROM public.cohort_retention", conn),
+                "customer_segments": pd.read_sql("SELECT * FROM public.customer_segments", conn),
+                "tx_summary": pd.read_sql(sql_summary, conn),
+                "tx_timing": pd.read_sql(sql_timing, conn),
+            }
 
-    if supa_host and supa_user and supa_pass:
-        res = try_postgres(build_pg_uri(supa_host, supa_port, supa_db, supa_user, supa_pass, "require"))
-        if res is not None:
-            return res
-
-    pg_host = get_config("PG_HOST", ENV_MAP, "localhost")
-    pg_port = get_config("PG_PORT", ENV_MAP, "5432")
-    pg_db = get_config("PG_DB", ENV_MAP, "retail_analytics")
-    pg_user = get_config("PG_USER", ENV_MAP, "postgres")
-    pg_pass = get_config("PG_PASSWORD", ENV_MAP)
-
-    if pg_host and pg_user and pg_pass:
-        res = try_postgres(build_pg_uri(pg_host, pg_port, pg_db, pg_user, pg_pass, "prefer"))
-        if res is not None:
-            return res
-
-    if (res := try_csv()) is not None:
-        return res
-
-    raise FileNotFoundError(
-        "Unable to load analytics tables. Configure database credentials or provide data/supabase_db CSVs."
+    # Portable CSV fallback (aggregates once in cache, then discards 400k-row raw table)
+    if not DEFAULT_DATA_DIR.exists():
+        raise FileNotFoundError(
+            "Unable to connect to database and data/supabase_db CSVs were not found."
+        )
+    df_cohort = pd.read_csv(DEFAULT_DATA_DIR / "cohort_retention.csv")
+    df_seg = pd.read_csv(DEFAULT_DATA_DIR / "customer_segments.csv")
+    tx = pd.read_csv(
+        DEFAULT_DATA_DIR / "retail_transactions.csv",
+        usecols=[
+            "Invoice No",
+            "Quantity",
+            "Customer ID",
+            "Country",
+            "Order Date",
+            "Line Revenue",
+            "Year-Month",
+            "Order Hour",
+        ],
     )
+    tx = tx.merge(df_seg[["Customer ID", "Customer Tier", "Buyer Group"]], on="Customer ID", how="left")
+    tx["Customer Tier"] = tx["Customer Tier"].fillna("Other")
+    tx["Buyer Group"] = tx["Buyer Group"].fillna("Other")
+
+    tx_summary = (
+        tx.groupby(["Year-Month", "Country", "Customer Tier", "Buyer Group"], as_index=False)
+        .agg(
+            Revenue=("Line Revenue", "sum"),
+            Orders=("Invoice No", "nunique"),
+            Customers=("Customer ID", "nunique"),
+            Units=("Quantity", "sum"),
+            Lines=("Line Revenue", "size"),
+        )
+    )
+    dt = pd.to_datetime(tx["Order Date"], errors="coerce")
+    tx["Weekday"] = dt.dt.day_name()
+    tx_timing = (
+        tx.dropna(subset=["Weekday"])
+        .groupby(["Year-Month", "Country", "Customer Tier", "Buyer Group", "Weekday", "Order Hour"], as_index=False)
+        .agg(Revenue=("Line Revenue", "sum"))
+    )
+    return {
+        "cohort_retention": df_cohort,
+        "customer_segments": df_seg,
+        "tx_summary": tx_summary,
+        "tx_timing": tx_timing,
+    }
+
+
+@st.cache_data(ttl=1800, show_spinner=False)
+def load_bundles_data() -> pd.DataFrame:
+    """Lazy-loaded only when the Merchandising & Bundles tab or Export panel is opened."""
+    engine = get_db_engine()
+    if engine is not None:
+        sql = """
+            SELECT *
+            FROM public.product_bundles
+            ORDER BY "Orders Together" DESC
+            LIMIT 8000
+        """
+        with engine.connect() as conn:
+            return pd.read_sql(sql, conn)
+    return pd.read_csv(DEFAULT_DATA_DIR / "product_bundles.csv").nlargest(8000, "Orders Together")
+
+
+@st.cache_data(ttl=600, show_spinner=False)
+def load_customer_top_products(customer_id: int, month_start: str, month_end: str) -> tuple[list[str], int]:
+    """On-demand 3-row query for the selected Customer 360 account."""
+    from sqlalchemy import text
+
+    engine = get_db_engine()
+    if engine is not None:
+        sql = text(
+            """
+            SELECT "Product Name", SUM("Line Revenue") AS rev, COUNT(*) AS cnt
+            FROM public.retail_transactions
+            WHERE "Customer ID" = :cid
+              AND "Year-Month" BETWEEN :m_start AND :m_end
+            GROUP BY "Product Name"
+            ORDER BY rev DESC
+            LIMIT 3
+            """
+        )
+        sql_cnt = text(
+            """
+            SELECT COUNT(*) FROM public.retail_transactions
+            WHERE "Customer ID" = :cid
+              AND "Year-Month" BETWEEN :m_start AND :m_end
+            """
+        )
+        with engine.connect() as conn:
+            rows = conn.execute(sql, {"cid": customer_id, "m_start": month_start, "m_end": month_end}).fetchall()
+            total_items = int(
+                conn.execute(sql_cnt, {"cid": customer_id, "m_start": month_start, "m_end": month_end}).scalar() or 0
+            )
+        return [str(r[0]) for r in rows], total_items
+
+    fpath = DEFAULT_DATA_DIR / "retail_transactions.csv"
+    if not fpath.exists():
+        return [], 0
+    tx = pd.read_csv(fpath, usecols=["Customer ID", "Product Name", "Line Revenue", "Year-Month"])
+    sub = tx[
+        (tx["Customer ID"] == customer_id)
+        & (tx["Year-Month"] >= month_start)
+        & (tx["Year-Month"] <= month_end)
+    ]
+    top = sub.groupby("Product Name")["Line Revenue"].sum().nlargest(3).index.tolist()
+    return [str(p) for p in top], len(sub)
 
 
 # -----------------------------------------------------------------------------
@@ -783,7 +919,7 @@ def fmt_currency(val: float) -> str:
 
 
 # -----------------------------------------------------------------------------
-# 7. LOAD DATA & APPLY THEME
+# 7. LOAD CORE BI DATA & APPLY THEME
 # -----------------------------------------------------------------------------
 theme_name = st.session_state.ui_theme
 T = THEMES[theme_name]
@@ -791,26 +927,21 @@ inject_css(T)
 
 try:
     with st.spinner("Loading Consumer-360 analytics..."):
-        data = load_all_data()
+        core = load_core_bi_data()
 except FileNotFoundError as exc:
     st.error(str(exc))
     st.stop()
 
-df_cohort_raw = data["cohort_retention"].copy()
-df_bundles_raw = data["product_bundles"].copy()
-df_segments_raw = data["customer_segments"].copy()
-df_rfm_raw = data["customer_rfm_metrics"].copy()
-df_tx_raw = data["retail_transactions"].copy()
-
-df_tx_raw["Order Date"] = pd.to_datetime(df_tx_raw["Order Date"], errors="coerce")
-df_segments_raw["Last Purchase"] = pd.to_datetime(df_segments_raw["Last Purchase"], errors="coerce")
-df_rfm_raw["Last Purchase"] = pd.to_datetime(df_rfm_raw["Last Purchase"], errors="coerce")
+df_cohort = core["cohort_retention"]
+df_segments_raw = core["customer_segments"]
+df_tx_sum_raw = core["tx_summary"]
+df_tx_time_raw = core["tx_timing"]
 
 
 # -----------------------------------------------------------------------------
-# 8. SIDEBAR BI SLICERS (PURE ANALYTICS FILTERS — ZERO INFRA CONTROLS)
+# 8. SIDEBAR BI SLICERS
 # -----------------------------------------------------------------------------
-all_months = sorted(df_tx_raw["Year-Month"].dropna().unique().tolist())
+all_months = sorted(df_tx_sum_raw["Year-Month"].dropna().unique().tolist())
 tiers = sorted(df_segments_raw["Customer Tier"].dropna().unique().tolist())
 groups = sorted(df_segments_raw["Buyer Group"].dropna().unique().tolist())
 countries = sorted(df_segments_raw["Country"].dropna().unique().tolist())
@@ -858,29 +989,34 @@ with st.sidebar:
     st.markdown("---")
     st.button("Reset All Filters", on_click=reset_filters, use_container_width=True)
 
-# Apply global BI slicers
-df_segments = df_segments_raw.copy()
+# Fast boolean mask filtering on compact aggregates
+seg_mask = pd.Series(True, index=df_segments_raw.index)
 if sel_tiers:
-    df_segments = df_segments[df_segments["Customer Tier"].isin(sel_tiers)]
+    seg_mask &= df_segments_raw["Customer Tier"].isin(sel_tiers)
 if sel_groups:
-    df_segments = df_segments[df_segments["Buyer Group"].isin(sel_groups)]
+    seg_mask &= df_segments_raw["Buyer Group"].isin(sel_groups)
 if sel_countries:
-    df_segments = df_segments[df_segments["Country"].isin(sel_countries)]
+    seg_mask &= df_segments_raw["Country"].isin(sel_countries)
+df_segments = df_segments_raw.loc[seg_mask]
 
-valid_cust_ids = set(df_segments["Customer ID"].unique())
-df_tx = df_tx_raw[
-    (df_tx_raw["Year-Month"] >= sel_months[0]) & (df_tx_raw["Year-Month"] <= sel_months[1])
-].copy()
-if sel_tiers or sel_groups or sel_countries:
-    df_tx = df_tx[df_tx["Customer ID"].isin(valid_cust_ids)]
+sum_mask = (df_tx_sum_raw["Year-Month"] >= sel_months[0]) & (df_tx_sum_raw["Year-Month"] <= sel_months[1])
+if sel_tiers:
+    sum_mask &= df_tx_sum_raw["Customer Tier"].isin(sel_tiers)
+if sel_groups:
+    sum_mask &= df_tx_sum_raw["Buyer Group"].isin(sel_groups)
 if sel_countries:
-    df_tx = df_tx[df_tx["Country"].isin(sel_countries)]
+    sum_mask &= df_tx_sum_raw["Country"].isin(sel_countries)
+df_tx_sum = df_tx_sum_raw.loc[sum_mask]
 
-df_cohort = df_cohort_raw.copy()
-df_bundles = df_bundles_raw.copy()
-df_rfm = df_rfm_raw[df_rfm_raw["Customer ID"].isin(valid_cust_ids)].copy()
+time_mask = (df_tx_time_raw["Year-Month"] >= sel_months[0]) & (df_tx_time_raw["Year-Month"] <= sel_months[1])
+if sel_tiers:
+    time_mask &= df_tx_time_raw["Customer Tier"].isin(sel_tiers)
+if sel_groups:
+    time_mask &= df_tx_time_raw["Buyer Group"].isin(sel_groups)
+if sel_countries:
+    time_mask &= df_tx_time_raw["Country"].isin(sel_countries)
+df_tx_time = df_tx_time_raw.loc[time_mask]
 
-# Consistent tier palette ranked by total spend
 tier_order = (
     df_segments_raw.groupby("Customer Tier")["Total Spend"].sum().sort_values(ascending=False).index.tolist()
 )
@@ -934,7 +1070,7 @@ with st.container(border=True):
         st.session_state.show_export_panel = False
         st.rerun()
 
-# Active filter summary banner (keeps filtered scope visible on mobile)
+# Active filter summary banner
 active_chips: list[str] = []
 if sel_months != (all_months[0], all_months[-1]):
     active_chips.append(f"Period: {sel_months[0]} → {sel_months[1]}")
@@ -954,30 +1090,34 @@ if active_chips:
 
 
 # -----------------------------------------------------------------------------
-# 10. BI DATA EXPORT PANEL (WHEN TOGGLED)
+# 10. BI DATA EXPORT PANEL (LAZY-LOADED ON DEMAND)
 # -----------------------------------------------------------------------------
 if st.session_state.show_export_panel:
     with st.container(border=True):
         card_header("BI DATASET PREVIEW & CSV EXPORT", "FILTERED ANALYTICAL VIEWS")
         e1, e2, e3 = st.columns([2, 2, 1])
-        chosen_label = e1.selectbox("Dataset", list(BI_DATASET_LABELS.keys()))
+        chosen_label = e1.selectbox(
+            "Dataset",
+            ["Customer Segments", "Monthly Revenue Summary", "Cohort Retention", "Product Bundles (Top 8k)"],
+        )
         row_limit = e2.slider("Preview Rows", min_value=50, max_value=2000, value=250, step=50)
-        export_map = {
-            "Customer Segments": df_segments,
-            "Cohort Retention": df_cohort,
-            "Product Bundles": df_bundles,
-            "Customer RFM Metrics": df_rfm,
-            "Retail Transactions": df_tx,
-        }
-        exp_df = export_map[chosen_label]
+        if chosen_label == "Customer Segments":
+            exp_df, fname = df_segments, "customer_segments.csv"
+        elif chosen_label == "Monthly Revenue Summary":
+            exp_df, fname = df_tx_sum, "monthly_revenue_summary.csv"
+        elif chosen_label == "Cohort Retention":
+            exp_df, fname = df_cohort, "cohort_retention.csv"
+        else:
+            exp_df, fname = load_bundles_data(), "product_bundles.csv"
+
         e3.download_button(
             "Download CSV",
             data=exp_df.head(row_limit).to_csv(index=False).encode("utf-8"),
-            file_name=f"{BI_DATASET_LABELS[chosen_label]}.csv",
+            file_name=fname,
             mime="text/csv",
             use_container_width=True,
         )
-        st.dataframe(exp_df.head(row_limit), use_container_width=True, height=400)
+        st.dataframe(exp_df.head(row_limit), use_container_width=True, height=380)
 
 
 # -----------------------------------------------------------------------------
@@ -986,9 +1126,10 @@ if st.session_state.show_export_panel:
 tab = st.session_state.active_tab
 
 if tab == "Executive Overview":
-    total_rev = float(df_tx["Line Revenue"].sum())
+    total_rev = float(df_tx_sum["Revenue"].sum())
+    total_orders = int(df_tx_sum["Orders"].sum())
+    total_lines = int(df_tx_sum["Lines"].sum())
     total_customers = int(df_segments["Customer ID"].nunique())
-    total_orders = int(df_tx["Invoice No"].nunique())
     aov = total_rev / total_orders if total_orders else 0.0
     arpu = total_rev / total_customers if total_customers else 0.0
     repeat_pct = (
@@ -1005,7 +1146,7 @@ if tab == "Executive Overview":
             <div class="c360-kpi">
                 <div class="c360-kpi-label">Total Revenue</div>
                 <div class="c360-kpi-val">{fmt_currency(total_rev)}</div>
-                <div class="c360-kpi-sub">{total_orders:,} orders · {len(df_tx):,} line items</div>
+                <div class="c360-kpi-sub">{total_orders:,} orders · {total_lines:,} line items</div>
             </div>
             <div class="c360-kpi">
                 <div class="c360-kpi-label">Active Customers</div>
@@ -1032,10 +1173,9 @@ if tab == "Executive Overview":
         unsafe_allow_html=True,
     )
 
-    if df_tx.empty or df_segments.empty:
+    if df_tx_sum.empty or df_segments.empty:
         render_empty_state()
     else:
-        # Dynamic Executive BI Takeaway
         top_tier_agg = (
             df_segments.groupby("Customer Tier", as_index=False)
             .agg(Customers=("Customer ID", "count"), Spend=("Total Spend", "sum"))
@@ -1054,7 +1194,6 @@ if tab == "Executive Overview":
 
         col_left, col_right = st.columns([1.25, 1.0], gap="medium")
 
-        # Left Chart: Monthly Revenue & Order Volume (Combo Bar + Line) with Tier Breakdown Toggle
         with col_left, st.container(border=True):
             card_header("MONTHLY REVENUE & ORDER VOLUME", "EXECUTIVE TRAJECTORY")
             view_mode = st.selectbox(
@@ -1064,8 +1203,8 @@ if tab == "Executive Overview":
             )
             if view_mode == "Total Revenue & Orders":
                 monthly_agg = (
-                    df_tx.groupby("Year-Month", as_index=False)
-                    .agg(Revenue=("Line Revenue", "sum"), Orders=("Invoice No", "nunique"))
+                    df_tx_sum.groupby("Year-Month", as_index=False)
+                    .agg(Revenue=("Revenue", "sum"), Orders=("Orders", "sum"))
                     .sort_values("Year-Month")
                 )
                 monthly_agg["MoM %"] = monthly_agg["Revenue"].pct_change() * 100
@@ -1115,13 +1254,8 @@ if tab == "Executive Overview":
                 fig_rev.update_xaxes(title="", tickangle=-25)
                 st.plotly_chart(fig_rev, use_container_width=True, config=PLOT_CONFIG)
             else:
-                tx_tiered = df_tx.merge(
-                    df_segments[["Customer ID", "Customer Tier"]],
-                    on="Customer ID",
-                    how="left",
-                )
                 monthly_tier = (
-                    tx_tiered.groupby(["Year-Month", "Customer Tier"], as_index=False)["Line Revenue"]
+                    df_tx_sum.groupby(["Year-Month", "Customer Tier"], as_index=False)["Revenue"]
                     .sum()
                     .sort_values("Year-Month")
                 )
@@ -1134,7 +1268,7 @@ if tab == "Executive Overview":
                     fig_stack.add_trace(
                         go.Scatter(
                             x=sub["Year-Month"],
-                            y=sub["Line Revenue"],
+                            y=sub["Revenue"],
                             name=tier_name,
                             mode="lines",
                             stackgroup="one",
@@ -1152,7 +1286,6 @@ if tab == "Executive Overview":
                     config=PLOT_CONFIG,
                 )
 
-        # Right Chart: Revenue Share vs Customer Share by Tier (Pareto Concentration)
         with col_right, st.container(border=True):
             card_header("REVENUE VS CUSTOMER CONCENTRATION", "PARETO SHARE BY TIER (%)")
             tier_conc = top_tier_agg.sort_values("Spend", ascending=True).copy()
@@ -1203,7 +1336,6 @@ if tab == "Executive Overview":
                 config=PLOT_CONFIG,
             )
 
-        # Bottom Card: Custom HTML Customer Tier Performance Table (PRESERVED)
         with st.container(border=True):
             card_header("CUSTOMER TIER PERFORMANCE", "SORTED BY TOTAL SPEND")
             tier_perf = (
@@ -1276,7 +1408,6 @@ elif tab == "Customer Intelligence":
             f"<strong>{median_inactive:.0f} days</strong>.",
         )
 
-        # Interactive Customer 360 Account Lookup
         with st.container(border=True):
             card_header("CUSTOMER 360 ACCOUNT LOOKUP", "INDIVIDUAL BUYER PROFILE")
             top_ids = df_segments.nlargest(200, "Total Spend")["Customer ID"].astype(int).tolist()
@@ -1286,13 +1417,7 @@ elif tab == "Customer Intelligence":
                 format_func=lambda cid: f"Account #{cid}",
             )
             cust_row = df_segments[df_segments["Customer ID"] == sel_cid].iloc[0]
-            cust_tx = df_tx[df_tx["Customer ID"] == sel_cid]
-            top_prods = (
-                cust_tx.groupby("Product Name")["Line Revenue"]
-                .sum()
-                .nlargest(3)
-                .index.tolist()
-            )
+            top_prods, item_count = load_customer_top_products(int(sel_cid), sel_months[0], sel_months[1])
             fav_text = ", ".join(p[:28] for p in top_prods) if top_prods else "No orders in selected period"
 
             st.markdown(
@@ -1316,7 +1441,7 @@ elif tab == "Customer Intelligence":
                     <div class="c360-kpi">
                         <div class="c360-kpi-label">Top Purchased Items</div>
                         <div class="c360-kpi-val" style="font-size:0.86rem;line-height:1.35;">{html.escape(fav_text)}</div>
-                        <div class="c360-kpi-sub">{len(cust_tx):,} line items in window</div>
+                        <div class="c360-kpi-sub">{item_count:,} line items in window</div>
                     </div>
                 </div>
                 """,
@@ -1325,7 +1450,6 @@ elif tab == "Customer Intelligence":
 
         c1, c2 = st.columns(2, gap="medium")
 
-        # Left: Customer Portfolio Treemap (Tier -> Buyer Group)
         with c1, st.container(border=True):
             card_header("CUSTOMER PORTFOLIO HIERARCHY", "TREEMAP · CLICK TO DRILL DOWN")
             tree_agg = (
@@ -1363,7 +1487,6 @@ elif tab == "Customer Intelligence":
             )
             st.plotly_chart(fig_tree, use_container_width=True, config=PLOT_CONFIG)
 
-        # Right: RFM Score Distribution (Color-coded by Health Band)
         with c2, st.container(border=True):
             card_header("RFM SCORE DISTRIBUTION", "RED ≤5 · AMBER 6–8 · GREEN 9+")
             score_dist = (
@@ -1411,7 +1534,6 @@ elif tab == "Customer Intelligence":
                 config=PLOT_CONFIG,
             )
 
-        # Bottom Card: Top Customers Leaderboard Table (PRESERVED)
         with st.container(border=True):
             card_header("TOP CUSTOMERS LEADERBOARD", "TOP 25 ACCOUNTS BY SPEND")
             top_cust = df_segments.nlargest(25, "Total Spend")
@@ -1470,7 +1592,6 @@ elif tab == "Retention & Cohorts":
 
     c1, c2 = st.columns([1.25, 1.0], gap="medium")
 
-    # Left: Cohort Retention Matrix Heatmap (M+1 scaled)
     with c1, st.container(border=True):
         card_header("COHORT RETENTION MATRIX (%)", "SCALE TUNED TO M+1 ONWARDS")
         piv = df_cohort.pivot(
@@ -1515,7 +1636,6 @@ elif tab == "Retention & Cohorts":
             config=PLOT_CONFIG,
         )
 
-    # Right: Retention Decay Benchmark (Mean + P25–P75 IQR Band + Cohort Overlay)
     with c2, st.container(border=True):
         card_header("RETENTION DECAY BENCHMARK", "MEAN + P25–P75 IQR BAND")
         cohort_opts = ["Benchmark Only", *sorted(df_cohort["First Purchase Month"].unique().tolist())]
@@ -1589,7 +1709,6 @@ elif tab == "Retention & Cohorts":
             config=PLOT_CONFIG,
         )
 
-    # Bottom Card: Cohort Performance Summary Table (PRESERVED)
     with st.container(border=True):
         card_header("COHORT PERFORMANCE SUMMARY", "M+0 TO M+3")
         coh_summary = (
@@ -1632,7 +1751,10 @@ elif tab == "Retention & Cohorts":
 
 
 elif tab == "Merchandising & Bundles":
-    bf = df_bundles[(df_bundles["Orders Together"] >= min_orders) & (df_bundles["Bundle Lift"] >= min_lift)].copy()
+    with st.spinner("Loading product bundle affinity..."):
+        df_bundles = load_bundles_data()
+
+    bf = df_bundles[(df_bundles["Orders Together"] >= min_orders) & (df_bundles["Bundle Lift"] >= min_lift)]
     if search_prod.strip():
         q = search_prod.strip().lower()
         bf = bf[
@@ -1655,7 +1777,6 @@ elif tab == "Merchandising & Bundles":
 
         col_b1, col_b2 = st.columns(2, gap="medium")
 
-        # Left: Cross-Sell Bundle Recommender
         with col_b1, st.container(border=True):
             card_header("CROSS-SELL RECOMMENDER", "ATTACHMENT RATE (BUY A → BUY B)")
             anchor_prods = (
@@ -1699,7 +1820,6 @@ elif tab == "Merchandising & Bundles":
                 config=PLOT_CONFIG,
             )
 
-        # Right: Top 10 Co-Occurring Bundles
         with col_b2, st.container(border=True):
             card_header("TOP 10 CO-OCCURRING BUNDLES", "ORDERS TOGETHER")
             top10_b = bf.nlargest(10, "Orders Together").sort_values("Orders Together").reset_index(drop=True)
@@ -1737,7 +1857,6 @@ elif tab == "Merchandising & Bundles":
                 config=PLOT_CONFIG,
             )
 
-        # Bottom Card: Cross-Sell Bundle Performance Table (PRESERVED)
         with st.container(border=True):
             card_header("CROSS-SELL BUNDLE PERFORMANCE", "TOP 25 MATCHING PAIRS")
             b_rows = []
@@ -1773,42 +1892,40 @@ elif tab == "Merchandising & Bundles":
 
 
 elif tab == "Markets & Timing":
-    if df_tx.empty:
+    if df_tx_sum.empty:
         render_empty_state()
     else:
-        tot_geo_rev = float(df_tx["Line Revenue"].sum()) or 1.0
-        intl_rev = float(df_tx.loc[df_tx["Country"] != "United Kingdom", "Line Revenue"].sum())
+        tot_geo_rev = float(df_tx_sum["Revenue"].sum()) or 1.0
+        intl_rev = float(df_tx_sum.loc[df_tx_sum["Country"] != "United Kingdom", "Revenue"].sum())
         intl_share = intl_rev / tot_geo_rev * 100
-        tx_time = df_tx.dropna(subset=["Order Date"]).copy()
-        tx_time["Weekday"] = tx_time["Order Date"].dt.day_name()
         peak_slot = (
-            tx_time.groupby(["Weekday", "Order Hour"], as_index=False)["Line Revenue"]
+            df_tx_time.groupby(["Weekday", "Order Hour"], as_index=False)["Revenue"]
             .sum()
-            .nlargest(1, "Line Revenue")
+            .nlargest(1, "Revenue")
         )
         peak_txt = (
             f"Peak trading window is <strong>{html.escape(str(peak_slot.iloc[0]['Weekday']))} at "
-            f"{int(peak_slot.iloc[0]['Order Hour'])}:00</strong> ({fmt_currency(float(peak_slot.iloc[0]['Line Revenue']))})."
+            f"{int(peak_slot.iloc[0]['Order Hour'])}:00</strong> ({fmt_currency(float(peak_slot.iloc[0]['Revenue']))})."
             if not peak_slot.empty
             else ""
         )
         render_insight(
             "Market Insight",
             f"International markets (ex-UK) contribute <strong>{fmt_currency(intl_rev)}</strong> "
-            f"(<strong>{intl_share:.1f}%</strong> of revenue across {df_tx['Country'].nunique()} active markets). {peak_txt}",
+            f"(<strong>{intl_share:.1f}%</strong> of revenue across {df_tx_sum['Country'].nunique()} active markets). {peak_txt}",
         )
 
         # World Map Card (PRESERVED — every country marked in a distinct color)
         with st.container(border=True):
             card_header("GLOBAL MARKET FOOTPRINT", "EACH ACTIVE COUNTRY MARKED IN A DISTINCT COLOR")
             map_agg = (
-                df_tx[df_tx["Country"] != "Not Specified"]
+                df_tx_sum[df_tx_sum["Country"] != "Not Specified"]
                 .groupby("Country", as_index=False)
                 .agg(
-                    Revenue=("Line Revenue", "sum"),
-                    Orders=("Invoice No", "nunique"),
-                    Customers=("Customer ID", "nunique"),
-                    Units=("Quantity", "sum"),
+                    Revenue=("Revenue", "sum"),
+                    Orders=("Orders", "sum"),
+                    Customers=("Customers", "sum"),
+                    Units=("Units", "sum"),
                 )
             )
             geo_name_fix = {
@@ -1837,7 +1954,6 @@ elif tab == "Markets & Timing":
                     "<b>%{customdata[0]}</b><br>"
                     "Revenue: £%{customdata[1]:,.0f}<br>"
                     "Orders: %{customdata[2]:,}<br>"
-                    "Customers: %{customdata[3]:,}<br>"
                     "Units: %{customdata[4]:,}<extra></extra>"
                 ),
             )
@@ -1877,13 +1993,12 @@ elif tab == "Markets & Timing":
 
         g1, g2 = st.columns(2, gap="medium")
 
-        # Left: Top Markets by Revenue
         with g1, st.container(border=True):
             card_header("TOP MARKETS BY REVENUE", "GEOGRAPHIC DISTRIBUTION")
-            geo_df = df_tx if inc_uk else df_tx[df_tx["Country"] != "United Kingdom"]
+            geo_df = df_tx_sum if inc_uk else df_tx_sum[df_tx_sum["Country"] != "United Kingdom"]
             geo_agg = (
                 geo_df.groupby("Country", as_index=False)
-                .agg(Revenue=("Line Revenue", "sum"), Orders=("Invoice No", "nunique"), Customers=("Customer ID", "nunique"))
+                .agg(Revenue=("Revenue", "sum"), Orders=("Orders", "sum"))
                 .nlargest(12, "Revenue")
                 .sort_values("Revenue")
             )
@@ -1901,11 +2016,8 @@ elif tab == "Markets & Timing":
                         textposition="outside",
                         textfont={"size": 10, "color": T["text_secondary"]},
                         cliponaxis=False,
-                        customdata=np.stack([geo_agg["Orders"], geo_agg["Customers"]], axis=-1),
-                        hovertemplate=(
-                            "<b>%{y}</b><br>Revenue: £%{x:,.0f}<br>"
-                            "Orders: %{customdata[0]:,}<br>Customers: %{customdata[1]:,}<extra></extra>"
-                        ),
+                        customdata=geo_agg["Orders"],
+                        hovertemplate="<b>%{y}</b><br>Revenue: £%{x:,.0f}<br>Orders: %{customdata:,}<extra></extra>",
                     )
                 )
                 fig_geo.update_xaxes(
@@ -1921,15 +2033,14 @@ elif tab == "Markets & Timing":
                     config=PLOT_CONFIG,
                 )
 
-        # Right: Peak Trading Heatmap (Day of Week x Hour of Day)
         with g2, st.container(border=True):
             card_header("PEAK TRADING HEATMAP", "DAY OF WEEK × ORDER HOUR (£)")
             day_order = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"]
             hm_piv = (
-                tx_time.pivot_table(
+                df_tx_time.pivot_table(
                     index="Weekday",
                     columns="Order Hour",
-                    values="Line Revenue",
+                    values="Revenue",
                     aggfunc="sum",
                     fill_value=0.0,
                 )
@@ -1963,16 +2074,17 @@ elif tab == "Markets & Timing":
                 config=PLOT_CONFIG,
             )
 
-        # Bottom Card: Country Performance Breakdown Table (PRESERVED)
         with st.container(border=True):
             card_header("MARKET PERFORMANCE BREAKDOWN", "TOP 15 MARKETS")
+            cust_by_country = (
+                df_segments.groupby("Country")["Customer ID"].nunique().to_dict()
+            )
             all_geo = (
-                df_tx.groupby("Country", as_index=False)
+                df_tx_sum.groupby("Country", as_index=False)
                 .agg(
-                    Revenue=("Line Revenue", "sum"),
-                    Orders=("Invoice No", "nunique"),
-                    Customers=("Customer ID", "nunique"),
-                    Units=("Quantity", "sum"),
+                    Revenue=("Revenue", "sum"),
+                    Orders=("Orders", "sum"),
+                    Units=("Units", "sum"),
                 )
                 .nlargest(15, "Revenue")
             )
@@ -1980,12 +2092,13 @@ elif tab == "Markets & Timing":
             for _, r in all_geo.iterrows():
                 aov_c = r["Revenue"] / r["Orders"] if r["Orders"] else 0.0
                 share = (r["Revenue"] / tot_geo_rev) * 100
+                c_cnt = int(cust_by_country.get(r["Country"], 0))
                 g_rows.append(
                     f"<tr>"
                     f"<td class='name-cell'>{html.escape(str(r['Country']))}</td>"
                     f"<td class='num'>{fmt_currency(r['Revenue'])}</td>"
                     f"<td class='num'>{share:.1f}%</td>"
-                    f"<td class='num'>{int(r['Customers']):,}</td>"
+                    f"<td class='num'>{c_cnt:,}</td>"
                     f"<td class='num'>{int(r['Orders']):,}</td>"
                     f"<td class='num'>{fmt_currency(aov_c)}</td>"
                     f"<td class='num'>{int(r['Units']):,}</td>"
@@ -2015,7 +2128,7 @@ st.markdown(
     f"""
     <div class="c360-footer">
         <span>⚡ Consumer-360 · Business Intelligence &amp; Retail Analytics</span>
-        <span>Active Scope: {len(df_tx):,} transactions · {df_segments['Customer ID'].nunique():,} accounts · {df_tx['Country'].nunique()} markets</span>
+        <span>Active Scope: {int(df_tx_sum['Lines'].sum()):,} line items · {df_segments['Customer ID'].nunique():,} accounts · {df_tx_sum['Country'].nunique()} markets</span>
     </div>
     """,
     unsafe_allow_html=True,
