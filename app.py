@@ -1,8 +1,8 @@
 """
-Consumer-360 | Executive Retail & Customer Intelligence Dashboard
+Consumer-360 | Executive Retail & Customer Intelligence App
 Portable Streamlit application supporting Supabase, Local PostgreSQL, and Local CSV fallback,
-with Dark & Light UI themes, sidebar slicers, top navigation tabs, distinct-color world map,
-presentation-grade Plotly visualizations, and custom HTML performance tables.
+with Dark & Light UI themes, responsive desktop/mobile layout, sidebar slicers, top pill navigation,
+interactive Customer 360 & Cross-Sell Recommender tools, distinct-color world map, and custom HTML tables.
 """
 
 from __future__ import annotations
@@ -20,13 +20,13 @@ import plotly.graph_objects as go
 import streamlit as st
 
 # -----------------------------------------------------------------------------
-# 1. PAGE CONFIG
+# 1. PAGE CONFIG (auto sidebar = expanded on desktop, collapsed on mobile)
 # -----------------------------------------------------------------------------
 st.set_page_config(
     page_title="Consumer-360 | Retail Intelligence",
     page_icon="⚡",
     layout="wide",
-    initial_sidebar_state="expanded",
+    initial_sidebar_state="auto",
 )
 
 # -----------------------------------------------------------------------------
@@ -82,7 +82,7 @@ ENV_MAP = load_env_file(DEFAULT_ENV_FILE)
 
 
 # -----------------------------------------------------------------------------
-# 3. THEME DEFINITIONS (DARK & LIGHT)
+# 3. THEME DEFINITIONS (DARK & LIGHT — PRESERVED PALETTE)
 # -----------------------------------------------------------------------------
 THEMES = {
     "Dark": {
@@ -193,7 +193,7 @@ def inject_css(t: dict[str, str]) -> None:
         }}
 
         .block-container {{
-            padding-top: 1rem !important;
+            padding-top: 0.9rem !important;
             padding-bottom: 2.5rem !important;
             padding-left: 1.75rem !important;
             padding-right: 1.75rem !important;
@@ -210,6 +210,13 @@ def inject_css(t: dict[str, str]) -> None:
             margin-bottom: 0.75rem !important;
         }}
 
+        /* Brand & Topbar */
+        .c360-brand-row {{
+            display: flex;
+            align-items: center;
+            gap: 0.55rem;
+            flex-wrap: wrap;
+        }}
         .c360-logo {{
             font-size: 1.15rem;
             font-weight: 700;
@@ -235,16 +242,77 @@ def inject_css(t: dict[str, str]) -> None:
             border-radius: 999px;
         }}
 
+        /* Sleek Pill Navigation (Radio styled as responsive top tabs) */
+        div[data-testid="stRadio"] > div[role="radiogroup"] {{
+            display: flex !important;
+            flex-direction: row !important;
+            flex-wrap: wrap !important;
+            gap: 0.4rem !important;
+            align-items: center;
+        }}
+        div[data-testid="stRadio"] > div[role="radiogroup"] > label {{
+            background: {t['bg_pill']} !important;
+            border: 1px solid {t['border']} !important;
+            border-radius: 8px !important;
+            padding: 0.36rem 0.85rem !important;
+            margin: 0 !important;
+            cursor: pointer;
+            transition: all 0.15s ease;
+        }}
+        div[data-testid="stRadio"] > div[role="radiogroup"] > label:hover {{
+            border-color: {t['accent']} !important;
+        }}
+        div[data-testid="stRadio"] > div[role="radiogroup"] > label[data-checked="true"],
+        div[data-testid="stRadio"] > div[role="radiogroup"] > label:has(input:checked) {{
+            background: {t['accent_soft']} !important;
+            border: 1px solid {t['accent']} !important;
+        }}
+        div[data-testid="stRadio"] > div[role="radiogroup"] > label > div:first-child {{
+            display: none !important;
+        }}
+        div[data-testid="stRadio"] > div[role="radiogroup"] > label p {{
+            font-size: 0.82rem !important;
+            font-weight: 600 !important;
+            color: {t['text_primary']} !important;
+            margin: 0 !important;
+        }}
+
+        /* Active Filter Banner */
+        .c360-filter-bar {{
+            display: flex;
+            align-items: center;
+            gap: 0.45rem;
+            flex-wrap: wrap;
+            background: {t['accent_soft']};
+            border: 1px solid {t['border_strong']};
+            border-radius: 10px;
+            padding: 0.5rem 0.85rem;
+            margin-bottom: 0.85rem;
+            font-size: 0.76rem;
+            color: {t['text_primary']};
+        }}
+        .c360-filter-chip {{
+            background: {t['bg_card']};
+            border: 1px solid {t['border']};
+            border-radius: 999px;
+            padding: 0.15rem 0.55rem;
+            font-size: 0.72rem;
+            font-weight: 600;
+            color: {t['text_secondary']};
+        }}
+
         .c360-card-header {{
             font-size: 0.72rem;
             font-weight: 700;
             text-transform: uppercase;
             letter-spacing: 0.08em;
             color: {t['text_secondary']};
-            margin-bottom: 0.4rem;
+            margin-bottom: 0.45rem;
             display: flex;
             align-items: center;
             justify-content: space-between;
+            gap: 0.5rem;
+            flex-wrap: wrap;
         }}
         .c360-card-sub {{
             font-size: 0.68rem;
@@ -252,24 +320,25 @@ def inject_css(t: dict[str, str]) -> None:
             color: {t['text_muted']};
         }}
 
-        /* KPI Cards */
+        /* Responsive KPI Grid */
         .c360-kpi-grid {{
             display: grid;
             grid-template-columns: repeat(5, minmax(0, 1fr));
-            gap: 0.9rem;
-            margin-top: 0.4rem;
-            margin-bottom: 1rem;
+            gap: 0.85rem;
+            margin-top: 0.25rem;
+            margin-bottom: 0.95rem;
         }}
-        @media (max-width: 1100px) {{
-            .c360-kpi-grid {{
-                grid-template-columns: repeat(2, minmax(0, 1fr));
-            }}
+        .c360-kpi-grid-4 {{
+            display: grid;
+            grid-template-columns: repeat(4, minmax(0, 1fr));
+            gap: 0.85rem;
+            margin-bottom: 0.75rem;
         }}
         .c360-kpi {{
             background: {t['bg_card']};
             border: 1px solid {t['border']};
             border-radius: 12px;
-            padding: 0.95rem 1.1rem;
+            padding: 0.95rem 1.05rem;
             box-shadow: {t['shadow']};
         }}
         .c360-kpi-label {{
@@ -278,25 +347,26 @@ def inject_css(t: dict[str, str]) -> None:
             text-transform: uppercase;
             letter-spacing: 0.08em;
             color: {t['text_muted']};
-            margin-bottom: 0.35rem;
+            margin-bottom: 0.32rem;
         }}
         .c360-kpi-val {{
-            font-size: 1.48rem;
+            font-size: 1.45rem;
             font-weight: 700;
             color: {t['text_primary']};
             font-variant-numeric: tabular-nums;
             line-height: 1.2;
         }}
         .c360-kpi-sub {{
-            font-size: 0.74rem;
+            font-size: 0.73rem;
             color: {t['text_secondary']};
-            margin-top: 0.3rem;
+            margin-top: 0.28rem;
         }}
 
         /* Custom SaaS Performance Table */
         .c360-table-wrap {{
             width: 100%;
             overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
             margin-top: 0.35rem;
         }}
         table.c360-table {{
@@ -331,7 +401,7 @@ def inject_css(t: dict[str, str]) -> None:
             background-color: {t['bg_card_hover']};
         }}
         table.c360-table tbody td {{
-            padding: 0.78rem 0.85rem;
+            padding: 0.75rem 0.85rem;
             color: {t['text_primary']};
             vertical-align: middle;
             white-space: nowrap;
@@ -359,7 +429,7 @@ def inject_css(t: dict[str, str]) -> None:
         .pill-accent {{ background: {t['accent_soft']}; color: {t['accent']}; }}
 
         .c360-bar-track {{
-            width: 88px;
+            width: 84px;
             height: 6px;
             border-radius: 999px;
             background: {t['bg_pill']};
@@ -373,7 +443,26 @@ def inject_css(t: dict[str, str]) -> None:
             border-radius: 999px;
         }}
 
-        /* Buttons & Inputs */
+        /* Empty State & App Footer */
+        .c360-empty {{
+            text-align: center;
+            padding: 2.2rem 1rem;
+            color: {t['text_secondary']};
+            font-size: 0.9rem;
+        }}
+        .c360-footer {{
+            margin-top: 1.5rem;
+            padding-top: 0.85rem;
+            border-top: 1px solid {t['border']};
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            font-size: 0.73rem;
+            color: {t['text_muted']};
+        }}
+
+        /* Buttons */
         .stButton > button {{
             background: {t['bg_card']};
             color: {t['text_secondary']};
@@ -381,7 +470,7 @@ def inject_css(t: dict[str, str]) -> None:
             border-radius: 8px;
             font-size: 0.80rem;
             font-weight: 500;
-            padding: 0.38rem 0.65rem;
+            padding: 0.36rem 0.65rem;
             white-space: nowrap !important;
             transition: all 0.15s ease;
         }}
@@ -394,6 +483,59 @@ def inject_css(t: dict[str, str]) -> None:
             border: 1px solid {t['accent']};
             color: {t['text_primary']};
             font-weight: 600;
+        }}
+
+        /* Tablet breakpoint */
+        @media (max-width: 1199px) {{
+            .c360-kpi-grid {{
+                grid-template-columns: repeat(3, minmax(0, 1fr));
+            }}
+            .c360-kpi-grid-4 {{
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+            }}
+            .block-container {{
+                padding-left: 1.1rem !important;
+                padding-right: 1.1rem !important;
+            }}
+        }}
+
+        /* Mobile breakpoint */
+        @media (max-width: 767px) {{
+            .block-container {{
+                padding-top: 0.55rem !important;
+                padding-left: 0.65rem !important;
+                padding-right: 0.65rem !important;
+            }}
+            div[data-testid="stVerticalBlockBorderWrapper"] {{
+                padding: 0.78rem 0.85rem !important;
+                border-radius: 10px !important;
+            }}
+            .c360-kpi-grid {{
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+                gap: 0.6rem;
+            }}
+            .c360-kpi-grid > .c360-kpi:last-child:nth-child(odd) {{
+                grid-column: 1 / -1;
+            }}
+            .c360-kpi-val {{
+                font-size: 1.22rem;
+            }}
+            .c360-logo {{
+                font-size: 1.02rem;
+            }}
+            div[data-testid="stRadio"] > div[role="radiogroup"] > label {{
+                padding: 0.3rem 0.65rem !important;
+            }}
+            div[data-testid="stRadio"] > div[role="radiogroup"] > label p {{
+                font-size: 0.76rem !important;
+            }}
+            table.c360-table {{
+                font-size: 0.78rem;
+            }}
+            table.c360-table thead th,
+            table.c360-table tbody td {{
+                padding: 0.58rem 0.65rem;
+            }}
         }}
         </style>
         """,
@@ -498,7 +640,7 @@ def load_all_data(source_pref: str) -> tuple[dict[str, pd.DataFrame], str]:
 # -----------------------------------------------------------------------------
 # 6. PLOTLY & HTML TABLE HELPERS
 # -----------------------------------------------------------------------------
-PLOT_CONFIG = {"displayModeBar": False, "displaylogo": False}
+PLOT_CONFIG = {"displayModeBar": False, "displaylogo": False, "responsive": True}
 
 
 def hex_to_rgba(hex_color: str, alpha: float) -> str:
@@ -518,26 +660,11 @@ def short_gbp(val: float) -> str:
     return f"£{val:,.0f}"
 
 
-def padded_range(values, pad: float = 0.12) -> list[float] | None:
-    vals = pd.Series(values).dropna()
-    if vals.empty:
-        return None
-    lo, hi = float(vals.min()), float(vals.max())
-    span = (hi - lo) or max(abs(hi), 1.0) * 0.2
-    return [lo - span * pad, hi + span * pad]
-
-
-def spans_orders_of_magnitude(values, ratio: float = 30.0) -> bool:
-    vals = pd.Series(values).dropna()
-    vals = vals[vals > 0]
-    return len(vals) > 1 and float(vals.max()) / float(vals.min()) >= ratio
-
-
 def style_plotly(
     fig: go.Figure,
     t: dict[str, str],
-    height: int = 350,
-    bottom_margin: int = 70,
+    height: int = 340,
+    bottom_margin: int = 64,
     grid: str = "y",
 ) -> go.Figure:
     font_family = "Inter, sans-serif"
@@ -547,13 +674,13 @@ def style_plotly(
         paper_bgcolor="rgba(0,0,0,0)",
         plot_bgcolor="rgba(0,0,0,0)",
         font={"family": font_family, "color": t["text_secondary"], "size": 11},
-        margin={"l": 14, "r": 14, "t": 12, "b": bottom_margin},
-        bargap=0.3,
+        margin={"l": 12, "r": 12, "t": 12, "b": bottom_margin},
+        bargap=0.28,
         legend_title_text="",
         legend={
             "orientation": "h",
             "yanchor": "top",
-            "y": -0.24,
+            "y": -0.22,
             "xanchor": "center",
             "x": 0.5,
             "bgcolor": "rgba(0,0,0,0)",
@@ -594,6 +721,13 @@ def card_header(title: str, subtitle: str = "") -> None:
     sub_html = f'<span class="c360-card-sub">{html.escape(subtitle)}</span>' if subtitle else ""
     st.markdown(
         f'<div class="c360-card-header"><span>{html.escape(title)}</span>{sub_html}</div>',
+        unsafe_allow_html=True,
+    )
+
+
+def render_empty_state(message: str = "No records match the current sidebar filters.") -> None:
+    st.markdown(
+        f'<div class="c360-empty">No data to display — {html.escape(message)} Try clearing filters in the sidebar.</div>',
         unsafe_allow_html=True,
     )
 
@@ -643,6 +777,23 @@ df_rfm_raw["Last Purchase"] = pd.to_datetime(df_rfm_raw["Last Purchase"], errors
 # -----------------------------------------------------------------------------
 # 8. SIDEBAR SLICERS (ALL FILTERS LIVE HERE)
 # -----------------------------------------------------------------------------
+all_months = sorted(df_tx_raw["Year-Month"].dropna().unique().tolist())
+tiers = sorted(df_segments_raw["Customer Tier"].dropna().unique().tolist())
+groups = sorted(df_segments_raw["Buyer Group"].dropna().unique().tolist())
+countries = sorted(df_segments_raw["Country"].dropna().unique().tolist())
+
+
+def reset_filters() -> None:
+    st.session_state.flt_months = (all_months[0], all_months[-1])
+    st.session_state.flt_tiers = []
+    st.session_state.flt_groups = []
+    st.session_state.flt_countries = []
+    st.session_state.flt_prod = ""
+    st.session_state.flt_min_orders = 50
+    st.session_state.flt_min_lift = 2.0
+    st.session_state.flt_inc_uk = False
+
+
 with st.sidebar:
     st.markdown("### ⚡ Filters & Controls")
 
@@ -660,31 +811,32 @@ with st.sidebar:
     st.markdown("---")
     st.markdown("**Customer & Transaction Slicers**")
 
-    all_months = sorted(df_tx_raw["Year-Month"].dropna().unique().tolist())
     sel_months = st.select_slider(
         "Order Month Range",
         options=all_months,
-        value=(all_months[0], all_months[-1]),
+        value=st.session_state.get("flt_months", (all_months[0], all_months[-1])),
+        key="flt_months",
     )
-
-    tiers = sorted(df_segments_raw["Customer Tier"].dropna().unique().tolist())
-    sel_tiers = st.multiselect("Customer Tier", tiers, default=[])
-
-    groups = sorted(df_segments_raw["Buyer Group"].dropna().unique().tolist())
-    sel_groups = st.multiselect("Buyer Group", groups, default=[])
-
-    countries = sorted(df_segments_raw["Country"].dropna().unique().tolist())
-    sel_countries = st.multiselect("Country", countries, default=[])
+    sel_tiers = st.multiselect("Customer Tier", tiers, key="flt_tiers")
+    sel_groups = st.multiselect("Buyer Group", groups, key="flt_groups")
+    sel_countries = st.multiselect("Country", countries, key="flt_countries")
 
     st.markdown("---")
     st.markdown("**Bundle Slicers**")
-    search_prod = st.text_input("Search Product Name", placeholder="e.g., Heart, Cake, Lantern...")
-    min_orders = st.slider("Min Orders Together", 10, 500, 50, step=10)
-    min_lift = st.slider("Min Bundle Lift", 1.0, 20.0, 2.0, step=0.5)
+    search_prod = st.text_input(
+        "Search Product Name",
+        placeholder="e.g., Heart, Cake, Lantern...",
+        key="flt_prod",
+    )
+    min_orders = st.slider("Min Orders Together", 10, 500, 50, step=10, key="flt_min_orders")
+    min_lift = st.slider("Min Bundle Lift", 1.0, 20.0, 2.0, step=0.5, key="flt_min_lift")
 
     st.markdown("---")
     st.markdown("**Geography Slicers**")
-    inc_uk = st.checkbox("Include UK in Bar Chart", value=False)
+    inc_uk = st.checkbox("Include UK in Bar Chart", value=False, key="flt_inc_uk")
+
+    st.markdown("---")
+    st.button("Reset All Filters", on_click=reset_filters, use_container_width=True)
 
 # Apply global slicers cleanly
 df_segments = df_segments_raw.copy()
@@ -713,24 +865,19 @@ tier_order = (
     df_segments_raw.groupby("Customer Tier")["Total Spend"].sum().sort_values(ascending=False).index.tolist()
 )
 TIER_COLORS = {n: T["series"][i % len(T["series"])] for i, n in enumerate(tier_order)}
-group_order = (
-    df_segments_raw.groupby("Buyer Group")["Total Spend"].sum().sort_values(ascending=False).index.tolist()
-)
-GROUP_COLORS = {n: T["series"][i % len(T["series"])] for i, n in enumerate(group_order)}
 
 
 # -----------------------------------------------------------------------------
-# 9. TOP NAVIGATION BAR (TABS + RAW DATA + THEME TOGGLE)
+# 9. RESPONSIVE TOP APP BAR (BRAND + ACTIONS + WRAPPING PILL NAVIGATION)
 # -----------------------------------------------------------------------------
 nav_tabs = ["Overview", "Customers", "Cohorts", "Bundles", "Geography"]
 
 with st.container(border=True):
-    top_left, top_mid, top_right = st.columns([3.2, 5.2, 2.0], vertical_alignment="center")
-
-    with top_left:
+    hdr_left, hdr_right = st.columns([3.5, 1.5], vertical_alignment="center")
+    with hdr_left:
         st.markdown(
             f"""
-            <div style="display:flex; align-items:center; gap:0.55rem; flex-wrap:wrap;">
+            <div class="c360-brand-row">
                 <span class="c360-logo">⚡ Consumer-360</span>
                 <span class="c360-badge">Retail Analytics</span>
                 <span class="c360-source-pill">● {html.escape(active_source)}</span>
@@ -738,26 +885,46 @@ with st.container(border=True):
             """,
             unsafe_allow_html=True,
         )
-
-    with top_mid:
-        tab_cols = st.columns(len(nav_tabs))
-        for i, tab_name in enumerate(nav_tabs):
-            btn_type = "primary" if st.session_state.active_tab == tab_name else "secondary"
-            if tab_cols[i].button(tab_name, key=f"nav_{tab_name}", type=btn_type, use_container_width=True):
-                st.session_state.active_tab = tab_name
-                st.session_state.show_raw_modal = False
-                st.rerun()
-
-    with top_right:
-        c_raw, c_theme = st.columns([1.05, 0.95])
+    with hdr_right:
+        a1, a2 = st.columns(2)
         raw_btn_type = "primary" if st.session_state.show_raw_modal else "secondary"
-        if c_raw.button("Raw Data", key="btn_raw_data", type=raw_btn_type, use_container_width=True):
+        if a1.button("Raw Data", key="btn_raw_data", type=raw_btn_type, use_container_width=True):
             st.session_state.show_raw_modal = not st.session_state.show_raw_modal
             st.rerun()
         theme_label = "☀ Light" if theme_name == "Dark" else "🌙 Dark"
-        if c_theme.button(theme_label, key="btn_theme_toggle", use_container_width=True):
+        if a2.button(theme_label, key="btn_theme_toggle", use_container_width=True):
             st.session_state.ui_theme = "Light" if theme_name == "Dark" else "Dark"
             st.rerun()
+
+    selected_tab = st.radio(
+        "Navigation",
+        nav_tabs,
+        index=nav_tabs.index(st.session_state.active_tab),
+        horizontal=True,
+        label_visibility="collapsed",
+    )
+    if selected_tab != st.session_state.active_tab:
+        st.session_state.active_tab = selected_tab
+        st.session_state.show_raw_modal = False
+        st.rerun()
+
+# Active filter summary banner (especially helpful on mobile when sidebar is collapsed)
+active_chips: list[str] = []
+if sel_months != (all_months[0], all_months[-1]):
+    active_chips.append(f"Months: {sel_months[0]} → {sel_months[1]}")
+if sel_tiers:
+    active_chips.append(f"Tiers: {', '.join(sel_tiers[:3])}" + ("…" if len(sel_tiers) > 3 else ""))
+if sel_groups:
+    active_chips.append(f"Groups: {', '.join(sel_groups[:2])}" + ("…" if len(sel_groups) > 2 else ""))
+if sel_countries:
+    active_chips.append(f"Countries: {', '.join(sel_countries[:3])}" + ("…" if len(sel_countries) > 3 else ""))
+
+if active_chips:
+    chips_html = "".join(f'<span class="c360-filter-chip">{html.escape(c)}</span>' for c in active_chips)
+    st.markdown(
+        f'<div class="c360-filter-bar"><strong>Active Filters:</strong> {chips_html}</div>',
+        unsafe_allow_html=True,
+    )
 
 
 # -----------------------------------------------------------------------------
@@ -778,7 +945,7 @@ if st.session_state.show_raw_modal:
             mime="text/csv",
             use_container_width=True,
         )
-        st.dataframe(raw_df.head(row_limit), use_container_width=True, height=440)
+        st.dataframe(raw_df.head(row_limit), use_container_width=True, height=420)
 
 
 # -----------------------------------------------------------------------------
@@ -826,209 +993,327 @@ if tab == "Overview":
         unsafe_allow_html=True,
     )
 
-    col_left, col_right = st.columns(2, gap="medium")
+    if df_tx.empty or df_segments.empty:
+        render_empty_state()
+    else:
+        col_left, col_right = st.columns([1.25, 1.0], gap="medium")
 
-    with col_left, st.container(border=True):
-        card_header("CUSTOMER TIER REVENUE TREND", "MONTHLY (£)")
-        tx_tiered = df_tx.merge(
-            df_segments[["Customer ID", "Customer Tier"]],
-            on="Customer ID",
-            how="left",
-        )
-        top_tiers = (
-            tx_tiered.groupby("Customer Tier")["Line Revenue"]
-            .sum()
-            .nlargest(5)
-            .index.tolist()
-        )
-        monthly_tier = (
-            tx_tiered[tx_tiered["Customer Tier"].isin(top_tiers)]
-            .groupby(["Year-Month", "Customer Tier"], as_index=False)["Line Revenue"]
-            .sum()
-            .sort_values("Year-Month")
-        )
-        fig_trend = go.Figure()
-        for tier_name in top_tiers:
-            sub = monthly_tier[monthly_tier["Customer Tier"] == tier_name]
-            col_hex = TIER_COLORS.get(tier_name, T["series"][0])
-            fig_trend.add_trace(
-                go.Scatter(
-                    x=sub["Year-Month"],
-                    y=sub["Line Revenue"],
-                    name=tier_name,
-                    mode="lines+markers",
-                    line={"color": col_hex, "width": 2.5, "shape": "spline", "smoothing": 0.8},
-                    fill="tozeroy",
-                    fillcolor=hex_to_rgba(col_hex, 0.06),
-                    marker={"size": 5, "color": col_hex, "line": {"width": 1.5, "color": T["bg_card"]}},
-                    hovertemplate="<b>%{fullData.name}</b>: £%{y:,.0f}<extra></extra>",
+        # Left Chart: Monthly Revenue & Order Volume (Combo Bar + Line) with Tier Breakdown Toggle
+        with col_left, st.container(border=True):
+            card_header("MONTHLY REVENUE & ORDER VOLUME", "EXECUTIVE PERFORMANCE")
+            view_mode = st.selectbox(
+                "Trend View",
+                ["Total Revenue & Orders", "Stacked Revenue by Customer Tier"],
+                label_visibility="collapsed",
+            )
+            if view_mode == "Total Revenue & Orders":
+                monthly_agg = (
+                    df_tx.groupby("Year-Month", as_index=False)
+                    .agg(Revenue=("Line Revenue", "sum"), Orders=("Invoice No", "nunique"))
+                    .sort_values("Year-Month")
                 )
-            )
-        fig_trend.update_layout(hovermode="x unified")
-        fig_trend.update_yaxes(tickprefix="£", tickformat="~s", title="", rangemode="tozero")
-        fig_trend.update_xaxes(title="", tickangle=-25, nticks=8)
-        st.plotly_chart(
-            style_plotly(fig_trend, T, height=345, bottom_margin=78, grid="y"),
-            use_container_width=True,
-            config=PLOT_CONFIG,
-        )
-
-    with col_right, st.container(border=True):
-        card_header("BUYER GROUP VALUE VS RECENCY", "BUBBLE = TOTAL SPEND")
-        seg_agg = (
-            df_segments.groupby("Buyer Group", as_index=False)
-            .agg(
-                Customers=("Customer ID", "count"),
-                Total_Spend=("Total Spend", "sum"),
-                Avg_Order_Value=("Avg Order Value", "mean"),
-                Avg_Days_Inactive=("Days Inactive", "mean"),
-            )
-        )
-        max_spend = seg_agg["Total_Spend"].max() or 1.0
-        fig_bubble = go.Figure()
-        for _, r in seg_agg.iterrows():
-            col_hex = GROUP_COLORS.get(r["Buyer Group"], T["series"][0])
-            marker_size = max(26, np.sqrt(r["Total_Spend"] / max_spend) * 70)
-            fig_bubble.add_trace(
-                go.Scatter(
-                    x=[r["Avg_Days_Inactive"]],
-                    y=[r["Avg_Order_Value"]],
-                    name=str(r["Buyer Group"]),
-                    mode="markers+text",
-                    text=[str(r["Buyer Group"])],
-                    textposition="top center",
-                    textfont={"size": 10, "color": T["text_secondary"]},
-                    cliponaxis=False,
-                    marker={
-                        "size": marker_size,
-                        "color": hex_to_rgba(col_hex, 0.74),
-                        "line": {"color": col_hex, "width": 2},
+                monthly_agg["MoM %"] = monthly_agg["Revenue"].pct_change() * 100
+                fig_rev = go.Figure()
+                fig_rev.add_trace(
+                    go.Bar(
+                        x=monthly_agg["Year-Month"],
+                        y=monthly_agg["Revenue"],
+                        name="Revenue (£)",
+                        marker_color=hex_to_rgba(T["accent"], 0.82),
+                        customdata=monthly_agg["MoM %"].fillna(0),
+                        hovertemplate="<b>%{x}</b><br>Revenue: £%{y:,.0f}<br>MoM: %{customdata:+.1f}%<extra></extra>",
+                    )
+                )
+                fig_rev.add_trace(
+                    go.Scatter(
+                        x=monthly_agg["Year-Month"],
+                        y=monthly_agg["Orders"],
+                        name="Unique Orders",
+                        yaxis="y2",
+                        mode="lines+markers",
+                        line={"color": T["green"], "width": 2.6, "shape": "spline", "smoothing": 0.7},
+                        marker={"size": 6, "color": T["green"], "line": {"width": 1.5, "color": T["bg_card"]}},
+                        hovertemplate="Orders: %{y:,}<extra></extra>",
+                    )
+                )
+                style_plotly(fig_rev, T, height=340, bottom_margin=72, grid="y")
+                fig_rev.update_layout(
+                    hovermode="x unified",
+                    yaxis={
+                        "tickprefix": "£",
+                        "tickformat": "~s",
+                        "title": "Revenue (£)",
+                        "rangemode": "tozero",
                     },
-                    customdata=[[r["Customers"], r["Total_Spend"]]],
-                    hovertemplate=(
-                        "<b>%{text}</b><br>"
-                        "Avg Order Value: £%{y:,.0f}<br>"
-                        "Days Inactive: %{x:.0f} d<br>"
-                        "Customers: %{customdata[0]:,}<br>"
-                        "Total Spend: £%{customdata[1]:,.0f}<extra></extra>"
-                    ),
+                    yaxis2={
+                        "title": "Orders",
+                        "overlaying": "y",
+                        "side": "right",
+                        "showgrid": False,
+                        "zeroline": False,
+                        "tickfont": {"size": 10, "color": T["text_muted"]},
+                        "title_font": {"size": 11, "color": T["text_secondary"]},
+                        "rangemode": "tozero",
+                    },
                 )
-            )
-        if not seg_agg.empty:
-            fig_bubble.add_hline(
-                y=seg_agg["Avg_Order_Value"].mean(),
-                line_dash="dash",
-                line_color=T["border_strong"],
-                line_width=1,
-            )
-            fig_bubble.add_vline(
-                x=seg_agg["Avg_Days_Inactive"].mean(),
-                line_dash="dash",
-                line_color=T["border_strong"],
-                line_width=1,
-            )
-            x_rng = padded_range(seg_agg["Avg_Days_Inactive"], pad=0.4)
-            y_rng = padded_range(seg_agg["Avg_Order_Value"], pad=0.4)
-            if x_rng:
-                fig_bubble.update_xaxes(range=[x_rng[1], x_rng[0]])
-            if y_rng:
-                fig_bubble.update_yaxes(range=y_rng)
-            for label, ax, ay, xa, ya in [
-                ("High value · Lapsing", 0.01, 0.99, "left", "top"),
-                ("High value · Recent", 0.99, 0.99, "right", "top"),
-                ("Low value · Lapsing", 0.01, 0.01, "left", "bottom"),
-                ("Low value · Recent", 0.99, 0.01, "right", "bottom"),
-            ]:
-                fig_bubble.add_annotation(
-                    text=label,
-                    xref="paper",
-                    yref="paper",
-                    x=ax,
-                    y=ay,
-                    xanchor=xa,
-                    yanchor=ya,
-                    showarrow=False,
-                    font={"size": 9, "color": T["text_muted"]},
-                    opacity=0.85,
+                fig_rev.update_xaxes(title="", tickangle=-25)
+                st.plotly_chart(
+                    fig_rev,
+                    use_container_width=True,
+                    config=PLOT_CONFIG,
                 )
-        fig_bubble.update_layout(showlegend=False)
-        fig_bubble.update_xaxes(title="Avg Days Inactive (Right = More Recent)")
-        fig_bubble.update_yaxes(title="Avg Order Value (£)", tickprefix="£")
-        st.plotly_chart(
-            style_plotly(fig_bubble, T, height=345, bottom_margin=55, grid="both"),
-            use_container_width=True,
-            config=PLOT_CONFIG,
-        )
-
-    # Bottom Card: Custom HTML Customer Tier Performance Table
-    with st.container(border=True):
-        card_header("CUSTOMER TIER PERFORMANCE", "SORTED BY TOTAL SPEND")
-        tier_perf = (
-            df_segments.groupby("Customer Tier", as_index=False)
-            .agg(
-                Customers=("Customer ID", "count"),
-                Total_Spend=("Total Spend", "sum"),
-                Avg_Order=("Avg Order Value", "mean"),
-                Avg_Days=("Days Inactive", "mean"),
-                Avg_Score=("Overall Score", "mean"),
-            )
-            .sort_values("Total_Spend", ascending=False)
-        )
-        grand_spend = tier_perf["Total_Spend"].sum() or 1.0
-        rows_html = []
-        for _, r in tier_perf.iterrows():
-            share_pct = (r["Total_Spend"] / grand_spend) * 100
-            days = r["Avg_Days"]
-            if days <= 45:
-                status_cls, status_txt = "pill-green", "Active"
-            elif days <= 110:
-                status_cls, status_txt = "pill-amber", "At Risk"
             else:
-                status_cls, status_txt = "pill-red", "Dormant"
+                tx_tiered = df_tx.merge(
+                    df_segments[["Customer ID", "Customer Tier"]],
+                    on="Customer ID",
+                    how="left",
+                )
+                monthly_tier = (
+                    tx_tiered.groupby(["Year-Month", "Customer Tier"], as_index=False)["Line Revenue"]
+                    .sum()
+                    .sort_values("Year-Month")
+                )
+                fig_stack = go.Figure()
+                for tier_name in tier_order:
+                    sub = monthly_tier[monthly_tier["Customer Tier"] == tier_name]
+                    if sub.empty:
+                        continue
+                    col_hex = TIER_COLORS.get(tier_name, T["series"][0])
+                    fig_stack.add_trace(
+                        go.Scatter(
+                            x=sub["Year-Month"],
+                            y=sub["Line Revenue"],
+                            name=tier_name,
+                            mode="lines",
+                            stackgroup="one",
+                            line={"color": col_hex, "width": 1.6, "shape": "spline", "smoothing": 0.6},
+                            fillcolor=hex_to_rgba(col_hex, 0.45),
+                            hovertemplate="<b>%{fullData.name}</b>: £%{y:,.0f}<extra></extra>",
+                        )
+                    )
+                fig_stack.update_layout(hovermode="x unified")
+                fig_stack.update_yaxes(tickprefix="£", tickformat="~s", title="Revenue (£)", rangemode="tozero")
+                fig_stack.update_xaxes(title="", tickangle=-25)
+                st.plotly_chart(
+                    style_plotly(fig_stack, T, height=340, bottom_margin=78, grid="y"),
+                    use_container_width=True,
+                    config=PLOT_CONFIG,
+                )
 
-            rows_html.append(
-                f"<tr>"
-                f"<td class='name-cell'>{html.escape(str(r['Customer Tier']))}</td>"
-                f"<td class='num'>{fmt_currency(r['Total_Spend'])}</td>"
-                f"<td class='num'>"
-                f"<span class='c360-bar-track'><span class='c360-bar-fill' style='width:{min(share_pct, 100):.1f}%;background:{T['accent']};'></span></span>"
-                f"{share_pct:.1f}%</td>"
-                f"<td class='num'>{int(r['Customers']):,}</td>"
-                f"<td class='num'>{fmt_currency(r['Avg_Order'])}</td>"
-                f"<td class='num'>{r['Avg_Score']:.1f} / 12</td>"
-                f"<td class='num'>{days:.0f} d</td>"
-                f"<td class='num'><span class='c360-pill {status_cls}'>{status_txt}</span></td>"
-                f"</tr>"
+        # Right Chart: Revenue Share vs Customer Share by Tier (Pareto Concentration)
+        with col_right, st.container(border=True):
+            card_header("REVENUE VS CUSTOMER CONCENTRATION", "SHARE BY TIER (%)")
+            tier_conc = (
+                df_segments.groupby("Customer Tier", as_index=False)
+                .agg(Customers=("Customer ID", "count"), Revenue=("Total Spend", "sum"))
+                .sort_values("Revenue", ascending=True)
+            )
+            tot_c = tier_conc["Customers"].sum() or 1
+            tot_r = tier_conc["Revenue"].sum() or 1.0
+            tier_conc["Customer Share (%)"] = tier_conc["Customers"] / tot_c * 100
+            tier_conc["Revenue Share (%)"] = tier_conc["Revenue"] / tot_r * 100
+
+            fig_conc = go.Figure()
+            fig_conc.add_trace(
+                go.Bar(
+                    y=tier_conc["Customer Tier"],
+                    x=tier_conc["Customer Share (%)"],
+                    name="% of Customers",
+                    orientation="h",
+                    marker_color=hex_to_rgba(T["sky"], 0.78),
+                    text=tier_conc["Customer Share (%)"].map(lambda v: f"{v:.1f}%"),
+                    textposition="outside",
+                    textfont={"size": 10, "color": T["text_muted"]},
+                    cliponaxis=False,
+                    hovertemplate="<b>%{y}</b><br>Customer Share: %{x:.1f}%<extra></extra>",
+                )
+            )
+            fig_conc.add_trace(
+                go.Bar(
+                    y=tier_conc["Customer Tier"],
+                    x=tier_conc["Revenue Share (%)"],
+                    name="% of Revenue",
+                    orientation="h",
+                    marker_color=T["green"],
+                    text=tier_conc["Revenue Share (%)"].map(lambda v: f"{v:.1f}%"),
+                    textposition="outside",
+                    textfont={"size": 10, "color": T["text_primary"]},
+                    cliponaxis=False,
+                    hovertemplate="<b>%{y}</b><br>Revenue Share: %{x:.1f}%<extra></extra>",
+                )
+            )
+            max_share = max(
+                float(tier_conc["Customer Share (%)"].max()),
+                float(tier_conc["Revenue Share (%)"].max()),
+                10.0,
+            )
+            fig_conc.update_layout(barmode="group")
+            fig_conc.update_xaxes(ticksuffix="%", range=[0, max_share * 1.24], title="Share of Total (%)")
+            fig_conc.update_yaxes(title="")
+            st.plotly_chart(
+                style_plotly(fig_conc, T, height=378, bottom_margin=64, grid="x"),
+                use_container_width=True,
+                config=PLOT_CONFIG,
             )
 
-        st.markdown(
-            render_html_table(
-                [
-                    ("Customer Tier", "left"),
-                    ("Total Spend", "right"),
-                    ("Revenue Share", "right"),
-                    ("Customers", "right"),
-                    ("Avg Order", "right"),
-                    ("Avg RFM", "right"),
-                    ("Days Inactive", "right"),
-                    ("Health", "right"),
-                ],
-                "".join(rows_html),
-            ),
-            unsafe_allow_html=True,
-        )
+        # Bottom Card: Custom HTML Customer Tier Performance Table (PRESERVED)
+        with st.container(border=True):
+            card_header("CUSTOMER TIER PERFORMANCE", "SORTED BY TOTAL SPEND")
+            tier_perf = (
+                df_segments.groupby("Customer Tier", as_index=False)
+                .agg(
+                    Customers=("Customer ID", "count"),
+                    Total_Spend=("Total Spend", "sum"),
+                    Avg_Order=("Avg Order Value", "mean"),
+                    Avg_Days=("Days Inactive", "mean"),
+                    Avg_Score=("Overall Score", "mean"),
+                )
+                .sort_values("Total_Spend", ascending=False)
+            )
+            grand_spend = tier_perf["Total_Spend"].sum() or 1.0
+            rows_html = []
+            for _, r in tier_perf.iterrows():
+                share_pct = (r["Total_Spend"] / grand_spend) * 100
+                days = r["Avg_Days"]
+                if days <= 45:
+                    status_cls, status_txt = "pill-green", "Active"
+                elif days <= 110:
+                    status_cls, status_txt = "pill-amber", "At Risk"
+                else:
+                    status_cls, status_txt = "pill-red", "Dormant"
+
+                rows_html.append(
+                    f"<tr>"
+                    f"<td class='name-cell'>{html.escape(str(r['Customer Tier']))}</td>"
+                    f"<td class='num'>{fmt_currency(r['Total_Spend'])}</td>"
+                    f"<td class='num'>"
+                    f"<span class='c360-bar-track'><span class='c360-bar-fill' style='width:{min(share_pct, 100):.1f}%;background:{T['accent']};'></span></span>"
+                    f"{share_pct:.1f}%</td>"
+                    f"<td class='num'>{int(r['Customers']):,}</td>"
+                    f"<td class='num'>{fmt_currency(r['Avg_Order'])}</td>"
+                    f"<td class='num'>{r['Avg_Score']:.1f} / 12</td>"
+                    f"<td class='num'>{days:.0f} d</td>"
+                    f"<td class='num'><span class='c360-pill {status_cls}'>{status_txt}</span></td>"
+                    f"</tr>"
+                )
+
+            st.markdown(
+                render_html_table(
+                    [
+                        ("Customer Tier", "left"),
+                        ("Total Spend", "right"),
+                        ("Revenue Share", "right"),
+                        ("Customers", "right"),
+                        ("Avg Order", "right"),
+                        ("Avg RFM", "right"),
+                        ("Days Inactive", "right"),
+                        ("Health", "right"),
+                    ],
+                    "".join(rows_html),
+                ),
+                unsafe_allow_html=True,
+            )
 
 
 elif tab == "Customers":
-    c1, c2 = st.columns(2, gap="medium")
-    with c1, st.container(border=True):
-        card_header("RFM OVERALL SCORE DISTRIBUTION", "CUSTOMERS")
-        score_dist = (
-            df_segments.groupby("Overall Score", as_index=False)["Customer ID"]
-            .count()
-            .rename(columns={"Customer ID": "Customers"})
-        )
-        if not score_dist.empty:
+    if df_segments.empty:
+        render_empty_state()
+    else:
+        # Interactive App Tool: Customer 360 Lookup
+        with st.container(border=True):
+            card_header("CUSTOMER 360 PROFILE INSPECTOR", "LIVE LOOKUP")
+            top_ids = df_segments.nlargest(200, "Total Spend")["Customer ID"].astype(int).tolist()
+            sel_cid = st.selectbox(
+                "Inspect Customer ID (Top 200 by Spend in current filter)",
+                options=top_ids,
+                format_func=lambda cid: f"Customer #{cid}",
+            )
+            cust_row = df_segments[df_segments["Customer ID"] == sel_cid].iloc[0]
+            cust_tx = df_tx[df_tx["Customer ID"] == sel_cid]
+            top_prods = (
+                cust_tx.groupby("Product Name")["Line Revenue"]
+                .sum()
+                .nlargest(3)
+                .index.tolist()
+            )
+            fav_text = ", ".join(p[:28] for p in top_prods) if top_prods else "No orders in selected months"
+
+            st.markdown(
+                f"""
+                <div class="c360-kpi-grid-4">
+                    <div class="c360-kpi">
+                        <div class="c360-kpi-label">Lifetime Spend</div>
+                        <div class="c360-kpi-val">{fmt_currency(float(cust_row['Total Spend']))}</div>
+                        <div class="c360-kpi-sub">{int(cust_row['Total Orders']):,} orders · AOV {fmt_currency(float(cust_row['Avg Order Value']))}</div>
+                    </div>
+                    <div class="c360-kpi">
+                        <div class="c360-kpi-label">Segment & Group</div>
+                        <div class="c360-kpi-val" style="font-size:1.1rem;">{html.escape(str(cust_row['Customer Tier']))}</div>
+                        <div class="c360-kpi-sub">{html.escape(str(cust_row['Buyer Group']))}</div>
+                    </div>
+                    <div class="c360-kpi">
+                        <div class="c360-kpi-label">RFM & Recency</div>
+                        <div class="c360-kpi-val">{int(cust_row['Overall Score'])} / 12</div>
+                        <div class="c360-kpi-sub">{int(cust_row['Days Inactive'])} days inactive · {html.escape(str(cust_row['Country']))}</div>
+                    </div>
+                    <div class="c360-kpi">
+                        <div class="c360-kpi-label">Top Products</div>
+                        <div class="c360-kpi-val" style="font-size:0.86rem;line-height:1.35;">{html.escape(fav_text)}</div>
+                        <div class="c360-kpi-sub">{len(cust_tx):,} items in selected window</div>
+                    </div>
+                </div>
+                """,
+                unsafe_allow_html=True,
+            )
+
+        c1, c2 = st.columns(2, gap="medium")
+
+        # Left: Customer Portfolio Treemap (Tier -> Buyer Group)
+        with c1, st.container(border=True):
+            card_header("CUSTOMER PORTFOLIO HIERARCHY", "TREEMAP · CLICK TO DRILL DOWN")
+            tree_agg = (
+                df_segments.groupby(["Customer Tier", "Buyer Group"], as_index=False)
+                .agg(
+                    Total_Spend=("Total Spend", "sum"),
+                    Customers=("Customer ID", "count"),
+                    Avg_Days=("Days Inactive", "mean"),
+                )
+            )
+            fig_tree = px.treemap(
+                tree_agg,
+                path=["Customer Tier", "Buyer Group"],
+                values="Total_Spend",
+                color="Customer Tier",
+                color_discrete_map=TIER_COLORS,
+                custom_data=["Customers", "Avg_Days"],
+            )
+            fig_tree.update_traces(
+                texttemplate="<b>%{label}</b><br>£%{value:,.0f}",
+                hovertemplate=(
+                    "<b>%{label}</b><br>"
+                    "Total Spend: £%{value:,.0f}<br>"
+                    "Customers: %{customdata[0]:,}<br>"
+                    "Avg Inactive: %{customdata[1]:.0f} d<extra></extra>"
+                ),
+                marker={"line": {"width": 1.5, "color": T["bg_card"]}},
+            )
+            fig_tree.update_layout(
+                template=T["plotly_template"],
+                height=340,
+                paper_bgcolor="rgba(0,0,0,0)",
+                margin={"l": 4, "r": 4, "t": 6, "b": 6},
+                font={"family": "Inter, sans-serif", "size": 11},
+            )
+            st.plotly_chart(fig_tree, use_container_width=True, config=PLOT_CONFIG)
+
+        # Right: RFM Score Distribution (Color-coded by Health Band)
+        with c2, st.container(border=True):
+            card_header("RFM OVERALL SCORE DISTRIBUTION", "RED ≤5 · AMBER 6–8 · GREEN 9+")
+            score_dist = (
+                df_segments.groupby("Overall Score", as_index=False)["Customer ID"]
+                .count()
+                .rename(columns={"Customer ID": "Customers"})
+            )
             full_scores = list(
                 range(
                     int(min(3, score_dist["Overall Score"].min())),
@@ -1041,113 +1326,80 @@ elif tab == "Customers":
                 .rename_axis("Overall Score")
                 .reset_index()
             )
-        total_scored = score_dist["Customers"].sum() or 1
-        bar_colors = [
-            T["green"] if s >= 9 else (T["amber"] if s >= 6 else T["red"])
-            for s in score_dist["Overall Score"]
-        ]
-        fig_rfm = go.Figure(
-            go.Bar(
-                x=score_dist["Overall Score"],
-                y=score_dist["Customers"],
-                marker_color=bar_colors,
-                marker_line_width=0,
-                text=score_dist["Customers"],
-                texttemplate="%{y:,}",
-                textposition="outside",
-                textfont={"size": 10, "color": T["text_secondary"]},
-                cliponaxis=False,
-                customdata=score_dist["Customers"] / total_scored * 100,
-                hovertemplate="RFM score %{x}<br><b>%{y:,}</b> customers (%{customdata:.1f}%)<extra></extra>",
+            total_scored = score_dist["Customers"].sum() or 1
+            bar_colors = [
+                T["green"] if s >= 9 else (T["amber"] if s >= 6 else T["red"])
+                for s in score_dist["Overall Score"]
+            ]
+            fig_rfm = go.Figure(
+                go.Bar(
+                    x=score_dist["Overall Score"],
+                    y=score_dist["Customers"],
+                    marker_color=bar_colors,
+                    marker_line_width=0,
+                    text=score_dist["Customers"],
+                    texttemplate="%{y:,}",
+                    textposition="outside",
+                    textfont={"size": 10, "color": T["text_secondary"]},
+                    cliponaxis=False,
+                    customdata=score_dist["Customers"] / total_scored * 100,
+                    hovertemplate="RFM score %{x}<br><b>%{y:,}</b> customers (%{customdata:.1f}%)<extra></extra>",
+                )
             )
-        )
-        if not score_dist.empty:
-            fig_rfm.update_yaxes(range=[0, max(1, float(score_dist["Customers"].max())) * 1.15])
-        fig_rfm.update_xaxes(dtick=1, title="Overall RFM Score (3–12) · red ≤5 · amber 6–8 · green 9+")
-        fig_rfm.update_yaxes(title="Customers")
-        st.plotly_chart(
-            style_plotly(fig_rfm, T, height=320, bottom_margin=55, grid="y"),
-            use_container_width=True,
-            config=PLOT_CONFIG,
-        )
-
-    with c2, st.container(border=True):
-        card_header("SPEND VS ORDER FREQUENCY", "TOP 1,500 CUSTOMERS")
-        sample_df = df_segments.nlargest(1500, "Total Spend")
-        log_x = spans_orders_of_magnitude(sample_df["Total Orders"], 30)
-        log_y = spans_orders_of_magnitude(sample_df["Total Spend"], 30)
-        present_tiers = set(sample_df["Customer Tier"].dropna())
-        fig_sc = px.scatter(
-            sample_df,
-            x="Total Orders",
-            y="Total Spend",
-            color="Customer Tier",
-            hover_data={
-                "Customer ID": True,
-                "Country": True,
-                "Days Inactive": ":.0f",
-                "Total Spend": ":,.0f",
-                "Total Orders": ":,",
-            },
-            color_discrete_map=TIER_COLORS,
-            category_orders={"Customer Tier": [n for n in tier_order if n in present_tiers]},
-            opacity=0.75,
-            log_x=log_x,
-            log_y=log_y,
-        )
-        fig_sc.update_traces(marker={"size": 7, "line": {"width": 0.6, "color": T["bg_card"]}})
-        fig_sc.update_yaxes(tickprefix="£", tickformat="~s", title="Total Spend (£)" + (" · log scale" if log_y else ""))
-        fig_sc.update_xaxes(title="Total Orders" + (" · log scale" if log_x else ""))
-        st.plotly_chart(
-            style_plotly(fig_sc, T, height=320, bottom_margin=72, grid="both"),
-            use_container_width=True,
-            config=PLOT_CONFIG,
-        )
-
-    with st.container(border=True):
-        card_header("TOP CUSTOMERS LEADERBOARD", "TOP 25 BY SPEND")
-        top_cust = df_segments.nlargest(25, "Total Spend")
-        c_rows = []
-        for _, r in top_cust.iterrows():
-            score = int(r["Overall Score"])
-            pill_cls = "pill-green" if score >= 9 else ("pill-amber" if score >= 6 else "pill-red")
-            c_rows.append(
-                f"<tr>"
-                f"<td class='name-cell'>#{int(r['Customer ID'])}</td>"
-                f"<td>{html.escape(str(r['Country']))}</td>"
-                f"<td>{html.escape(str(r['Customer Tier']))}</td>"
-                f"<td>{html.escape(str(r['Buyer Group']))}</td>"
-                f"<td class='num'>{fmt_currency(r['Total Spend'])}</td>"
-                f"<td class='num'>{int(r['Total Orders']):,}</td>"
-                f"<td class='num'>{fmt_currency(r['Avg Order Value'])}</td>"
-                f"<td class='num'>{int(r['Days Inactive'])} d</td>"
-                f"<td class='num'><span class='c360-pill {pill_cls}'>{score} / 12</span></td>"
-                f"</tr>"
+            fig_rfm.update_yaxes(range=[0, max(1, float(score_dist["Customers"].max())) * 1.16], title="Customers")
+            fig_rfm.update_xaxes(dtick=1, title="Overall RFM Score (3–12)")
+            st.plotly_chart(
+                style_plotly(fig_rfm, T, height=340, bottom_margin=55, grid="y"),
+                use_container_width=True,
+                config=PLOT_CONFIG,
             )
-        st.markdown(
-            render_html_table(
-                [
-                    ("Customer ID", "left"),
-                    ("Country", "left"),
-                    ("Tier", "left"),
-                    ("Buyer Group", "left"),
-                    ("Total Spend", "right"),
-                    ("Orders", "right"),
-                    ("Avg Order", "right"),
-                    ("Inactive", "right"),
-                    ("RFM Score", "right"),
-                ],
-                "".join(c_rows),
-            ),
-            unsafe_allow_html=True,
-        )
+
+        # Bottom Card: Top Customers Leaderboard Table (PRESERVED)
+        with st.container(border=True):
+            card_header("TOP CUSTOMERS LEADERBOARD", "TOP 25 BY SPEND")
+            top_cust = df_segments.nlargest(25, "Total Spend")
+            c_rows = []
+            for _, r in top_cust.iterrows():
+                score = int(r["Overall Score"])
+                pill_cls = "pill-green" if score >= 9 else ("pill-amber" if score >= 6 else "pill-red")
+                c_rows.append(
+                    f"<tr>"
+                    f"<td class='name-cell'>#{int(r['Customer ID'])}</td>"
+                    f"<td>{html.escape(str(r['Country']))}</td>"
+                    f"<td>{html.escape(str(r['Customer Tier']))}</td>"
+                    f"<td>{html.escape(str(r['Buyer Group']))}</td>"
+                    f"<td class='num'>{fmt_currency(r['Total Spend'])}</td>"
+                    f"<td class='num'>{int(r['Total Orders']):,}</td>"
+                    f"<td class='num'>{fmt_currency(r['Avg Order Value'])}</td>"
+                    f"<td class='num'>{int(r['Days Inactive'])} d</td>"
+                    f"<td class='num'><span class='c360-pill {pill_cls}'>{score} / 12</span></td>"
+                    f"</tr>"
+                )
+            st.markdown(
+                render_html_table(
+                    [
+                        ("Customer ID", "left"),
+                        ("Country", "left"),
+                        ("Tier", "left"),
+                        ("Buyer Group", "left"),
+                        ("Total Spend", "right"),
+                        ("Orders", "right"),
+                        ("Avg Order", "right"),
+                        ("Inactive", "right"),
+                        ("RFM Score", "right"),
+                    ],
+                    "".join(c_rows),
+                ),
+                unsafe_allow_html=True,
+            )
 
 
 elif tab == "Cohorts":
-    c1, c2 = st.columns([1.3, 1.0], gap="medium")
+    c1, c2 = st.columns([1.25, 1.0], gap="medium")
 
+    # Left: Cohort Retention Matrix Heatmap (M+1 scaled)
     with c1, st.container(border=True):
-        card_header("COHORT RETENTION MATRIX (%)", "MONTHS SINCE FIRST PURCHASE")
+        card_header("COHORT RETENTION MATRIX (%)", "SCALE TUNED TO M+1 ONWARDS")
         piv = df_cohort.pivot(
             index="First Purchase Month",
             columns="Months Since First Purchase",
@@ -1155,8 +1407,7 @@ elif tab == "Cohorts":
         )
         later = piv.drop(columns=[0], errors="ignore")
         if later.size and later.notna().to_numpy().any():
-            z_cap = float(np.nanmax(later.to_numpy(dtype=float)))
-            z_cap = max(5.0, float(np.ceil(z_cap / 5.0) * 5.0))
+            z_cap = max(5.0, float(np.ceil(float(np.nanmax(later.to_numpy(dtype=float))) / 5.0) * 5.0))
         else:
             z_cap = 100.0
         y_labels = [v.strftime("%Y-%m") if hasattr(v, "strftime") else str(v) for v in piv.index]
@@ -1183,55 +1434,89 @@ elif tab == "Cohorts":
                 },
             )
         )
-        fig_hm.update_xaxes(title="Months Since First Purchase (colour scale excludes M+0)", dtick=1, side="bottom")
+        fig_hm.update_xaxes(title="Months Since First Purchase", dtick=1, side="bottom")
         fig_hm.update_yaxes(title="Cohort Month", type="category", autorange="reversed")
         st.plotly_chart(
-            style_plotly(fig_hm, T, height=390, bottom_margin=55, grid="none"),
+            style_plotly(fig_hm, T, height=395, bottom_margin=55, grid="none"),
             use_container_width=True,
             config=PLOT_CONFIG,
         )
 
+    # Right: Retention Decay Benchmark (Mean + P25–P75 Shaded Band + Optional Cohort Overlay)
     with c2, st.container(border=True):
-        card_header("RETENTION DECAY CURVE", "TOP 6 COHORTS + ALL-COHORT AVG")
-        top_cohorts = sorted(df_cohort["First Purchase Month"].unique())[:6]
-        sub_coh = df_cohort[df_cohort["First Purchase Month"].isin(top_cohorts)]
-        fig_dec = go.Figure()
-        for idx, cm in enumerate(top_cohorts):
-            s = sub_coh[sub_coh["First Purchase Month"] == cm].sort_values("Months Since First Purchase")
-            col_hex = T["series"][idx % len(T["series"])]
-            fig_dec.add_trace(
+        card_header("RETENTION DECAY BENCHMARK", "MEAN + P25–P75 IQR BAND")
+        cohort_opts = ["None (Benchmark Only)", *sorted(df_cohort["First Purchase Month"].unique().tolist())]
+        overlay_cm = st.selectbox("Compare Specific Cohort", cohort_opts, label_visibility="collapsed")
+
+        bench = (
+            df_cohort.groupby("Months Since First Purchase")["Retention Rate (%)"]
+            .agg(
+                mean="mean",
+                p25=lambda s: float(np.percentile(s, 25)),
+                p75=lambda s: float(np.percentile(s, 75)),
+            )
+            .reset_index()
+            .sort_values("Months Since First Purchase")
+        )
+        fig_bench = go.Figure()
+        fig_bench.add_trace(
+            go.Scatter(
+                x=bench["Months Since First Purchase"],
+                y=bench["p75"],
+                mode="lines",
+                line={"width": 0},
+                showlegend=False,
+                hoverinfo="skip",
+            )
+        )
+        fig_bench.add_trace(
+            go.Scatter(
+                x=bench["Months Since First Purchase"],
+                y=bench["p25"],
+                mode="lines",
+                line={"width": 0},
+                fill="tonexty",
+                fillcolor=hex_to_rgba(T["accent"], 0.18),
+                name="P25–P75 Range",
+                hovertemplate="P25: %{y:.1f}%<extra></extra>",
+            )
+        )
+        fig_bench.add_trace(
+            go.Scatter(
+                x=bench["Months Since First Purchase"],
+                y=bench["mean"],
+                name="All-Cohort Mean",
+                mode="lines+markers",
+                line={"color": T["accent"], "width": 2.8, "shape": "spline", "smoothing": 0.7},
+                marker={"size": 6, "color": T["accent"], "line": {"width": 1.5, "color": T["bg_card"]}},
+                hovertemplate="<b>Mean</b>: %{y:.1f}%<extra></extra>",
+            )
+        )
+        if overlay_cm != "None (Benchmark Only)":
+            sel_s = df_cohort[df_cohort["First Purchase Month"] == overlay_cm].sort_values(
+                "Months Since First Purchase"
+            )
+            fig_bench.add_trace(
                 go.Scatter(
-                    x=s["Months Since First Purchase"],
-                    y=s["Retention Rate (%)"],
-                    name=str(cm),
+                    x=sel_s["Months Since First Purchase"],
+                    y=sel_s["Retention Rate (%)"],
+                    name=f"Cohort {overlay_cm}",
                     mode="lines+markers",
-                    line={"color": col_hex, "width": 2.2, "shape": "spline", "smoothing": 0.8},
-                    marker={"size": 5, "color": col_hex, "line": {"width": 1.2, "color": T["bg_card"]}},
-                    hovertemplate="<b>%{fullData.name}</b>: %{y:.1f}%<extra></extra>",
+                    line={"color": T["green"], "width": 2.6},
+                    marker={"size": 6, "color": T["green"], "line": {"width": 1.5, "color": T["bg_card"]}},
+                    hovertemplate=f"<b>{html.escape(str(overlay_cm))}</b>: %{{y:.1f}}%<extra></extra>",
                 )
             )
-        avg_curve = (
-            df_cohort.groupby("Months Since First Purchase")["Retention Rate (%)"].mean().sort_index()
-        )
-        fig_dec.add_trace(
-            go.Scatter(
-                x=avg_curve.index,
-                y=avg_curve.values,
-                name="All-cohort avg",
-                mode="lines",
-                line={"color": T["text_primary"], "width": 2.4, "dash": "dash"},
-                hovertemplate="<b>All-cohort avg</b>: %{y:.1f}%<extra></extra>",
-            )
-        )
-        fig_dec.update_layout(hovermode="x unified")
-        fig_dec.update_yaxes(ticksuffix="%", title="Retention Rate", rangemode="tozero")
-        fig_dec.update_xaxes(dtick=1, title="Months Since First Purchase")
+        fig_bench.update_layout(hovermode="x unified")
+        fig_bench.update_yaxes(ticksuffix="%", title="Retention Rate", rangemode="tozero")
+        fig_bench.update_xaxes(dtick=1, title="Months Since First Purchase")
         st.plotly_chart(
-            style_plotly(fig_dec, T, height=390, bottom_margin=85, grid="y"),
+            style_plotly(fig_bench, T, height=348, bottom_margin=72, grid="y"),
             use_container_width=True,
             config=PLOT_CONFIG,
         )
 
+    # Bottom Card: Cohort Performance Summary Table (PRESERVED)
     with st.container(border=True):
         card_header("COHORT PERFORMANCE SUMMARY", "M+0 TO M+3")
         coh_summary = (
@@ -1282,323 +1567,354 @@ elif tab == "Bundles":
             | bf["Product B"].str.lower().str.contains(q, na=False)
         ]
 
-    col_b1, col_b2 = st.columns(2, gap="medium")
-    with col_b1, st.container(border=True):
-        card_header("BUNDLE LIFT VS ORDER SHARE", "TOP 150 PAIRS")
-        top_b = bf.nlargest(150, "Orders Together")
-        log_x = spans_orders_of_magnitude(top_b["Order Share (%)"], 20)
-        log_y = spans_orders_of_magnitude(top_b["Bundle Lift"], 20)
-        fig_b = px.scatter(
-            top_b,
-            x="Order Share (%)",
-            y="Bundle Lift",
-            size="Orders Together",
-            color="Buy A -> Buy B (%)",
-            custom_data=["Product A", "Product B", "Orders Together", "Buy A -> Buy B (%)"],
-            color_continuous_scale="Teal" if theme_name == "Light" else "Mint",
-            size_max=30,
-            log_x=log_x,
-            log_y=log_y,
-        )
-        fig_b.update_traces(
-            marker={"opacity": 0.85, "line": {"width": 0.8, "color": T["bg_card"]}},
-            hovertemplate=(
-                "<b>%{customdata[0]}</b><br>+ %{customdata[1]}<br>"
-                "Orders together: %{customdata[2]:,}<br>"
-                "Order share: %{x:.2f}%<br>"
-                "Lift: %{y:.2f}x<br>"
-                "Buy A → B: %{customdata[3]:.1f}%<extra></extra>"
-            ),
-        )
-        fig_b.update_coloraxes(
-            colorbar={
-                "title": {"text": "Buy A → B", "font": {"size": 10, "color": T["text_secondary"]}},
-                "thickness": 8,
-                "len": 0.75,
-                "outlinewidth": 0,
-                "ticksuffix": "%",
-                "tickfont": {"size": 9, "color": T["text_muted"]},
-            }
-        )
-        fig_b.update_xaxes(ticksuffix="%", title="Order Share (%)" + (" · log scale" if log_x else ""))
-        fig_b.update_yaxes(title="Bundle Lift (x)" + (" · log scale" if log_y else ""))
-        st.plotly_chart(
-            style_plotly(fig_b, T, height=380, bottom_margin=55, grid="both"),
-            use_container_width=True,
-            config=PLOT_CONFIG,
-        )
+    if bf.empty:
+        render_empty_state("No product bundles match your sidebar thresholds.")
+    else:
+        col_b1, col_b2 = st.columns(2, gap="medium")
 
-    with col_b2, st.container(border=True):
-        card_header("TOP 10 CO-OCCURRING BUNDLES", "ORDERS TOGETHER")
-        top10_b = bf.nlargest(10, "Orders Together").sort_values("Orders Together").reset_index(drop=True)
-        pair_labels = [
-            f"{html.escape(str(a)[:24])}<br>+ {html.escape(str(b)[:24])}"
-            for a, b in zip(top10_b["Product A"], top10_b["Product B"])
-        ]
-        fig_bar = go.Figure(
-            go.Bar(
-                x=top10_b["Orders Together"],
-                y=list(range(len(top10_b))),
-                orientation="h",
-                marker_color=T["green"],
-                marker_line_width=0,
-                text=top10_b["Orders Together"],
-                texttemplate="%{x:,}",
-                textposition="outside",
-                textfont={"size": 10, "color": T["text_secondary"]},
-                cliponaxis=False,
-                customdata=np.stack(
-                    [top10_b["Product A"].astype(str), top10_b["Product B"].astype(str), top10_b["Bundle Lift"]],
-                    axis=-1,
-                ),
-                hovertemplate=(
-                    "<b>%{customdata[0]}</b><br>+ %{customdata[1]}<br>"
-                    "%{x:,} orders together · lift %{customdata[2]:.2f}x<extra></extra>"
-                ),
+        # Left: Interactive Cross-Sell Recommender Tool
+        with col_b1, st.container(border=True):
+            card_header("CROSS-SELL RECOMMENDER", "ATTACHMENT RATE (BUY A → BUY B)")
+            anchor_prods = (
+                bf.groupby("Product A")["Orders Together"]
+                .sum()
+                .nlargest(60)
+                .index.tolist()
             )
-        )
-        fig_bar.update_yaxes(title="", tickmode="array", tickvals=list(range(len(top10_b))), ticktext=pair_labels)
-        fig_bar.update_xaxes(title="Orders Together")
-        if not top10_b.empty:
-            fig_bar.update_xaxes(range=[0, float(top10_b["Orders Together"].max()) * 1.15])
-        st.plotly_chart(
-            style_plotly(fig_bar, T, height=380, bottom_margin=55, grid="x"),
-            use_container_width=True,
-            config=PLOT_CONFIG,
-        )
+            sel_anchor = st.selectbox("Select Anchor Product", anchor_prods, label_visibility="collapsed")
+            recs = (
+                bf[bf["Product A"] == sel_anchor]
+                .nlargest(8, "Buy A -> Buy B (%)")
+                .sort_values("Buy A -> Buy B (%)")
+            )
+            fig_rec = go.Figure(
+                go.Bar(
+                    x=recs["Buy A -> Buy B (%)"],
+                    y=recs["Product B"].str.slice(0, 32),
+                    orientation="h",
+                    marker_color=T["accent"],
+                    marker_line_width=0,
+                    text=[f"{p:.1f}% ({lift:.1f}x)" for p, lift in zip(recs["Buy A -> Buy B (%)"], recs["Bundle Lift"])],
+                    textposition="outside",
+                    textfont={"size": 10, "color": T["text_secondary"]},
+                    cliponaxis=False,
+                    customdata=np.stack([recs["Product B"], recs["Orders Together"], recs["Bundle Lift"]], axis=-1),
+                    hovertemplate=(
+                        "<b>%{customdata[0]}</b><br>"
+                        "Attachment Rate: %{x:.1f}%<br>"
+                        "Orders Together: %{customdata[1]:,}<br>"
+                        "Bundle Lift: %{customdata[2]:.2f}x<extra></extra>"
+                    ),
+                )
+            )
+            max_conf = float(recs["Buy A -> Buy B (%)"].max()) if not recs.empty else 50.0
+            fig_rec.update_xaxes(ticksuffix="%", range=[0, min(115.0, max_conf * 1.32)], title="Probability Buyer Adds Item (%)")
+            fig_rec.update_yaxes(title="")
+            st.plotly_chart(
+                style_plotly(fig_rec, T, height=340, bottom_margin=55, grid="x"),
+                use_container_width=True,
+                config=PLOT_CONFIG,
+            )
 
-    with st.container(border=True):
-        card_header("CROSS-SELL BUNDLE PERFORMANCE", "TOP 25 MATCHING PAIRS")
-        b_rows = []
-        for _, r in bf.nlargest(25, "Bundle Lift").iterrows():
-            lift = float(r["Bundle Lift"])
-            lift_cls = "pill-green" if lift >= 8 else ("pill-sky" if lift >= 4 else "pill-amber")
-            b_rows.append(
-                f"<tr>"
-                f"<td class='name-cell'>{html.escape(str(r['Product A'])[:38])}</td>"
-                f"<td class='name-cell'>{html.escape(str(r['Product B'])[:38])}</td>"
-                f"<td class='num'>{int(r['Orders Together']):,}</td>"
-                f"<td class='num'>{r['Order Share (%)']:.2f}%</td>"
-                f"<td class='num'>{r['Buy A -> Buy B (%)']:.1f}%</td>"
-                f"<td class='num'>{r['Buy B -> Buy A (%)']:.1f}%</td>"
-                f"<td class='num'><span class='c360-pill {lift_cls}'>{lift:.2f}x</span></td>"
-                f"</tr>"
+        # Right: Top 10 Co-Occurring Bundles
+        with col_b2, st.container(border=True):
+            card_header("TOP 10 CO-OCCURRING BUNDLES", "ORDERS TOGETHER")
+            top10_b = bf.nlargest(10, "Orders Together").sort_values("Orders Together").reset_index(drop=True)
+            pair_labels = [
+                f"{html.escape(str(a)[:22])}<br>+ {html.escape(str(b)[:22])}"
+                for a, b in zip(top10_b["Product A"], top10_b["Product B"])
+            ]
+            fig_bar = go.Figure(
+                go.Bar(
+                    x=top10_b["Orders Together"],
+                    y=list(range(len(top10_b))),
+                    orientation="h",
+                    marker_color=T["green"],
+                    marker_line_width=0,
+                    text=top10_b["Orders Together"],
+                    texttemplate="%{x:,}",
+                    textposition="outside",
+                    textfont={"size": 10, "color": T["text_secondary"]},
+                    cliponaxis=False,
+                    customdata=np.stack(
+                        [top10_b["Product A"].astype(str), top10_b["Product B"].astype(str), top10_b["Bundle Lift"]],
+                        axis=-1,
+                    ),
+                    hovertemplate=(
+                        "<b>%{customdata[0]}</b><br>+ %{customdata[1]}<br>"
+                        "%{x:,} orders together · lift %{customdata[2]:.2f}x<extra></extra>"
+                    ),
+                )
             )
-        st.markdown(
-            render_html_table(
-                [
-                    ("Product A", "left"),
-                    ("Product B", "left"),
-                    ("Orders Together", "right"),
-                    ("Order Share", "right"),
-                    ("A → B", "right"),
-                    ("B → A", "right"),
-                    ("Bundle Lift", "right"),
-                ],
-                "".join(b_rows),
-            ),
-            unsafe_allow_html=True,
-        )
+            fig_bar.update_yaxes(title="", tickmode="array", tickvals=list(range(len(top10_b))), ticktext=pair_labels)
+            fig_bar.update_xaxes(title="Orders Together", range=[0, float(top10_b["Orders Together"].max()) * 1.18])
+            st.plotly_chart(
+                style_plotly(fig_bar, T, height=388, bottom_margin=55, grid="x"),
+                use_container_width=True,
+                config=PLOT_CONFIG,
+            )
+
+        # Bottom Card: Cross-Sell Bundle Performance Table (PRESERVED)
+        with st.container(border=True):
+            card_header("CROSS-SELL BUNDLE PERFORMANCE", "TOP 25 MATCHING PAIRS")
+            b_rows = []
+            for _, r in bf.nlargest(25, "Bundle Lift").iterrows():
+                lift = float(r["Bundle Lift"])
+                lift_cls = "pill-green" if lift >= 8 else ("pill-sky" if lift >= 4 else "pill-amber")
+                b_rows.append(
+                    f"<tr>"
+                    f"<td class='name-cell'>{html.escape(str(r['Product A'])[:38])}</td>"
+                    f"<td class='name-cell'>{html.escape(str(r['Product B'])[:38])}</td>"
+                    f"<td class='num'>{int(r['Orders Together']):,}</td>"
+                    f"<td class='num'>{r['Order Share (%)']:.2f}%</td>"
+                    f"<td class='num'>{r['Buy A -> Buy B (%)']:.1f}%</td>"
+                    f"<td class='num'>{r['Buy B -> Buy A (%)']:.1f}%</td>"
+                    f"<td class='num'><span class='c360-pill {lift_cls}'>{lift:.2f}x</span></td>"
+                    f"</tr>"
+                )
+            st.markdown(
+                render_html_table(
+                    [
+                        ("Product A", "left"),
+                        ("Product B", "left"),
+                        ("Orders Together", "right"),
+                        ("Order Share", "right"),
+                        ("A → B", "right"),
+                        ("B → A", "right"),
+                        ("Bundle Lift", "right"),
+                    ],
+                    "".join(b_rows),
+                ),
+                unsafe_allow_html=True,
+            )
 
 
 elif tab == "Geography":
-    # World Map Card: Every country in the database marked in a distinct color
-    with st.container(border=True):
-        card_header("GLOBAL MARKET FOOTPRINT", "EACH ACTIVE COUNTRY MARKED IN A DISTINCT COLOR")
-        map_agg = (
-            df_tx[df_tx["Country"] != "Not Specified"]
-            .groupby("Country", as_index=False)
-            .agg(
-                Revenue=("Line Revenue", "sum"),
-                Orders=("Invoice No", "nunique"),
-                Customers=("Customer ID", "nunique"),
-                Units=("Quantity", "sum"),
-            )
-        )
-        geo_name_fix = {
-            "Channel Islands": "Guernsey",
-            "West Indies": "Jamaica",
-        }
-        map_agg["Map_Country"] = map_agg["Country"].replace(geo_name_fix)
-        palette_48 = (
-            px.colors.qualitative.Alphabet
-            + (px.colors.qualitative.Light24 if theme_name == "Dark" else px.colors.qualitative.Dark24)
-            + px.colors.qualitative.Bold
-            + px.colors.qualitative.Vivid
-        )
-        fig_map = px.choropleth(
-            map_agg,
-            locations="Map_Country",
-            locationmode="country names",
-            color="Country",
-            custom_data=["Country", "Revenue", "Orders", "Customers", "Units"],
-            color_discrete_sequence=palette_48,
-        )
-        fig_map.update_traces(
-            marker_line_color=T["bg_card"],
-            marker_line_width=0.6,
-            hovertemplate=(
-                "<b>%{customdata[0]}</b><br>"
-                "Revenue: £%{customdata[1]:,.0f}<br>"
-                "Orders: %{customdata[2]:,}<br>"
-                "Customers: %{customdata[3]:,}<br>"
-                "Units: %{customdata[4]:,}<extra></extra>"
-            ),
-        )
-        fig_map.update_geos(
-            projection_type="natural earth",
-            lataxis_range=[-58, 84],
-            showcountries=True,
-            countrycolor=T["border_strong"],
-            countrywidth=0.5,
-            showcoastlines=True,
-            coastlinecolor=T["border"],
-            coastlinewidth=0.5,
-            showland=True,
-            landcolor=T["map_land"],
-            showocean=True,
-            oceancolor=T["map_ocean"],
-            showlakes=False,
-            bgcolor="rgba(0,0,0,0)",
-            showframe=False,
-        )
-        fig_map.update_layout(
-            template=T["plotly_template"],
-            height=430,
-            paper_bgcolor="rgba(0,0,0,0)",
-            plot_bgcolor="rgba(0,0,0,0)",
-            font={"family": "Inter, sans-serif", "color": T["text_secondary"], "size": 11},
-            margin={"l": 0, "r": 0, "t": 4, "b": 4},
-            showlegend=False,
-            hoverlabel={
-                "bgcolor": T["bg_nav"],
-                "bordercolor": T["border_strong"],
-                "font": {"family": "Inter, sans-serif", "color": T["text_primary"], "size": 12},
-                "align": "left",
-            },
-        )
-        st.plotly_chart(fig_map, use_container_width=True, config=PLOT_CONFIG)
-
-    g1, g2 = st.columns(2, gap="medium")
-
-    with g1, st.container(border=True):
-        card_header("TOP COUNTRIES BY REVENUE", "MARKET DISTRIBUTION")
-        geo_df = df_tx if inc_uk else df_tx[df_tx["Country"] != "United Kingdom"]
-        geo_agg = (
-            geo_df.groupby("Country", as_index=False)
-            .agg(Revenue=("Line Revenue", "sum"), Orders=("Invoice No", "nunique"), Customers=("Customer ID", "nunique"))
-            .nlargest(12, "Revenue")
-            .sort_values("Revenue")
-        )
-        fig_geo = go.Figure(
-            go.Bar(
-                x=geo_agg["Revenue"],
-                y=geo_agg["Country"],
-                orientation="h",
-                marker_color=T["sky"],
-                marker_line_width=0,
-                text=geo_agg["Revenue"].map(short_gbp),
-                textposition="outside",
-                textfont={"size": 10, "color": T["text_secondary"]},
-                cliponaxis=False,
-                customdata=np.stack([geo_agg["Orders"], geo_agg["Customers"]], axis=-1),
-                hovertemplate=(
-                    "<b>%{y}</b><br>Revenue: £%{x:,.0f}<br>"
-                    "Orders: %{customdata[0]:,}<br>Customers: %{customdata[1]:,}<extra></extra>"
-                ),
-            )
-        )
-        if not geo_agg.empty:
-            fig_geo.update_xaxes(range=[0, float(geo_agg["Revenue"].max()) * 1.18])
-        fig_geo.update_xaxes(tickprefix="£", tickformat="~s", title="Revenue (£)")
-        fig_geo.update_yaxes(title="")
-        st.plotly_chart(
-            style_plotly(fig_geo, T, height=340, bottom_margin=55, grid="x"),
-            use_container_width=True,
-            config=PLOT_CONFIG,
-        )
-
-    with g2, st.container(border=True):
-        card_header("REVENUE BY ORDER HOUR", "24-HOUR TRAFFIC CURVE")
-        hr_agg = (
-            df_tx.groupby("Order Hour", as_index=False)
-            .agg(Revenue=("Line Revenue", "sum"), Orders=("Invoice No", "nunique"))
-            .sort_values("Order Hour")
-        )
-        fig_hr = go.Figure(
-            go.Scatter(
-                x=hr_agg["Order Hour"],
-                y=hr_agg["Revenue"],
-                mode="lines+markers",
-                line={"color": T["amber"], "width": 2.6, "shape": "spline", "smoothing": 0.8},
-                fill="tozeroy",
-                fillcolor=hex_to_rgba(T["amber"], 0.14),
-                marker={"size": 6, "color": T["amber"], "line": {"width": 1.5, "color": T["bg_card"]}},
-                customdata=hr_agg["Orders"],
-                hovertemplate="<b>%{x}:00</b><br>Revenue: £%{y:,.0f}<br>Orders: %{customdata:,}<extra></extra>",
-            )
-        )
-        if not hr_agg.empty:
-            peak = hr_agg.loc[hr_agg["Revenue"].idxmax()]
-            fig_hr.add_trace(
-                go.Scatter(
-                    x=[peak["Order Hour"]],
-                    y=[peak["Revenue"]],
-                    mode="markers+text",
-                    marker={"size": 12, "color": T["amber"], "line": {"width": 2.5, "color": T["bg_card"]}},
-                    text=[f"Peak {int(peak['Order Hour'])}:00 · {short_gbp(peak['Revenue'])}"],
-                    textposition="top center",
-                    textfont={"size": 10, "color": T["text_primary"]},
-                    cliponaxis=False,
-                    hoverinfo="skip",
+    if df_tx.empty:
+        render_empty_state()
+    else:
+        # World Map Card (PRESERVED — every country marked in a distinct color)
+        with st.container(border=True):
+            card_header("GLOBAL MARKET FOOTPRINT", "EACH ACTIVE COUNTRY MARKED IN A DISTINCT COLOR")
+            map_agg = (
+                df_tx[df_tx["Country"] != "Not Specified"]
+                .groupby("Country", as_index=False)
+                .agg(
+                    Revenue=("Line Revenue", "sum"),
+                    Orders=("Invoice No", "nunique"),
+                    Customers=("Customer ID", "nunique"),
+                    Units=("Quantity", "sum"),
                 )
             )
-            fig_hr.update_xaxes(range=[hr_agg["Order Hour"].min() - 0.6, hr_agg["Order Hour"].max() + 0.6])
-            fig_hr.update_yaxes(range=[0, float(hr_agg["Revenue"].max()) * 1.2])
-        fig_hr.update_layout(showlegend=False)
-        fig_hr.update_xaxes(dtick=3, ticksuffix=":00", title="Hour of Day (24h)")
-        fig_hr.update_yaxes(tickprefix="£", tickformat="~s", title="Revenue (£)")
-        st.plotly_chart(
-            style_plotly(fig_hr, T, height=340, bottom_margin=55, grid="y"),
-            use_container_width=True,
-            config=PLOT_CONFIG,
-        )
-
-    with st.container(border=True):
-        card_header("COUNTRY PERFORMANCE BREAKDOWN", "TOP 15 MARKETS")
-        all_geo = (
-            df_tx.groupby("Country", as_index=False)
-            .agg(Revenue=("Line Revenue", "sum"), Orders=("Invoice No", "nunique"), Customers=("Customer ID", "nunique"), Units=("Quantity", "sum"))
-            .nlargest(15, "Revenue")
-        )
-        tot_geo_rev = df_tx["Line Revenue"].sum() or 1.0
-        g_rows = []
-        for _, r in all_geo.iterrows():
-            aov_c = r["Revenue"] / r["Orders"] if r["Orders"] else 0.0
-            share = (r["Revenue"] / tot_geo_rev) * 100
-            g_rows.append(
-                f"<tr>"
-                f"<td class='name-cell'>{html.escape(str(r['Country']))}</td>"
-                f"<td class='num'>{fmt_currency(r['Revenue'])}</td>"
-                f"<td class='num'>{share:.1f}%</td>"
-                f"<td class='num'>{int(r['Customers']):,}</td>"
-                f"<td class='num'>{int(r['Orders']):,}</td>"
-                f"<td class='num'>{fmt_currency(aov_c)}</td>"
-                f"<td class='num'>{int(r['Units']):,}</td>"
-                f"</tr>"
+            geo_name_fix = {
+                "Channel Islands": "Guernsey",
+                "West Indies": "Jamaica",
+            }
+            map_agg["Map_Country"] = map_agg["Country"].replace(geo_name_fix)
+            palette_48 = (
+                px.colors.qualitative.Alphabet
+                + (px.colors.qualitative.Light24 if theme_name == "Dark" else px.colors.qualitative.Dark24)
+                + px.colors.qualitative.Bold
+                + px.colors.qualitative.Vivid
             )
-        st.markdown(
-            render_html_table(
-                [
-                    ("Country", "left"),
-                    ("Revenue", "right"),
-                    ("Share", "right"),
-                    ("Customers", "right"),
-                    ("Orders", "right"),
-                    ("Avg Order", "right"),
-                    ("Units Sold", "right"),
-                ],
-                "".join(g_rows),
-            ),
-            unsafe_allow_html=True,
-        )
+            fig_map = px.choropleth(
+                map_agg,
+                locations="Map_Country",
+                locationmode="country names",
+                color="Country",
+                custom_data=["Country", "Revenue", "Orders", "Customers", "Units"],
+                color_discrete_sequence=palette_48,
+            )
+            fig_map.update_traces(
+                marker_line_color=T["bg_card"],
+                marker_line_width=0.6,
+                hovertemplate=(
+                    "<b>%{customdata[0]}</b><br>"
+                    "Revenue: £%{customdata[1]:,.0f}<br>"
+                    "Orders: %{customdata[2]:,}<br>"
+                    "Customers: %{customdata[3]:,}<br>"
+                    "Units: %{customdata[4]:,}<extra></extra>"
+                ),
+            )
+            fig_map.update_geos(
+                projection_type="natural earth",
+                lataxis_range=[-58, 84],
+                showcountries=True,
+                countrycolor=T["border_strong"],
+                countrywidth=0.5,
+                showcoastlines=True,
+                coastlinecolor=T["border"],
+                coastlinewidth=0.5,
+                showland=True,
+                landcolor=T["map_land"],
+                showocean=True,
+                oceancolor=T["map_ocean"],
+                showlakes=False,
+                bgcolor="rgba(0,0,0,0)",
+                showframe=False,
+            )
+            fig_map.update_layout(
+                template=T["plotly_template"],
+                height=420,
+                paper_bgcolor="rgba(0,0,0,0)",
+                plot_bgcolor="rgba(0,0,0,0)",
+                font={"family": "Inter, sans-serif", "color": T["text_secondary"], "size": 11},
+                margin={"l": 0, "r": 0, "t": 4, "b": 4},
+                showlegend=False,
+                hoverlabel={
+                    "bgcolor": T["bg_nav"],
+                    "bordercolor": T["border_strong"],
+                    "font": {"family": "Inter, sans-serif", "color": T["text_primary"], "size": 12},
+                    "align": "left",
+                },
+            )
+            st.plotly_chart(fig_map, use_container_width=True, config=PLOT_CONFIG)
+
+        g1, g2 = st.columns(2, gap="medium")
+
+        # Left: Top Countries by Revenue
+        with g1, st.container(border=True):
+            card_header("TOP COUNTRIES BY REVENUE", "MARKET DISTRIBUTION")
+            geo_df = df_tx if inc_uk else df_tx[df_tx["Country"] != "United Kingdom"]
+            geo_agg = (
+                geo_df.groupby("Country", as_index=False)
+                .agg(Revenue=("Line Revenue", "sum"), Orders=("Invoice No", "nunique"), Customers=("Customer ID", "nunique"))
+                .nlargest(12, "Revenue")
+                .sort_values("Revenue")
+            )
+            if geo_agg.empty:
+                render_empty_state("Enable 'Include UK in Bar Chart' in the sidebar or adjust Country filters.")
+            else:
+                fig_geo = go.Figure(
+                    go.Bar(
+                        x=geo_agg["Revenue"],
+                        y=geo_agg["Country"],
+                        orientation="h",
+                        marker_color=T["sky"],
+                        marker_line_width=0,
+                        text=geo_agg["Revenue"].map(short_gbp),
+                        textposition="outside",
+                        textfont={"size": 10, "color": T["text_secondary"]},
+                        cliponaxis=False,
+                        customdata=np.stack([geo_agg["Orders"], geo_agg["Customers"]], axis=-1),
+                        hovertemplate=(
+                            "<b>%{y}</b><br>Revenue: £%{x:,.0f}<br>"
+                            "Orders: %{customdata[0]:,}<br>Customers: %{customdata[1]:,}<extra></extra>"
+                        ),
+                    )
+                )
+                fig_geo.update_xaxes(
+                    range=[0, float(geo_agg["Revenue"].max()) * 1.2],
+                    tickprefix="£",
+                    tickformat="~s",
+                    title="Revenue (£)",
+                )
+                fig_geo.update_yaxes(title="")
+                st.plotly_chart(
+                    style_plotly(fig_geo, T, height=345, bottom_margin=55, grid="x"),
+                    use_container_width=True,
+                    config=PLOT_CONFIG,
+                )
+
+        # Right: Order Activity Heatmap (Day of Week x Hour of Day)
+        with g2, st.container(border=True):
+            card_header("SHOPPING PEAK HEATMAP", "DAY OF WEEK × ORDER HOUR (£)")
+            day_order = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"]
+            tx_time = df_tx.dropna(subset=["Order Date"]).copy()
+            tx_time["Weekday"] = tx_time["Order Date"].dt.day_name()
+            hm_piv = (
+                tx_time.pivot_table(
+                    index="Weekday",
+                    columns="Order Hour",
+                    values="Line Revenue",
+                    aggfunc="sum",
+                    fill_value=0.0,
+                )
+                .reindex(day_order)
+                .fillna(0.0)
+            )
+            fig_time = go.Figure(
+                go.Heatmap(
+                    z=hm_piv.to_numpy(dtype=float),
+                    x=[f"{int(h)}:00" for h in hm_piv.columns],
+                    y=hm_piv.index.tolist(),
+                    colorscale="YlGnBu" if theme_name == "Light" else "Plasma",
+                    xgap=2,
+                    ygap=2,
+                    hovertemplate="<b>%{y} · %{x}</b><br>Revenue: £%{z:,.0f}<extra></extra>",
+                    colorbar={
+                        "thickness": 8,
+                        "len": 0.8,
+                        "outlinewidth": 0,
+                        "tickprefix": "£",
+                        "tickformat": "~s",
+                        "tickfont": {"size": 9, "color": T["text_muted"]},
+                    },
+                )
+            )
+            fig_time.update_yaxes(title="", autorange="reversed")
+            fig_time.update_xaxes(title="Hour of Day (24h)", tickangle=-35)
+            st.plotly_chart(
+                style_plotly(fig_time, T, height=345, bottom_margin=65, grid="none"),
+                use_container_width=True,
+                config=PLOT_CONFIG,
+            )
+
+        # Bottom Card: Country Performance Breakdown Table (PRESERVED)
+        with st.container(border=True):
+            card_header("COUNTRY PERFORMANCE BREAKDOWN", "TOP 15 MARKETS")
+            all_geo = (
+                df_tx.groupby("Country", as_index=False)
+                .agg(
+                    Revenue=("Line Revenue", "sum"),
+                    Orders=("Invoice No", "nunique"),
+                    Customers=("Customer ID", "nunique"),
+                    Units=("Quantity", "sum"),
+                )
+                .nlargest(15, "Revenue")
+            )
+            tot_geo_rev = df_tx["Line Revenue"].sum() or 1.0
+            g_rows = []
+            for _, r in all_geo.iterrows():
+                aov_c = r["Revenue"] / r["Orders"] if r["Orders"] else 0.0
+                share = (r["Revenue"] / tot_geo_rev) * 100
+                g_rows.append(
+                    f"<tr>"
+                    f"<td class='name-cell'>{html.escape(str(r['Country']))}</td>"
+                    f"<td class='num'>{fmt_currency(r['Revenue'])}</td>"
+                    f"<td class='num'>{share:.1f}%</td>"
+                    f"<td class='num'>{int(r['Customers']):,}</td>"
+                    f"<td class='num'>{int(r['Orders']):,}</td>"
+                    f"<td class='num'>{fmt_currency(aov_c)}</td>"
+                    f"<td class='num'>{int(r['Units']):,}</td>"
+                    f"</tr>"
+                )
+            st.markdown(
+                render_html_table(
+                    [
+                        ("Country", "left"),
+                        ("Revenue", "right"),
+                        ("Share", "right"),
+                        ("Customers", "right"),
+                        ("Orders", "right"),
+                        ("Avg Order", "right"),
+                        ("Units Sold", "right"),
+                    ],
+                    "".join(g_rows),
+                ),
+                unsafe_allow_html=True,
+            )
+
+
+# -----------------------------------------------------------------------------
+# 12. DEPLOYED APP FOOTER
+# -----------------------------------------------------------------------------
+st.markdown(
+    f"""
+    <div class="c360-footer">
+        <span>⚡ Consumer-360 Retail Intelligence · Connected via <strong>{html.escape(active_source)}</strong></span>
+        <span>Showing {len(df_tx):,} transactions · {df_segments['Customer ID'].nunique():,} customers</span>
+    </div>
+    """,
+    unsafe_allow_html=True,
+)
