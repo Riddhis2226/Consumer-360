@@ -1,8 +1,8 @@
 """
-Consumer-360 | Executive Retail & Customer Intelligence App
-Portable Streamlit application supporting Supabase, Local PostgreSQL, and Local CSV fallback,
-with Dark & Light UI themes, responsive desktop/mobile layout, sidebar slicers, top pill navigation,
-interactive Customer 360 & Cross-Sell Recommender tools, distinct-color world map, and custom HTML tables.
+Consumer-360 | Business Intelligence & Retail Analytics Platform
+Portable Streamlit application with automatic Supabase -> Local PostgreSQL -> Local CSV fallback,
+Dark & Light UI themes, responsive desktop/mobile layout, sidebar BI slicers, live executive insights,
+distinct-color world map, and custom HTML performance tables.
 """
 
 from __future__ import annotations
@@ -23,14 +23,14 @@ import streamlit as st
 # 1. PAGE CONFIG (auto sidebar = expanded on desktop, collapsed on mobile)
 # -----------------------------------------------------------------------------
 st.set_page_config(
-    page_title="Consumer-360 | Retail Intelligence",
+    page_title="Consumer-360 | Business Intelligence",
     page_icon="⚡",
     layout="wide",
     initial_sidebar_state="auto",
 )
 
 # -----------------------------------------------------------------------------
-# 2. PORTABLE ENV & PATH RESOLUTION
+# 2. PORTABLE ENV & PATH RESOLUTION (SEAMLESS UNDER THE HOOD)
 # -----------------------------------------------------------------------------
 APP_DIR = Path(__file__).resolve().parent
 
@@ -152,11 +152,9 @@ THEMES = {
 if "ui_theme" not in st.session_state:
     st.session_state.ui_theme = "Dark"
 if "active_tab" not in st.session_state:
-    st.session_state.active_tab = "Overview"
-if "show_raw_modal" not in st.session_state:
-    st.session_state.show_raw_modal = False
-if "data_source_pref" not in st.session_state:
-    st.session_state.data_source_pref = "Auto"
+    st.session_state.active_tab = "Executive Overview"
+if "show_export_panel" not in st.session_state:
+    st.session_state.show_export_panel = False
 
 
 def inject_css(t: dict[str, str]) -> None:
@@ -232,7 +230,7 @@ def inject_css(t: dict[str, str]) -> None:
             padding: 0.2rem 0.55rem;
             border-radius: 6px;
         }}
-        .c360-source-pill {{
+        .c360-live-pill {{
             background: {t['green_soft']};
             color: {t['green']};
             border: 1px solid {t['border']};
@@ -242,7 +240,7 @@ def inject_css(t: dict[str, str]) -> None:
             border-radius: 999px;
         }}
 
-        /* Sleek Pill Navigation (Radio styled as responsive top tabs) */
+        /* Sleek Pill Navigation */
         div[data-testid="stRadio"] > div[role="radiogroup"] {{
             display: flex !important;
             flex-direction: row !important;
@@ -275,6 +273,37 @@ def inject_css(t: dict[str, str]) -> None:
             font-weight: 600 !important;
             color: {t['text_primary']} !important;
             margin: 0 !important;
+        }}
+
+        /* Executive BI Insight Strip */
+        .c360-insight {{
+            display: flex;
+            align-items: center;
+            gap: 0.65rem;
+            background: {t['bg_card']};
+            border: 1px solid {t['border']};
+            border-left: 3px solid {t['accent']};
+            border-radius: 10px;
+            padding: 0.68rem 1rem;
+            margin-bottom: 0.9rem;
+            font-size: 0.83rem;
+            color: {t['text_secondary']};
+            line-height: 1.45;
+        }}
+        .c360-insight strong {{
+            color: {t['text_primary']};
+            font-weight: 600;
+        }}
+        .c360-insight-tag {{
+            background: {t['accent_soft']};
+            color: {t['accent']};
+            font-size: 0.68rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.07em;
+            padding: 0.18rem 0.5rem;
+            border-radius: 5px;
+            white-space: nowrap;
         }}
 
         /* Active Filter Banner */
@@ -326,7 +355,7 @@ def inject_css(t: dict[str, str]) -> None:
             grid-template-columns: repeat(5, minmax(0, 1fr));
             gap: 0.85rem;
             margin-top: 0.25rem;
-            margin-bottom: 0.95rem;
+            margin-bottom: 0.9rem;
         }}
         .c360-kpi-grid-4 {{
             display: grid;
@@ -523,11 +552,17 @@ def inject_css(t: dict[str, str]) -> None:
             .c360-logo {{
                 font-size: 1.02rem;
             }}
+            .c360-insight {{
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 0.35rem;
+                font-size: 0.79rem;
+            }}
             div[data-testid="stRadio"] > div[role="radiogroup"] > label {{
                 padding: 0.3rem 0.65rem !important;
             }}
             div[data-testid="stRadio"] > div[role="radiogroup"] > label p {{
-                font-size: 0.76rem !important;
+                font-size: 0.75rem !important;
             }}
             table.c360-table {{
                 font-size: 0.78rem;
@@ -544,7 +579,7 @@ def inject_css(t: dict[str, str]) -> None:
 
 
 # -----------------------------------------------------------------------------
-# 5. PORTABLE DATA LOADING (SUPABASE -> LOCAL POSTGRES -> LOCAL CSV FALLBACK)
+# 5. PORTABLE DATA LOADING (AUTO: SUPABASE -> LOCAL POSTGRES -> LOCAL CSV)
 # -----------------------------------------------------------------------------
 TABLE_FILES = {
     "cohort_retention": "cohort_retention.csv",
@@ -552,6 +587,14 @@ TABLE_FILES = {
     "customer_segments": "customer_segments.csv",
     "customer_rfm_metrics": "customer_rfm_metrics.csv",
     "retail_transactions": "retail_transactions.csv",
+}
+
+BI_DATASET_LABELS = {
+    "Customer Segments": "customer_segments",
+    "Cohort Retention": "cohort_retention",
+    "Product Bundles": "product_bundles",
+    "Customer RFM Metrics": "customer_rfm_metrics",
+    "Retail Transactions": "retail_transactions",
 }
 
 
@@ -563,24 +606,21 @@ def build_pg_uri(host: str, port: str, db: str, user: str, password: str, sslmod
 
 
 @st.cache_data(ttl=600, show_spinner=False)
-def load_all_data(source_pref: str) -> tuple[dict[str, pd.DataFrame], str]:
-    """Load all 5 tables from Supabase, Local PostgreSQL, or Local CSVs."""
+def load_all_data() -> dict[str, pd.DataFrame]:
+    """Automatically load all 5 BI tables (Supabase -> Local PostgreSQL -> Local CSV)."""
     from sqlalchemy import create_engine, text
     from sqlalchemy.exc import SQLAlchemyError
 
-    def try_postgres(uri: str, label: str) -> tuple[dict[str, pd.DataFrame], str] | None:
+    def try_postgres(uri: str) -> dict[str, pd.DataFrame] | None:
         try:
             engine = create_engine(uri, pool_pre_ping=True, connect_args={"connect_timeout": 5})
             with engine.connect() as conn:
                 conn.execute(text("SELECT 1"))
-                dfs = {}
-                for tbl in TABLE_FILES:
-                    dfs[tbl] = pd.read_sql(f'SELECT * FROM public."{tbl}"', conn)
-            return dfs, label
+                return {tbl: pd.read_sql(f'SELECT * FROM public."{tbl}"', conn) for tbl in TABLE_FILES}
         except (SQLAlchemyError, OSError):
             return None
 
-    def try_csv() -> tuple[dict[str, pd.DataFrame], str] | None:
+    def try_csv() -> dict[str, pd.DataFrame] | None:
         if not DEFAULT_DATA_DIR.exists():
             return None
         dfs = {}
@@ -589,7 +629,7 @@ def load_all_data(source_pref: str) -> tuple[dict[str, pd.DataFrame], str]:
             if not fpath.exists():
                 return None
             dfs[tbl] = pd.read_csv(fpath)
-        return dfs, "Local CSVs"
+        return dfs
 
     supa_host = get_config("SUPABASE_DB_HOST", ENV_MAP)
     supa_port = get_config("SUPABASE_DB_PORT", ENV_MAP, "5432")
@@ -597,48 +637,32 @@ def load_all_data(source_pref: str) -> tuple[dict[str, pd.DataFrame], str]:
     supa_user = get_config("SUPABASE_DB_USER", ENV_MAP)
     supa_pass = get_config("SUPABASE_DB_PASSWORD", ENV_MAP)
 
+    if supa_host and supa_user and supa_pass:
+        res = try_postgres(build_pg_uri(supa_host, supa_port, supa_db, supa_user, supa_pass, "require"))
+        if res is not None:
+            return res
+
     pg_host = get_config("PG_HOST", ENV_MAP, "localhost")
     pg_port = get_config("PG_PORT", ENV_MAP, "5432")
     pg_db = get_config("PG_DB", ENV_MAP, "retail_analytics")
     pg_user = get_config("PG_USER", ENV_MAP, "postgres")
     pg_pass = get_config("PG_PASSWORD", ENV_MAP)
 
-    if source_pref == "Supabase":
-        order = ["supabase", "csv"]
-    elif source_pref == "Local PG":
-        order = ["local", "csv"]
-    elif source_pref == "Local CSV":
-        order = ["csv"]
-    else:
-        order = ["supabase", "local", "csv"]
+    if pg_host and pg_user and pg_pass:
+        res = try_postgres(build_pg_uri(pg_host, pg_port, pg_db, pg_user, pg_pass, "prefer"))
+        if res is not None:
+            return res
 
-    for target in order:
-        if target == "supabase" and supa_host and supa_user and supa_pass:
-            res = try_postgres(
-                build_pg_uri(supa_host, supa_port, supa_db, supa_user, supa_pass, "require"),
-                "Supabase",
-            )
-            if res is not None:
-                return res
-        elif target == "local" and pg_host and pg_user and pg_pass:
-            res = try_postgres(
-                build_pg_uri(pg_host, pg_port, pg_db, pg_user, pg_pass, "prefer"),
-                "Local PG",
-            )
-            if res is not None:
-                return res
-        elif target == "csv":
-            res = try_csv()
-            if res is not None:
-                return res
+    if (res := try_csv()) is not None:
+        return res
 
     raise FileNotFoundError(
-        "Could not connect to Supabase/Local PostgreSQL and could not find CSVs in data/supabase_db."
+        "Unable to load analytics tables. Configure database credentials or provide data/supabase_db CSVs."
     )
 
 
 # -----------------------------------------------------------------------------
-# 6. PLOTLY & HTML TABLE HELPERS
+# 6. PLOTLY & BI PRESENTATION HELPERS
 # -----------------------------------------------------------------------------
 PLOT_CONFIG = {"displayModeBar": False, "displaylogo": False, "responsive": True}
 
@@ -725,9 +749,16 @@ def card_header(title: str, subtitle: str = "") -> None:
     )
 
 
+def render_insight(tag: str, body_html: str) -> None:
+    st.markdown(
+        f'<div class="c360-insight"><span class="c360-insight-tag">{html.escape(tag)}</span><span>{body_html}</span></div>',
+        unsafe_allow_html=True,
+    )
+
+
 def render_empty_state(message: str = "No records match the current sidebar filters.") -> None:
     st.markdown(
-        f'<div class="c360-empty">No data to display — {html.escape(message)} Try clearing filters in the sidebar.</div>',
+        f'<div class="c360-empty">No data to display — {html.escape(message)} Try resetting filters in the sidebar.</div>',
         unsafe_allow_html=True,
     )
 
@@ -757,10 +788,10 @@ T = THEMES[theme_name]
 inject_css(T)
 
 try:
-    with st.spinner("Connecting to Consumer-360 data store..."):
-        data, active_source = load_all_data(st.session_state.data_source_pref)
+    with st.spinner("Loading Consumer-360 analytics..."):
+        data = load_all_data()
 except FileNotFoundError as exc:
-    st.error(f"Data loading failed: {exc}")
+    st.error(str(exc))
     st.stop()
 
 df_cohort_raw = data["cohort_retention"].copy()
@@ -775,7 +806,7 @@ df_rfm_raw["Last Purchase"] = pd.to_datetime(df_rfm_raw["Last Purchase"], errors
 
 
 # -----------------------------------------------------------------------------
-# 8. SIDEBAR SLICERS (ALL FILTERS LIVE HERE)
+# 8. SIDEBAR BI SLICERS (PURE ANALYTICS FILTERS — ZERO INFRA CONTROLS)
 # -----------------------------------------------------------------------------
 all_months = sorted(df_tx_raw["Year-Month"].dropna().unique().tolist())
 tiers = sorted(df_segments_raw["Customer Tier"].dropna().unique().tolist())
@@ -795,21 +826,8 @@ def reset_filters() -> None:
 
 
 with st.sidebar:
-    st.markdown("### ⚡ Filters & Controls")
-
-    src_opts = ["Auto", "Supabase", "Local PG", "Local CSV"]
-    chosen_src = st.selectbox(
-        "Data Source",
-        src_opts,
-        index=src_opts.index(st.session_state.data_source_pref),
-    )
-    if chosen_src != st.session_state.data_source_pref:
-        st.session_state.data_source_pref = chosen_src
-        st.cache_data.clear()
-        st.rerun()
-
-    st.markdown("---")
-    st.markdown("**Customer & Transaction Slicers**")
+    st.markdown("### ⚡ Analytics Filters")
+    st.caption(f"Reporting Window: {all_months[0]} to {all_months[-1]}")
 
     sel_months = st.select_slider(
         "Order Month Range",
@@ -819,26 +837,26 @@ with st.sidebar:
     )
     sel_tiers = st.multiselect("Customer Tier", tiers, key="flt_tiers")
     sel_groups = st.multiselect("Buyer Group", groups, key="flt_groups")
-    sel_countries = st.multiselect("Country", countries, key="flt_countries")
+    sel_countries = st.multiselect("Market / Country", countries, key="flt_countries")
 
     st.markdown("---")
-    st.markdown("**Bundle Slicers**")
+    st.markdown("**Merchandising & Bundles**")
     search_prod = st.text_input(
         "Search Product Name",
         placeholder="e.g., Heart, Cake, Lantern...",
         key="flt_prod",
     )
     min_orders = st.slider("Min Orders Together", 10, 500, 50, step=10, key="flt_min_orders")
-    min_lift = st.slider("Min Bundle Lift", 1.0, 20.0, 2.0, step=0.5, key="flt_min_lift")
+    min_lift = st.slider("Min Bundle Lift (x)", 1.0, 20.0, 2.0, step=0.5, key="flt_min_lift")
 
     st.markdown("---")
-    st.markdown("**Geography Slicers**")
-    inc_uk = st.checkbox("Include UK in Bar Chart", value=False, key="flt_inc_uk")
+    st.markdown("**Market Comparison**")
+    inc_uk = st.checkbox("Include UK in Market Bar Chart", value=False, key="flt_inc_uk")
 
     st.markdown("---")
     st.button("Reset All Filters", on_click=reset_filters, use_container_width=True)
 
-# Apply global slicers cleanly
+# Apply global BI slicers
 df_segments = df_segments_raw.copy()
 if sel_tiers:
     df_segments = df_segments[df_segments["Customer Tier"].isin(sel_tiers)]
@@ -860,7 +878,7 @@ df_cohort = df_cohort_raw.copy()
 df_bundles = df_bundles_raw.copy()
 df_rfm = df_rfm_raw[df_rfm_raw["Customer ID"].isin(valid_cust_ids)].copy()
 
-# Consistent colors across tabs ranked by total spend
+# Consistent tier palette ranked by total spend
 tier_order = (
     df_segments_raw.groupby("Customer Tier")["Total Spend"].sum().sort_values(ascending=False).index.tolist()
 )
@@ -868,9 +886,15 @@ TIER_COLORS = {n: T["series"][i % len(T["series"])] for i, n in enumerate(tier_o
 
 
 # -----------------------------------------------------------------------------
-# 9. RESPONSIVE TOP APP BAR (BRAND + ACTIONS + WRAPPING PILL NAVIGATION)
+# 9. RESPONSIVE TOP NAVIGATION BAR
 # -----------------------------------------------------------------------------
-nav_tabs = ["Overview", "Customers", "Cohorts", "Bundles", "Geography"]
+nav_tabs = [
+    "Executive Overview",
+    "Customer Intelligence",
+    "Retention & Cohorts",
+    "Merchandising & Bundles",
+    "Markets & Timing",
+]
 
 with st.container(border=True):
     hdr_left, hdr_right = st.columns([3.5, 1.5], vertical_alignment="center")
@@ -879,17 +903,17 @@ with st.container(border=True):
             f"""
             <div class="c360-brand-row">
                 <span class="c360-logo">⚡ Consumer-360</span>
-                <span class="c360-badge">Retail Analytics</span>
-                <span class="c360-source-pill">● {html.escape(active_source)}</span>
+                <span class="c360-badge">Business Intelligence</span>
+                <span class="c360-live-pill">● {html.escape(sel_months[0])} – {html.escape(sel_months[1])}</span>
             </div>
             """,
             unsafe_allow_html=True,
         )
     with hdr_right:
         a1, a2 = st.columns(2)
-        raw_btn_type = "primary" if st.session_state.show_raw_modal else "secondary"
-        if a1.button("Raw Data", key="btn_raw_data", type=raw_btn_type, use_container_width=True):
-            st.session_state.show_raw_modal = not st.session_state.show_raw_modal
+        exp_btn_type = "primary" if st.session_state.show_export_panel else "secondary"
+        if a1.button("Export Data", key="btn_export_data", type=exp_btn_type, use_container_width=True):
+            st.session_state.show_export_panel = not st.session_state.show_export_panel
             st.rerun()
         theme_label = "☀ Light" if theme_name == "Dark" else "🌙 Dark"
         if a2.button(theme_label, key="btn_theme_toggle", use_container_width=True):
@@ -905,60 +929,73 @@ with st.container(border=True):
     )
     if selected_tab != st.session_state.active_tab:
         st.session_state.active_tab = selected_tab
-        st.session_state.show_raw_modal = False
+        st.session_state.show_export_panel = False
         st.rerun()
 
-# Active filter summary banner (especially helpful on mobile when sidebar is collapsed)
+# Active filter summary banner (keeps filtered scope visible on mobile)
 active_chips: list[str] = []
 if sel_months != (all_months[0], all_months[-1]):
-    active_chips.append(f"Months: {sel_months[0]} → {sel_months[1]}")
+    active_chips.append(f"Period: {sel_months[0]} → {sel_months[1]}")
 if sel_tiers:
     active_chips.append(f"Tiers: {', '.join(sel_tiers[:3])}" + ("…" if len(sel_tiers) > 3 else ""))
 if sel_groups:
     active_chips.append(f"Groups: {', '.join(sel_groups[:2])}" + ("…" if len(sel_groups) > 2 else ""))
 if sel_countries:
-    active_chips.append(f"Countries: {', '.join(sel_countries[:3])}" + ("…" if len(sel_countries) > 3 else ""))
+    active_chips.append(f"Markets: {', '.join(sel_countries[:3])}" + ("…" if len(sel_countries) > 3 else ""))
 
 if active_chips:
     chips_html = "".join(f'<span class="c360-filter-chip">{html.escape(c)}</span>' for c in active_chips)
     st.markdown(
-        f'<div class="c360-filter-bar"><strong>Active Filters:</strong> {chips_html}</div>',
+        f'<div class="c360-filter-bar"><strong>Active Scope:</strong> {chips_html}</div>',
         unsafe_allow_html=True,
     )
 
 
 # -----------------------------------------------------------------------------
-# 10. RAW DATA EXPLORER (WHEN TOGGLED)
+# 10. BI DATA EXPORT PANEL (WHEN TOGGLED)
 # -----------------------------------------------------------------------------
-if st.session_state.show_raw_modal:
+if st.session_state.show_export_panel:
     with st.container(border=True):
-        card_header("RAW DATABASE TABLE EXPLORER", "DIRECT QUERY VIEW")
-        r_col1, r_col2, r_col3 = st.columns([2, 2, 1])
-        selected_tbl = r_col1.selectbox("Select Table", list(TABLE_FILES.keys()))
-        row_limit = r_col2.slider("Preview Rows", min_value=50, max_value=2000, value=250, step=50)
-        raw_df = data[selected_tbl]
-        csv_bytes = raw_df.head(row_limit).to_csv(index=False).encode("utf-8")
-        r_col3.download_button(
+        card_header("BI DATASET PREVIEW & CSV EXPORT", "FILTERED ANALYTICAL VIEWS")
+        e1, e2, e3 = st.columns([2, 2, 1])
+        chosen_label = e1.selectbox("Dataset", list(BI_DATASET_LABELS.keys()))
+        row_limit = e2.slider("Preview Rows", min_value=50, max_value=2000, value=250, step=50)
+        export_map = {
+            "Customer Segments": df_segments,
+            "Cohort Retention": df_cohort,
+            "Product Bundles": df_bundles,
+            "Customer RFM Metrics": df_rfm,
+            "Retail Transactions": df_tx,
+        }
+        exp_df = export_map[chosen_label]
+        e3.download_button(
             "Download CSV",
-            data=csv_bytes,
-            file_name=f"{selected_tbl}_preview.csv",
+            data=exp_df.head(row_limit).to_csv(index=False).encode("utf-8"),
+            file_name=f"{BI_DATASET_LABELS[chosen_label]}.csv",
             mime="text/csv",
             use_container_width=True,
         )
-        st.dataframe(raw_df.head(row_limit), use_container_width=True, height=420)
+        st.dataframe(exp_df.head(row_limit), use_container_width=True, height=400)
 
 
 # -----------------------------------------------------------------------------
-# 11. TAB VIEWS
+# 11. BI ANALYTICS VIEWS
 # -----------------------------------------------------------------------------
 tab = st.session_state.active_tab
 
-if tab == "Overview":
+if tab == "Executive Overview":
     total_rev = float(df_tx["Line Revenue"].sum())
     total_customers = int(df_segments["Customer ID"].nunique())
     total_orders = int(df_tx["Invoice No"].nunique())
     aov = total_rev / total_orders if total_orders else 0.0
-    m1_ret = df_cohort[df_cohort["Months Since First Purchase"] == 1]["Retention Rate (%)"].mean()
+    arpu = total_rev / total_customers if total_customers else 0.0
+    repeat_pct = (
+        float((df_segments["Total Orders"] > 1).mean() * 100) if not df_segments.empty else 0.0
+    )
+    risk_mask = df_segments["Days Inactive"] > 45
+    rev_at_risk = float(df_segments.loc[risk_mask, "Total Spend"].sum())
+    tot_seg_spend = float(df_segments["Total Spend"].sum()) or 1.0
+    risk_share = rev_at_risk / tot_seg_spend * 100
 
     st.markdown(
         f"""
@@ -966,17 +1003,17 @@ if tab == "Overview":
             <div class="c360-kpi">
                 <div class="c360-kpi-label">Total Revenue</div>
                 <div class="c360-kpi-val">{fmt_currency(total_rev)}</div>
-                <div class="c360-kpi-sub">{len(df_tx):,} line items</div>
+                <div class="c360-kpi-sub">{total_orders:,} orders · {len(df_tx):,} line items</div>
             </div>
             <div class="c360-kpi">
                 <div class="c360-kpi-label">Active Customers</div>
                 <div class="c360-kpi-val">{total_customers:,}</div>
-                <div class="c360-kpi-sub">{df_segments['Country'].nunique()} countries</div>
+                <div class="c360-kpi-sub">{repeat_pct:.1f}% repeat buyers</div>
             </div>
             <div class="c360-kpi">
-                <div class="c360-kpi-label">Total Orders</div>
-                <div class="c360-kpi-val">{total_orders:,}</div>
-                <div class="c360-kpi-sub">Avg {total_orders / max(total_customers, 1):.1f} orders / customer</div>
+                <div class="c360-kpi-label">Revenue / Customer</div>
+                <div class="c360-kpi-val">{fmt_currency(arpu)}</div>
+                <div class="c360-kpi-sub">Avg {total_orders / max(total_customers, 1):.1f} orders / buyer</div>
             </div>
             <div class="c360-kpi">
                 <div class="c360-kpi-label">Avg Order Value</div>
@@ -984,9 +1021,9 @@ if tab == "Overview":
                 <div class="c360-kpi-sub">Per unique invoice</div>
             </div>
             <div class="c360-kpi">
-                <div class="c360-kpi-label">Avg Month-1 Retention</div>
-                <div class="c360-kpi-val">{m1_ret:.1f}%</div>
-                <div class="c360-kpi-sub">Across {df_cohort['First Purchase Month'].nunique()} cohorts</div>
+                <div class="c360-kpi-label">Revenue at Risk</div>
+                <div class="c360-kpi-val">{fmt_currency(rev_at_risk)}</div>
+                <div class="c360-kpi-sub">{risk_share:.1f}% of lifetime spend (&gt;45d inactive)</div>
             </div>
         </div>
         """,
@@ -996,11 +1033,28 @@ if tab == "Overview":
     if df_tx.empty or df_segments.empty:
         render_empty_state()
     else:
+        # Dynamic Executive BI Takeaway
+        top_tier_agg = (
+            df_segments.groupby("Customer Tier", as_index=False)
+            .agg(Customers=("Customer ID", "count"), Spend=("Total Spend", "sum"))
+            .sort_values("Spend", ascending=False)
+        )
+        lead_tier = top_tier_agg.iloc[0]
+        lead_c_pct = lead_tier["Customers"] / max(total_customers, 1) * 100
+        lead_r_pct = lead_tier["Spend"] / tot_seg_spend * 100
+        render_insight(
+            "Executive Summary",
+            f"<strong>{html.escape(str(lead_tier['Customer Tier']))}</strong> represent "
+            f"<strong>{lead_c_pct:.1f}%</strong> of the customer base yet generate "
+            f"<strong>{lead_r_pct:.1f}%</strong> of lifetime spend ({fmt_currency(float(lead_tier['Spend']))}). "
+            f"Meanwhile, <strong>{fmt_currency(rev_at_risk)}</strong> ({risk_share:.1f}%) sits in accounts inactive for over 45 days.",
+        )
+
         col_left, col_right = st.columns([1.25, 1.0], gap="medium")
 
         # Left Chart: Monthly Revenue & Order Volume (Combo Bar + Line) with Tier Breakdown Toggle
         with col_left, st.container(border=True):
-            card_header("MONTHLY REVENUE & ORDER VOLUME", "EXECUTIVE PERFORMANCE")
+            card_header("MONTHLY REVENUE & ORDER VOLUME", "EXECUTIVE TRAJECTORY")
             view_mode = st.selectbox(
                 "Trend View",
                 ["Total Revenue & Orders", "Stacked Revenue by Customer Tier"],
@@ -1057,11 +1111,7 @@ if tab == "Overview":
                     },
                 )
                 fig_rev.update_xaxes(title="", tickangle=-25)
-                st.plotly_chart(
-                    fig_rev,
-                    use_container_width=True,
-                    config=PLOT_CONFIG,
-                )
+                st.plotly_chart(fig_rev, use_container_width=True, config=PLOT_CONFIG)
             else:
                 tx_tiered = df_tx.merge(
                     df_segments[["Customer ID", "Customer Tier"]],
@@ -1102,16 +1152,11 @@ if tab == "Overview":
 
         # Right Chart: Revenue Share vs Customer Share by Tier (Pareto Concentration)
         with col_right, st.container(border=True):
-            card_header("REVENUE VS CUSTOMER CONCENTRATION", "SHARE BY TIER (%)")
-            tier_conc = (
-                df_segments.groupby("Customer Tier", as_index=False)
-                .agg(Customers=("Customer ID", "count"), Revenue=("Total Spend", "sum"))
-                .sort_values("Revenue", ascending=True)
-            )
+            card_header("REVENUE VS CUSTOMER CONCENTRATION", "PARETO SHARE BY TIER (%)")
+            tier_conc = top_tier_agg.sort_values("Spend", ascending=True).copy()
             tot_c = tier_conc["Customers"].sum() or 1
-            tot_r = tier_conc["Revenue"].sum() or 1.0
             tier_conc["Customer Share (%)"] = tier_conc["Customers"] / tot_c * 100
-            tier_conc["Revenue Share (%)"] = tier_conc["Revenue"] / tot_r * 100
+            tier_conc["Revenue Share (%)"] = tier_conc["Spend"] / tot_seg_spend * 100
 
             fig_conc = go.Figure()
             fig_conc.add_trace(
@@ -1215,18 +1260,28 @@ if tab == "Overview":
             )
 
 
-elif tab == "Customers":
+elif tab == "Customer Intelligence":
     if df_segments.empty:
         render_empty_state()
     else:
-        # Interactive App Tool: Customer 360 Lookup
+        avg_rfm = float(df_segments["Overall Score"].mean())
+        high_val_pct = float((df_segments["Overall Score"] >= 9).mean() * 100)
+        median_inactive = float(df_segments["Days Inactive"].median())
+        render_insight(
+            "Segmentation Insight",
+            f"Average RFM score is <strong>{avg_rfm:.1f} / 12</strong> with "
+            f"<strong>{high_val_pct:.1f}%</strong> of customers in the high-value band (9–12) and a median inactivity window of "
+            f"<strong>{median_inactive:.0f} days</strong>.",
+        )
+
+        # Interactive Customer 360 Account Lookup
         with st.container(border=True):
-            card_header("CUSTOMER 360 PROFILE INSPECTOR", "LIVE LOOKUP")
+            card_header("CUSTOMER 360 ACCOUNT LOOKUP", "INDIVIDUAL BUYER PROFILE")
             top_ids = df_segments.nlargest(200, "Total Spend")["Customer ID"].astype(int).tolist()
             sel_cid = st.selectbox(
-                "Inspect Customer ID (Top 200 by Spend in current filter)",
+                "Select Account (Top 200 by Spend in current scope)",
                 options=top_ids,
-                format_func=lambda cid: f"Customer #{cid}",
+                format_func=lambda cid: f"Account #{cid}",
             )
             cust_row = df_segments[df_segments["Customer ID"] == sel_cid].iloc[0]
             cust_tx = df_tx[df_tx["Customer ID"] == sel_cid]
@@ -1236,18 +1291,18 @@ elif tab == "Customers":
                 .nlargest(3)
                 .index.tolist()
             )
-            fav_text = ", ".join(p[:28] for p in top_prods) if top_prods else "No orders in selected months"
+            fav_text = ", ".join(p[:28] for p in top_prods) if top_prods else "No orders in selected period"
 
             st.markdown(
                 f"""
                 <div class="c360-kpi-grid-4">
                     <div class="c360-kpi">
-                        <div class="c360-kpi-label">Lifetime Spend</div>
+                        <div class="c360-kpi-label">Lifetime Value</div>
                         <div class="c360-kpi-val">{fmt_currency(float(cust_row['Total Spend']))}</div>
                         <div class="c360-kpi-sub">{int(cust_row['Total Orders']):,} orders · AOV {fmt_currency(float(cust_row['Avg Order Value']))}</div>
                     </div>
                     <div class="c360-kpi">
-                        <div class="c360-kpi-label">Segment & Group</div>
+                        <div class="c360-kpi-label">Tier & Buyer Group</div>
                         <div class="c360-kpi-val" style="font-size:1.1rem;">{html.escape(str(cust_row['Customer Tier']))}</div>
                         <div class="c360-kpi-sub">{html.escape(str(cust_row['Buyer Group']))}</div>
                     </div>
@@ -1257,9 +1312,9 @@ elif tab == "Customers":
                         <div class="c360-kpi-sub">{int(cust_row['Days Inactive'])} days inactive · {html.escape(str(cust_row['Country']))}</div>
                     </div>
                     <div class="c360-kpi">
-                        <div class="c360-kpi-label">Top Products</div>
+                        <div class="c360-kpi-label">Top Purchased Items</div>
                         <div class="c360-kpi-val" style="font-size:0.86rem;line-height:1.35;">{html.escape(fav_text)}</div>
-                        <div class="c360-kpi-sub">{len(cust_tx):,} items in selected window</div>
+                        <div class="c360-kpi-sub">{len(cust_tx):,} line items in window</div>
                     </div>
                 </div>
                 """,
@@ -1308,7 +1363,7 @@ elif tab == "Customers":
 
         # Right: RFM Score Distribution (Color-coded by Health Band)
         with c2, st.container(border=True):
-            card_header("RFM OVERALL SCORE DISTRIBUTION", "RED ≤5 · AMBER 6–8 · GREEN 9+")
+            card_header("RFM SCORE DISTRIBUTION", "RED ≤5 · AMBER 6–8 · GREEN 9+")
             score_dist = (
                 df_segments.groupby("Overall Score", as_index=False)["Customer ID"]
                 .count()
@@ -1356,7 +1411,7 @@ elif tab == "Customers":
 
         # Bottom Card: Top Customers Leaderboard Table (PRESERVED)
         with st.container(border=True):
-            card_header("TOP CUSTOMERS LEADERBOARD", "TOP 25 BY SPEND")
+            card_header("TOP CUSTOMERS LEADERBOARD", "TOP 25 ACCOUNTS BY SPEND")
             top_cust = df_segments.nlargest(25, "Total Spend")
             c_rows = []
             for _, r in top_cust.iterrows():
@@ -1394,7 +1449,23 @@ elif tab == "Customers":
             )
 
 
-elif tab == "Cohorts":
+elif tab == "Retention & Cohorts":
+    m1_df = df_cohort[df_cohort["Months Since First Purchase"] == 1]
+    m3_df = df_cohort[df_cohort["Months Since First Purchase"] == 3]
+    avg_m1 = float(m1_df["Retention Rate (%)"].mean()) if not m1_df.empty else 0.0
+    avg_m3 = float(m3_df["Retention Rate (%)"].mean()) if not m3_df.empty else 0.0
+    best_m1_row = m1_df.loc[m1_df["Retention Rate (%)"].idxmax()] if not m1_df.empty else None
+    best_txt = (
+        f"<strong>{html.escape(str(best_m1_row['First Purchase Month']))}</strong> leads Month-1 retention at "
+        f"<strong>{float(best_m1_row['Retention Rate (%)']):.1f}%</strong>."
+        if best_m1_row is not None
+        else ""
+    )
+    render_insight(
+        "Retention Insight",
+        f"Average retention is <strong>{avg_m1:.1f}%</strong> in Month 1 and <strong>{avg_m3:.1f}%</strong> by Month 3. {best_txt}",
+    )
+
     c1, c2 = st.columns([1.25, 1.0], gap="medium")
 
     # Left: Cohort Retention Matrix Heatmap (M+1 scaled)
@@ -1442,10 +1513,10 @@ elif tab == "Cohorts":
             config=PLOT_CONFIG,
         )
 
-    # Right: Retention Decay Benchmark (Mean + P25–P75 Shaded Band + Optional Cohort Overlay)
+    # Right: Retention Decay Benchmark (Mean + P25–P75 IQR Band + Cohort Overlay)
     with c2, st.container(border=True):
         card_header("RETENTION DECAY BENCHMARK", "MEAN + P25–P75 IQR BAND")
-        cohort_opts = ["None (Benchmark Only)", *sorted(df_cohort["First Purchase Month"].unique().tolist())]
+        cohort_opts = ["Benchmark Only", *sorted(df_cohort["First Purchase Month"].unique().tolist())]
         overlay_cm = st.selectbox("Compare Specific Cohort", cohort_opts, label_visibility="collapsed")
 
         bench = (
@@ -1492,7 +1563,7 @@ elif tab == "Cohorts":
                 hovertemplate="<b>Mean</b>: %{y:.1f}%<extra></extra>",
             )
         )
-        if overlay_cm != "None (Benchmark Only)":
+        if overlay_cm != "Benchmark Only":
             sel_s = df_cohort[df_cohort["First Purchase Month"] == overlay_cm].sort_values(
                 "Months Since First Purchase"
             )
@@ -1558,7 +1629,7 @@ elif tab == "Cohorts":
         )
 
 
-elif tab == "Bundles":
+elif tab == "Merchandising & Bundles":
     bf = df_bundles[(df_bundles["Orders Together"] >= min_orders) & (df_bundles["Bundle Lift"] >= min_lift)].copy()
     if search_prod.strip():
         q = search_prod.strip().lower()
@@ -1570,9 +1641,19 @@ elif tab == "Bundles":
     if bf.empty:
         render_empty_state("No product bundles match your sidebar thresholds.")
     else:
+        top_pair = bf.nlargest(1, "Orders Together").iloc[0]
+        max_lift_pair = bf.nlargest(1, "Bundle Lift").iloc[0]
+        render_insight(
+            "Merchandising Insight",
+            f"<strong>{len(bf):,}</strong> qualifying cross-sell pairs found. Most frequent pair: "
+            f"<strong>{html.escape(str(top_pair['Product A'])[:28])} + {html.escape(str(top_pair['Product B'])[:28])}</strong> "
+            f"({int(top_pair['Orders Together']):,} orders). Highest affinity lift: "
+            f"<strong>{float(max_lift_pair['Bundle Lift']):.1f}x</strong>.",
+        )
+
         col_b1, col_b2 = st.columns(2, gap="medium")
 
-        # Left: Interactive Cross-Sell Recommender Tool
+        # Left: Cross-Sell Bundle Recommender
         with col_b1, st.container(border=True):
             card_header("CROSS-SELL RECOMMENDER", "ATTACHMENT RATE (BUY A → BUY B)")
             anchor_prods = (
@@ -1689,10 +1770,32 @@ elif tab == "Bundles":
             )
 
 
-elif tab == "Geography":
+elif tab == "Markets & Timing":
     if df_tx.empty:
         render_empty_state()
     else:
+        tot_geo_rev = float(df_tx["Line Revenue"].sum()) or 1.0
+        intl_rev = float(df_tx.loc[df_tx["Country"] != "United Kingdom", "Line Revenue"].sum())
+        intl_share = intl_rev / tot_geo_rev * 100
+        tx_time = df_tx.dropna(subset=["Order Date"]).copy()
+        tx_time["Weekday"] = tx_time["Order Date"].dt.day_name()
+        peak_slot = (
+            tx_time.groupby(["Weekday", "Order Hour"], as_index=False)["Line Revenue"]
+            .sum()
+            .nlargest(1, "Line Revenue")
+        )
+        peak_txt = (
+            f"Peak trading window is <strong>{html.escape(str(peak_slot.iloc[0]['Weekday']))} at "
+            f"{int(peak_slot.iloc[0]['Order Hour'])}:00</strong> ({fmt_currency(float(peak_slot.iloc[0]['Line Revenue']))})."
+            if not peak_slot.empty
+            else ""
+        )
+        render_insight(
+            "Market Insight",
+            f"International markets (ex-UK) contribute <strong>{fmt_currency(intl_rev)}</strong> "
+            f"(<strong>{intl_share:.1f}%</strong> of revenue across {df_tx['Country'].nunique()} active markets). {peak_txt}",
+        )
+
         # World Map Card (PRESERVED — every country marked in a distinct color)
         with st.container(border=True):
             card_header("GLOBAL MARKET FOOTPRINT", "EACH ACTIVE COUNTRY MARKED IN A DISTINCT COLOR")
@@ -1772,9 +1875,9 @@ elif tab == "Geography":
 
         g1, g2 = st.columns(2, gap="medium")
 
-        # Left: Top Countries by Revenue
+        # Left: Top Markets by Revenue
         with g1, st.container(border=True):
-            card_header("TOP COUNTRIES BY REVENUE", "MARKET DISTRIBUTION")
+            card_header("TOP MARKETS BY REVENUE", "GEOGRAPHIC DISTRIBUTION")
             geo_df = df_tx if inc_uk else df_tx[df_tx["Country"] != "United Kingdom"]
             geo_agg = (
                 geo_df.groupby("Country", as_index=False)
@@ -1783,7 +1886,7 @@ elif tab == "Geography":
                 .sort_values("Revenue")
             )
             if geo_agg.empty:
-                render_empty_state("Enable 'Include UK in Bar Chart' in the sidebar or adjust Country filters.")
+                render_empty_state("Enable 'Include UK in Market Bar Chart' in the sidebar or adjust Market filters.")
             else:
                 fig_geo = go.Figure(
                     go.Bar(
@@ -1816,12 +1919,10 @@ elif tab == "Geography":
                     config=PLOT_CONFIG,
                 )
 
-        # Right: Order Activity Heatmap (Day of Week x Hour of Day)
+        # Right: Peak Trading Heatmap (Day of Week x Hour of Day)
         with g2, st.container(border=True):
-            card_header("SHOPPING PEAK HEATMAP", "DAY OF WEEK × ORDER HOUR (£)")
+            card_header("PEAK TRADING HEATMAP", "DAY OF WEEK × ORDER HOUR (£)")
             day_order = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"]
-            tx_time = df_tx.dropna(subset=["Order Date"]).copy()
-            tx_time["Weekday"] = tx_time["Order Date"].dt.day_name()
             hm_piv = (
                 tx_time.pivot_table(
                     index="Weekday",
@@ -1862,7 +1963,7 @@ elif tab == "Geography":
 
         # Bottom Card: Country Performance Breakdown Table (PRESERVED)
         with st.container(border=True):
-            card_header("COUNTRY PERFORMANCE BREAKDOWN", "TOP 15 MARKETS")
+            card_header("MARKET PERFORMANCE BREAKDOWN", "TOP 15 MARKETS")
             all_geo = (
                 df_tx.groupby("Country", as_index=False)
                 .agg(
@@ -1873,7 +1974,6 @@ elif tab == "Geography":
                 )
                 .nlargest(15, "Revenue")
             )
-            tot_geo_rev = df_tx["Line Revenue"].sum() or 1.0
             g_rows = []
             for _, r in all_geo.iterrows():
                 aov_c = r["Revenue"] / r["Orders"] if r["Orders"] else 0.0
@@ -1907,13 +2007,13 @@ elif tab == "Geography":
 
 
 # -----------------------------------------------------------------------------
-# 12. DEPLOYED APP FOOTER
+# 12. BI APP FOOTER
 # -----------------------------------------------------------------------------
 st.markdown(
     f"""
     <div class="c360-footer">
-        <span>⚡ Consumer-360 Retail Intelligence · Connected via <strong>{html.escape(active_source)}</strong></span>
-        <span>Showing {len(df_tx):,} transactions · {df_segments['Customer ID'].nunique():,} customers</span>
+        <span>⚡ Consumer-360 · Business Intelligence &amp; Retail Analytics</span>
+        <span>Active Scope: {len(df_tx):,} transactions · {df_segments['Customer ID'].nunique():,} accounts · {df_tx['Country'].nunique()} markets</span>
     </div>
     """,
     unsafe_allow_html=True,
