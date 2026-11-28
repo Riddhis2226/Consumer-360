@@ -98,3 +98,22 @@ DROP TABLE cleaned_transactions]
 2026-11-22 22:12:47,275 [INFO] Verified Local PostgreSQL.cohort_retention: 91 rows
 2026-11-22 22:12:47,282 [INFO] Verified Local PostgreSQL.product_affinity: 51,240 rows
 2026-11-22 22:12:47,803 [INFO] Consumer-360 ETL pipeline completed successfully.
+2026-11-27 12:11:12,766 [INFO] Starting Consumer-360 ETL pipeline (target=both)
+2026-11-27 12:11:15,095 [INFO] Cleaned transactions: 399,568 rows
+2026-11-27 12:11:15,413 [INFO] Built RFM & K-Means segments for 4,285 customers
+2026-11-27 12:11:15,609 [INFO] Built cohort retention matrix: 91 rows
+2026-11-27 12:11:17,723 [INFO] Syncing tables to Local PostgreSQL...
+2026-11-27 12:12:57,603 [INFO] Executed week2_views.sql on Local PostgreSQL
+2026-11-27 12:13:26,837 [INFO] Executed week2_market_basket.sql on Local PostgreSQL
+2026-11-27 12:13:27,202 [INFO] Verified Local PostgreSQL.cleaned_transactions: 399,568 rows
+2026-11-27 12:13:27,215 [INFO] Verified Local PostgreSQL.customer_segments: 4,285 rows
+2026-11-27 12:13:27,232 [INFO] Verified Local PostgreSQL.cohort_retention: 91 rows
+2026-11-27 12:13:27,283 [INFO] Verified Local PostgreSQL.product_affinity: 51,240 rows
+2026-11-27 12:13:27,974 [INFO] Syncing tables to Supabase PostgreSQL...
+2026-11-27 12:15:38,549 [INFO] Executed week2_views.sql on Supabase PostgreSQL
+2026-11-27 12:15:57,640 [INFO] Executed week2_market_basket.sql on Supabase PostgreSQL
+2026-11-27 12:15:57,768 [INFO] Verified Supabase PostgreSQL.cleaned_transactions: 399,568 rows
+2026-11-27 12:15:57,797 [INFO] Verified Supabase PostgreSQL.customer_segments: 4,285 rows
+2026-11-27 12:15:57,825 [INFO] Verified Supabase PostgreSQL.cohort_retention: 91 rows
+2026-11-27 12:15:57,860 [INFO] Verified Supabase PostgreSQL.product_affinity: 51,240 rows
+2026-11-27 12:16:00,172 [INFO] Consumer-360 ETL pipeline completed successfully.

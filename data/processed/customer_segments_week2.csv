@@ -12,11 +12,11 @@ customer_id,country,last_purchase,recency,frequency,monetary,total_units,avg_ord
 12358,Austria,2010-11-29 10:56:00,11,3,2519.01,826,839.67,4,3,4,11,Loyal Customers,1
 12359,Cyprus,2010-10-10 11:16:00,61,6,2563.36,1130,427.23,2,4,4,10,Loyal Customers,1
 12360,Austria,2010-11-12 11:31:00,28,3,1310.83,1287,436.94,3,3,3,9,Loyal Customers,1
-12361,Belgium,2010-09-03 15:19:00,98,3,276.35,141,92.12,2,3,1,6,Hibernating / Lost,2
+12361,Belgium,2010-09-03 15:19:00,98,3,276.35,141,92.12,2,3,1,6,At Risk,2
 12366,Cyprus,2010-03-16 10:28:00,269,1,500.24,296,500.24,1,1,2,4,Hibernating / Lost,2
 12368,Cyprus,2010-03-21 15:56:00,264,1,917.6999999999999,330,917.7,1,1,3,5,At Risk,2
 12369,Austria,2010-10-22 13:13:00,49,3,1511.15,1234,503.72,3,3,3,9,Loyal Customers,1
-12370,Austria,2010-03-25 12:10:00,260,3,534.62,246,178.21,1,3,2,6,Hibernating / Lost,2
+12370,Austria,2010-03-25 12:10:00,260,3,534.62,246,178.21,1,3,2,6,At Risk,2
 12371,Switzerland,2010-10-26 13:37:00,45,3,1819.42,836,606.47,3,3,4,10,Loyal Customers,1
 12373,Austria,2010-03-25 13:49:00,260,2,603.0500000000001,315,301.53,1,2,2,5,Hibernating / Lost,2
 12374,Austria,2010-10-14 10:16:00,57,2,2046.29,1015,1023.14,2,2,4,8,At Risk,1
@@ -215,7 +215,7 @@ customer_id,country,last_purchase,recency,frequency,monetary,total_units,avg_ord
 12698,Germany,2010-04-28 15:51:00,226,1,285.75,108,285.75,1,1,1,3,Hibernating / Lost,2
 12699,Germany,2010-10-18 12:07:00,53,1,566.11,369,566.11,2,1,2,5,Hibernating / Lost,0
 12701,Germany,2010-06-28 13:44:00,165,4,1522.7,1042,380.68,1,3,3,7,Loyal Customers,1
-12703,Germany,2010-03-16 13:22:00,269,3,632.98,426,210.99,1,3,2,6,Hibernating / Lost,2
+12703,Germany,2010-03-16 13:22:00,269,3,632.98,426,210.99,1,3,2,6,At Risk,2
 12705,Germany,2010-11-21 13:59:00,19,5,4731.81,3182,946.36,3,3,4,10,Loyal Customers,3
 12708,Germany,2010-12-06 10:43:00,4,9,2295.19,1197,255.02,4,4,4,12,Champions,3
 12709,Germany,2010-12-08 09:49:00,2,18,20483.36,9979,1137.96,4,4,4,12,Champions,3
@@ -270,7 +270,7 @@ customer_id,country,last_purchase,recency,frequency,monetary,total_units,avg_ord
 12785,Portugal,2010-06-22 12:16:00,171,2,648.45,317,324.23,1,2,2,5,Hibernating / Lost,2
 12786,Netherlands,2010-04-09 12:12:00,245,1,668.5,320,668.5,1,1,2,4,Hibernating / Lost,2
 12787,Netherlands,2010-10-22 14:57:00,49,1,380.52,248,380.52,3,1,2,6,Potential Loyalists,0
-12788,Netherlands,2010-09-02 14:21:00,99,4,384.9,190,96.22,2,3,2,7,Hibernating / Lost,1
+12788,Netherlands,2010-09-02 14:21:00,99,4,384.9,190,96.22,2,3,2,7,At Risk,1
 12789,Netherlands,2010-07-15 12:43:00,148,2,148.5,30,74.25,1,2,1,4,Hibernating / Lost,2
 12790,Netherlands,2010-10-25 13:04:00,46,1,251.92999999999998,139,251.93,3,1,1,5,Potential Loyalists,2
 12791,Netherlands,2010-12-01 11:27:00,9,5,656.83,347,131.37,4,3,2,9,Hibernating / Lost,0
@@ -345,7 +345,7 @@ customer_id,country,last_purchase,recency,frequency,monetary,total_units,avg_ord
 12887,United Kingdom,2010-11-21 11:18:00,19,1,222.4,100,222.4,3,1,1,5,Potential Loyalists,0
 12889,United Kingdom,2010-11-23 16:08:00,17,4,385.46000000000004,124,96.36,4,3,2,9,Hibernating / Lost,0
 12890,United Kingdom,2010-11-17 14:06:00,23,1,329.3,201,329.3,3,1,2,6,Potential Loyalists,0
-12891,United Kingdom,2010-09-07 15:31:00,94,8,509.5,1375,63.69,2,4,2,8,Hibernating / Lost,1
+12891,United Kingdom,2010-09-07 15:31:00,94,8,509.5,1375,63.69,2,4,2,8,At Risk,1
 12892,United Kingdom,2010-11-08 09:51:00,32,1,263.38,140,263.38,3,1,1,5,Potential Loyalists,0
 12894,United Kingdom,2010-05-13 14:47:00,211,1,157.35,33,157.35,1,1,1,3,Hibernating / Lost,2
 12897,United Kingdom,2010-11-23 13:29:00,17,2,297.75,139,148.88,4,2,1,7,Potential Loyalists,0
@@ -364,7 +364,7 @@ customer_id,country,last_purchase,recency,frequency,monetary,total_units,avg_ord
 12915,United Kingdom,2010-12-02 12:33:00,8,3,811.1,359,270.37,4,3,3,10,Loyal Customers,0
 12916,United Kingdom,2010-09-23 11:57:00,78,3,1534.78,598,511.59,2,3,3,8,Loyal Customers,1
 12917,United Kingdom,2010-11-04 15:56:00,36,5,3765.2,984,753.04,3,3,4,10,Loyal Customers,1
-12920,United Kingdom,2010-05-17 12:57:00,207,3,323.86,292,107.95,1,3,2,6,Hibernating / Lost,2
+12920,United Kingdom,2010-05-17 12:57:00,207,3,323.86,292,107.95,1,3,2,6,At Risk,2
 12921,United Kingdom,2010-12-08 10:14:00,2,39,19333.95,12182,495.74,4,4,4,12,Champions,3
 12923,United Kingdom,2010-11-14 13:16:00,26,2,597.6,162,298.8,3,2,2,7,Potential Loyalists,0
 12924,United Kingdom,2010-11-11 15:21:00,29,8,1535.7,942,191.96,3,4,3,10,Loyal Customers,1
@@ -390,7 +390,7 @@ customer_id,country,last_purchase,recency,frequency,monetary,total_units,avg_ord
 12951,United Kingdom,2010-11-18 12:11:00,22,9,2149.65,1159,238.85,3,4,4,11,Loyal Customers,3
 12953,United Kingdom,2010-07-05 13:37:00,158,1,498.96000000000004,280,498.96,1,1,2,4,Hibernating / Lost,2
 12954,United Kingdom,2010-03-11 10:16:00,274,1,162.45,83,162.45,1,1,1,3,Hibernating / Lost,2
-12956,United Kingdom,2010-01-24 10:33:00,320,3,413.82,306,137.94,1,3,2,6,Hibernating / Lost,2
+12956,United Kingdom,2010-01-24 10:33:00,320,3,413.82,306,137.94,1,3,2,6,At Risk,2
 12957,United Kingdom,2010-06-16 08:55:00,177,5,4689.43,2137,937.89,1,3,4,8,Loyal Customers,1
 12958,United Kingdom,2010-11-04 16:16:00,36,2,467.34,118,233.67,3,2,2,7,Potential Loyalists,0
 12959,United Kingdom,2010-08-12 17:20:00,120,1,150.95,109,150.95,2,1,1,4,Hibernating / Lost,2
@@ -407,7 +407,7 @@ customer_id,country,last_purchase,recency,frequency,monetary,total_units,avg_ord
 12974,United Kingdom,2010-05-23 11:45:00,201,1,264.15,80,264.15,1,1,1,3,Hibernating / Lost,2
 12975,United Kingdom,2010-09-29 09:46:00,72,6,2100.09,911,350.02,2,4,4,10,Loyal Customers,1
 12976,United Kingdom,2010-11-26 14:51:00,14,7,2417.7799999999997,2123,345.4,4,4,4,12,Champions,3
-12977,United Kingdom,2010-07-26 12:34:00,137,3,474.64,116,158.21,1,3,2,6,Hibernating / Lost,2
+12977,United Kingdom,2010-07-26 12:34:00,137,3,474.64,116,158.21,1,3,2,6,At Risk,2
 12978,United Kingdom,2010-11-19 14:29:00,21,5,2502.82,1394,500.56,3,3,4,10,Loyal Customers,1
 12979,United Arab Emirates,2009-12-10 15:45:00,365,1,517.7,520,517.7,1,1,2,4,Hibernating / Lost,2
 12980,United Kingdom,2010-11-18 14:31:00,22,12,8870.880000000001,1024,739.24,3,4,4,11,Loyal Customers,3
@@ -416,7 +416,7 @@ customer_id,country,last_purchase,recency,frequency,monetary,total_units,avg_ord
 12986,United Kingdom,2010-10-07 11:57:00,64,10,2729.84,1164,272.98,2,4,4,10,Loyal Customers,1
 12987,United Kingdom,2010-10-15 13:48:00,56,3,753.51,366,251.17,2,3,3,8,Loyal Customers,1
 12989,United Kingdom,2010-10-11 12:36:00,60,18,6627.64,3992,368.2,2,4,4,10,Loyal Customers,3
-12990,United Kingdom,2010-10-18 08:56:00,53,4,546.0,280,136.5,2,3,2,7,Hibernating / Lost,1
+12990,United Kingdom,2010-10-18 08:56:00,53,4,546.0,280,136.5,2,3,2,7,At Risk,1
 12991,United Kingdom,2010-11-15 13:43:00,25,1,261.06,78,261.06,3,1,1,5,Potential Loyalists,0
 12992,United Kingdom,2009-12-14 16:46:00,361,1,93.35000000000001,21,93.35,1,1,1,3,Hibernating / Lost,2
 12993,United Kingdom,2010-09-20 13:09:00,81,4,844.87,511,211.22,2,3,3,8,Loyal Customers,1
@@ -478,7 +478,7 @@ customer_id,country,last_purchase,recency,frequency,monetary,total_units,avg_ord
 13065,United Kingdom,2010-12-01 16:52:00,9,5,1055.05,381,211.01,4,3,3,10,Loyal Customers,0
 13067,United Kingdom,2010-10-26 12:15:00,45,2,393.05,99,196.52,3,2,2,7,Potential Loyalists,0
 13069,United Kingdom,2010-12-05 11:03:00,5,16,5185.51,9481,324.09,4,4,4,12,Champions,3
-13070,United Kingdom,2010-09-06 12:37:00,95,3,522.9,262,174.3,2,3,2,7,Hibernating / Lost,1
+13070,United Kingdom,2010-09-06 12:37:00,95,3,522.9,262,174.3,2,3,2,7,At Risk,1
 13071,United Kingdom,2010-04-06 13:37:00,248,1,129.22,30,129.22,1,1,1,3,Hibernating / Lost,2
 13073,United Kingdom,2010-10-24 14:06:00,47,2,418.08,261,209.04,3,2,2,7,Potential Loyalists,0
 13074,United Kingdom,2010-07-16 16:53:00,147,4,1378.74,826,344.68,1,3,3,7,Loyal Customers,1
@@ -503,7 +503,7 @@ customer_id,country,last_purchase,recency,frequency,monetary,total_units,avg_ord
 13094,United Kingdom,2010-12-06 10:34:00,4,2,505.8,372,252.9,4,2,2,8,Potential Loyalists,0
 13096,United Kingdom,2010-11-10 14:08:00,30,1,419.70000000000005,6,419.7,3,1,2,6,Potential Loyalists,0
 13097,United Kingdom,2010-11-16 09:50:00,24,17,7012.14,2984,412.48,3,4,4,11,Loyal Customers,3
-13101,United Kingdom,2010-07-29 14:45:00,134,3,594.21,365,198.07,2,3,2,7,Hibernating / Lost,1
+13101,United Kingdom,2010-07-29 14:45:00,134,3,594.21,365,198.07,2,3,2,7,At Risk,1
 13102,United Kingdom,2010-12-09 13:38:00,1,14,5272.83,2372,376.63,4,4,4,12,Champions,3
 13103,United Kingdom,2010-09-28 11:48:00,73,2,465.70000000000005,344,232.85,2,2,2,6,Hibernating / Lost,2
 13104,United Kingdom,2010-10-20 14:38:00,51,3,610.62,330,203.54,3,3,2,8,Hibernating / Lost,1
@@ -541,7 +541,7 @@ customer_id,country,last_purchase,recency,frequency,monetary,total_units,avg_ord
 13144,United Kingdom,2010-10-04 14:14:00,67,1,24.4,8,24.4,2,1,1,4,Hibernating / Lost,2
 13145,United Kingdom,2010-12-02 18:06:00,8,4,805.0,121,201.25,4,3,3,10,Loyal Customers,0
 13148,United Kingdom,2010-11-15 17:43:00,25,14,4805.06,2516,343.22,3,4,4,11,Loyal Customers,3
-13150,United Kingdom,2010-08-12 12:59:00,120,3,449.96999999999997,171,149.99,2,3,2,7,Hibernating / Lost,2
+13150,United Kingdom,2010-08-12 12:59:00,120,3,449.96999999999997,171,149.99,2,3,2,7,At Risk,2
 13151,United Kingdom,2010-03-24 09:31:00,261,2,1196.84,425,598.42,1,2,3,6,At Risk,1
 13152,United Kingdom,2010-10-18 13:44:00,53,7,2146.38,977,306.63,2,4,4,10,Loyal Customers,1
 13154,United Kingdom,2010-11-05 16:00:00,35,3,1624.84,976,541.61,3,3,3,9,Loyal Customers,1
@@ -568,8 +568,8 @@ customer_id,country,last_purchase,recency,frequency,monetary,total_units,avg_ord
 13180,United Kingdom,2010-04-11 13:37:00,243,1,86.10000000000001,42,86.1,1,1,1,3,Hibernating / Lost,2
 13181,United Kingdom,2010-11-23 15:05:00,17,1,359.69,171,359.69,4,1,2,7,Potential Loyalists,0
 13183,United Kingdom,2010-11-10 13:49:00,30,6,3078.4,1819,513.07,3,4,4,11,Loyal Customers,1
-13187,United Kingdom,2010-03-25 19:06:00,260,3,92.34,188,30.78,1,3,1,5,Hibernating / Lost,2
-13190,United Kingdom,2010-06-13 15:47:00,180,3,570.66,308,190.22,1,3,2,6,Hibernating / Lost,1
+13187,United Kingdom,2010-03-25 19:06:00,260,3,92.34,188,30.78,1,3,1,5,At Risk,2
+13190,United Kingdom,2010-06-13 15:47:00,180,3,570.66,308,190.22,1,3,2,6,At Risk,1
 13191,United Kingdom,2010-02-19 17:02:00,294,1,159.21,111,159.21,1,1,1,3,Hibernating / Lost,2
 13192,United Kingdom,2010-06-22 09:52:00,171,4,1646.6399999999999,1034,411.66,1,3,3,7,Loyal Customers,1
 13194,United Kingdom,2010-10-14 11:54:00,57,1,412.08,300,412.08,2,1,2,5,Hibernating / Lost,2
@@ -606,8 +606,8 @@ customer_id,country,last_purchase,recency,frequency,monetary,total_units,avg_ord
 13239,United Kingdom,2010-09-28 17:21:00,73,4,1265.1299999999999,824,316.28,2,3,3,8,Loyal Customers,1
 13240,United Kingdom,2010-12-09 12:49:00,1,5,1030.76,541,206.15,4,3,3,10,Loyal Customers,3
 13241,United Kingdom,2010-10-24 11:17:00,47,1,112.53,46,112.53,3,1,1,5,Potential Loyalists,2
-13242,United Kingdom,2010-09-14 13:53:00,87,4,429.0,220,107.25,2,3,2,7,Hibernating / Lost,1
-13243,United Kingdom,2010-09-16 13:18:00,85,4,635.26,322,158.82,2,3,2,7,Hibernating / Lost,1
+13242,United Kingdom,2010-09-14 13:53:00,87,4,429.0,220,107.25,2,3,2,7,At Risk,1
+13243,United Kingdom,2010-09-16 13:18:00,85,4,635.26,322,158.82,2,3,2,7,At Risk,1
 13245,United Kingdom,2010-10-03 14:03:00,68,1,558.72,246,558.72,2,1,2,5,Hibernating / Lost,2
 13246,United Kingdom,2010-11-11 12:54:00,29,5,1390.23,1209,278.05,3,3,3,9,Loyal Customers,1
 13249,United Kingdom,2010-11-03 14:05:00,37,6,897.52,700,149.59,3,4,3,10,Loyal Customers,1
@@ -677,7 +677,7 @@ customer_id,country,last_purchase,recency,frequency,monetary,total_units,avg_ord
 13337,United Kingdom,2010-06-11 13:27:00,182,1,1575.26,980,1575.26,1,1,3,5,At Risk,1
 13338,United Kingdom,2010-06-16 10:23:00,177,3,1908.6,894,636.2,1,3,4,8,Loyal Customers,1
 13340,United Kingdom,2010-10-18 10:42:00,53,5,11364.08,3866,2272.82,2,3,4,9,Loyal Customers,1
-13346,United Kingdom,2010-09-03 11:41:00,98,6,299.4,180,49.9,2,4,1,7,Hibernating / Lost,1
+13346,United Kingdom,2010-09-03 11:41:00,98,6,299.4,180,49.9,2,4,1,7,At Risk,1
 13357,United Kingdom,2010-08-02 14:02:00,130,4,3185.61,1766,796.4,2,3,4,9,Loyal Customers,1
 13359,United Kingdom,2010-11-01 15:05:00,39,1,553.75,219,553.75,3,1,2,6,Potential Loyalists,0
 13360,United Kingdom,2010-10-04 12:37:00,67,4,1503.65,941,375.91,2,3,3,8,Loyal Customers,1
@@ -707,17 +707,17 @@ customer_id,country,last_purchase,recency,frequency,monetary,total_units,avg_ord
 13395,United Kingdom,2010-11-04 14:00:00,36,2,872.51,1324,436.26,3,2,3,8,Potential Loyalists,0
 13397,United Kingdom,2010-09-28 13:10:00,73,5,1647.74,906,329.55,2,3,3,8,Loyal Customers,1
 13398,United Kingdom,2010-09-17 09:34:00,84,1,213.0,60,213.0,2,1,1,4,Hibernating / Lost,2
-13399,United Kingdom,2010-09-01 13:59:00,100,3,275.4,120,91.8,2,3,1,6,Hibernating / Lost,2
+13399,United Kingdom,2010-09-01 13:59:00,100,3,275.4,120,91.8,2,3,1,6,At Risk,2
 13400,United Kingdom,2010-05-06 09:00:00,218,1,310.83,284,310.83,1,1,2,4,Hibernating / Lost,2
 13402,United Kingdom,2010-12-02 17:12:00,8,3,913.9000000000001,628,304.63,4,3,3,10,Loyal Customers,0
 13403,United Kingdom,2010-11-17 11:38:00,23,2,154.5,70,77.25,3,2,1,6,Potential Loyalists,0
-13405,United Kingdom,2010-08-15 13:28:00,117,3,641.36,690,213.79,2,3,2,7,Hibernating / Lost,1
+13405,United Kingdom,2010-08-15 13:28:00,117,3,641.36,690,213.79,2,3,2,7,At Risk,1
 13406,United Kingdom,2010-10-08 14:44:00,63,2,568.92,292,284.46,2,2,2,6,Hibernating / Lost,0
 13407,United Kingdom,2010-05-10 12:41:00,214,3,2244.7,1690,748.23,1,3,4,8,Loyal Customers,1
 13408,United Kingdom,2010-12-03 09:39:00,7,46,23616.422,13267,513.4,4,4,4,12,Champions,3
 13410,United Kingdom,2010-11-11 16:45:00,29,4,1198.9,726,299.73,3,3,3,9,Loyal Customers,1
 13412,United Kingdom,2010-03-29 16:28:00,256,1,487.34999999999997,176,487.35,1,1,2,4,Hibernating / Lost,2
-13413,United Kingdom,2010-03-10 12:17:00,275,6,429.44,455,71.57,1,4,2,7,Hibernating / Lost,1
+13413,United Kingdom,2010-03-10 12:17:00,275,6,429.44,455,71.57,1,4,2,7,At Risk,1
 13414,United Kingdom,2010-09-02 16:55:00,99,3,1103.64,1128,367.88,2,3,3,8,Loyal Customers,1
 13415,United Kingdom,2010-08-24 11:38:00,108,4,784.17,496,196.04,2,3,3,8,Loyal Customers,1
 13416,United Kingdom,2009-12-03 13:02:00,372,1,228.3,66,228.3,1,1,1,3,Hibernating / Lost,2
@@ -728,18 +728,18 @@ customer_id,country,last_purchase,recency,frequency,monetary,total_units,avg_ord
 13424,United Kingdom,2010-09-16 10:49:00,85,1,572.77,529,572.77,2,1,2,5,Hibernating / Lost,2
 13425,United Kingdom,2010-07-19 12:56:00,144,2,1766.22,1235,883.11,1,2,4,7,At Risk,1
 13426,United Kingdom,2010-11-22 11:22:00,18,12,4526.06,2623,377.17,4,4,4,12,Champions,3
-13427,United Kingdom,2010-08-19 11:45:00,113,3,423.93,335,141.31,2,3,2,7,Hibernating / Lost,2
+13427,United Kingdom,2010-08-19 11:45:00,113,3,423.93,335,141.31,2,3,2,7,At Risk,2
 13428,United Kingdom,2010-07-13 13:33:00,150,2,276.76,205,138.38,1,2,1,4,Hibernating / Lost,2
 13431,United Kingdom,2010-10-29 14:09:00,42,6,2047.14,898,341.19,3,4,4,11,Loyal Customers,1
 13432,United Kingdom,2010-05-17 13:18:00,207,2,436.55,214,218.28,1,2,2,5,Hibernating / Lost,2
-13433,United Kingdom,2010-07-26 16:55:00,137,4,658.3199999999999,190,164.58,1,3,2,6,Hibernating / Lost,1
+13433,United Kingdom,2010-07-26 16:55:00,137,4,658.3199999999999,190,164.58,1,3,2,6,At Risk,1
 13434,United Kingdom,2010-11-19 15:09:00,21,3,1132.6200000000001,564,377.54,3,3,3,9,Loyal Customers,0
 13435,United Kingdom,2010-11-28 13:51:00,12,2,637.44,625,318.72,4,2,2,8,Potential Loyalists,0
 13438,United Kingdom,2010-06-10 18:46:00,183,1,46.5,10,46.5,1,1,1,3,Hibernating / Lost,2
 13439,United Kingdom,2010-11-16 15:24:00,24,2,702.9,710,351.45,3,2,3,8,Potential Loyalists,0
 13440,United Kingdom,2010-10-12 13:11:00,59,7,1295.25,573,185.04,2,4,3,9,Loyal Customers,1
 13441,United Kingdom,2010-10-04 10:38:00,67,1,424.26,316,424.26,2,1,2,5,Hibernating / Lost,2
-13442,United Kingdom,2010-02-10 14:03:00,303,3,419.87,115,139.96,1,3,2,6,Hibernating / Lost,2
+13442,United Kingdom,2010-02-10 14:03:00,303,3,419.87,115,139.96,1,3,2,6,At Risk,2
 13443,United Kingdom,2010-09-17 12:31:00,84,6,1269.3700000000001,802,211.56,2,4,3,9,Loyal Customers,1
 13444,United Kingdom,2010-11-30 13:02:00,10,2,619.08,331,309.54,4,2,2,8,Potential Loyalists,0
 13445,United Kingdom,2010-03-23 15:34:00,262,1,241.89999999999998,198,241.9,1,1,1,3,Hibernating / Lost,2
@@ -791,7 +791,7 @@ customer_id,country,last_purchase,recency,frequency,monetary,total_units,avg_ord
 13511,United Kingdom,2010-02-01 12:10:00,312,1,282.76,60,282.76,1,1,1,3,Hibernating / Lost,2
 13512,United Kingdom,2010-11-17 14:55:00,23,3,462.18,276,154.06,3,3,2,8,Hibernating / Lost,0
 13513,United Kingdom,2010-09-24 16:25:00,77,2,619.49,255,309.74,2,2,2,6,Hibernating / Lost,1
-13514,United Kingdom,2010-10-07 12:10:00,64,3,663.7,248,221.23,2,3,2,7,Hibernating / Lost,1
+13514,United Kingdom,2010-10-07 12:10:00,64,3,663.7,248,221.23,2,3,2,7,At Risk,1
 13515,United Kingdom,2010-09-16 15:07:00,85,2,374.7,138,187.35,2,2,2,6,Hibernating / Lost,2
 13516,United Kingdom,2010-10-18 08:52:00,53,1,295.85,129,295.85,2,1,1,4,Hibernating / Lost,2
 13519,United Kingdom,2010-09-23 11:45:00,78,1,220.46,110,220.46,2,1,1,4,Hibernating / Lost,2
@@ -806,7 +806,7 @@ customer_id,country,last_purchase,recency,frequency,monetary,total_units,avg_ord
 13537,United Kingdom,2010-10-10 12:45:00,61,2,717.85,337,358.92,2,2,3,7,At Risk,1
 13538,United Kingdom,2010-11-08 14:19:00,32,5,1822.28,784,364.46,3,3,4,10,Loyal Customers,1
 13539,United Kingdom,2010-10-15 09:15:00,56,4,938.02,390,234.5,2,3,3,8,Loyal Customers,1
-13540,United Kingdom,2010-08-29 14:20:00,103,3,632.39,189,210.8,2,3,2,7,Hibernating / Lost,1
+13540,United Kingdom,2010-08-29 14:20:00,103,3,632.39,189,210.8,2,3,2,7,At Risk,1
 13541,United Kingdom,2010-10-08 16:37:00,63,2,785.25,279,392.62,2,2,3,7,At Risk,1
 13542,United Kingdom,2010-11-28 11:24:00,12,17,3959.4900000000002,804,232.91,4,4,4,12,Champions,3
 13543,United Kingdom,2010-03-15 13:34:00,270,2,1439.6100000000001,329,719.8,1,2,3,6,At Risk,1
@@ -844,7 +844,7 @@ customer_id,country,last_purchase,recency,frequency,monetary,total_units,avg_ord
 13582,United Kingdom,2010-11-15 11:34:00,25,2,241.68,106,120.84,3,2,1,6,Potential Loyalists,0
 13583,United Kingdom,2010-01-29 13:53:00,315,1,664.001,372,664.0,1,1,2,4,Hibernating / Lost,2
 13584,United Kingdom,2010-07-29 13:36:00,134,2,243.3,323,121.65,2,2,1,5,Hibernating / Lost,2
-13585,United Kingdom,2010-06-27 12:33:00,166,3,684.54,1386,228.18,1,3,2,6,Hibernating / Lost,1
+13585,United Kingdom,2010-06-27 12:33:00,166,3,684.54,1386,228.18,1,3,2,6,At Risk,1
 13586,United Kingdom,2010-06-16 13:47:00,177,1,127.28,38,127.28,1,1,1,3,Hibernating / Lost,2
 13587,United Kingdom,2010-09-16 13:52:00,85,3,961.1,484,320.37,2,3,3,8,Loyal Customers,1
 13589,United Kingdom,2010-09-16 13:29:00,85,4,741.09,179,185.27,2,3,3,8,Loyal Customers,1
@@ -854,7 +854,7 @@ customer_id,country,last_purchase,recency,frequency,monetary,total_units,avg_ord
 13594,United Kingdom,2010-08-11 10:23:00,121,1,136.35000000000002,37,136.35,2,1,1,4,Hibernating / Lost,2
 13595,United Kingdom,2010-07-11 12:36:00,152,3,784.48,341,261.49,1,3,3,7,Loyal Customers,1
 13597,United Kingdom,2010-11-04 14:54:00,36,2,396.71,231,198.36,3,2,2,7,Potential Loyalists,0
-13598,United Kingdom,2010-08-01 13:21:00,131,4,601.92,341,150.48,2,3,2,7,Hibernating / Lost,1
+13598,United Kingdom,2010-08-01 13:21:00,131,4,601.92,341,150.48,2,3,2,7,At Risk,1
 13599,United Kingdom,2010-12-08 10:13:00,2,14,5013.96,3200,358.14,4,4,4,12,Champions,3
 13600,United Kingdom,2010-03-15 17:16:00,270,1,298.9,275,298.9,1,1,1,3,Hibernating / Lost,2
 13601,United Kingdom,2010-11-12 15:20:00,28,2,466.67,409,233.34,3,2,2,7,Potential Loyalists,0
@@ -888,7 +888,7 @@ customer_id,country,last_purchase,recency,frequency,monetary,total_units,avg_ord
 13639,United Kingdom,2010-09-29 10:05:00,72,1,312.93,197,312.93,2,1,2,5,Hibernating / Lost,2
 13640,United Kingdom,2010-04-07 15:33:00,247,1,405.0,108,405.0,1,1,2,4,Hibernating / Lost,2
 13641,United Kingdom,2010-03-09 07:37:00,276,4,942.37,1097,235.59,1,3,3,7,Loyal Customers,1
-13642,United Kingdom,2010-10-03 12:33:00,68,3,159.92,80,53.31,2,3,1,6,Hibernating / Lost,2
+13642,United Kingdom,2010-10-03 12:33:00,68,3,159.92,80,53.31,2,3,1,6,At Risk,2
 13643,United Kingdom,2010-11-22 15:19:00,18,7,1637.33,629,233.9,4,4,3,11,Loyal Customers,3
 13646,United Kingdom,2010-11-05 12:13:00,35,2,326.25,79,163.12,3,2,2,7,Potential Loyalists,0
 13647,United Kingdom,2010-08-02 10:31:00,130,4,1393.56,908,348.39,2,3,3,8,Loyal Customers,1
@@ -916,7 +916,7 @@ customer_id,country,last_purchase,recency,frequency,monetary,total_units,avg_ord
 13674,United Kingdom,2010-10-03 10:41:00,68,1,240.68,102,240.68,2,1,1,4,Hibernating / Lost,2
 13676,United Kingdom,2010-06-18 17:30:00,175,2,243.9,104,121.95,1,2,1,4,Hibernating / Lost,2
 13677,United Kingdom,2010-10-31 11:32:00,40,2,551.24,217,275.62,3,2,2,7,Potential Loyalists,0
-13679,United Kingdom,2010-08-03 12:13:00,129,3,281.26,102,93.75,2,3,1,6,Hibernating / Lost,2
+13679,United Kingdom,2010-08-03 12:13:00,129,3,281.26,102,93.75,2,3,1,6,At Risk,2
 13680,United Kingdom,2010-08-25 13:05:00,107,8,7700.55,3310,962.57,2,4,4,10,Loyal Customers,1
 13683,United Kingdom,2010-09-08 10:00:00,93,1,258.6,180,258.6,2,1,1,4,Hibernating / Lost,2
 13684,United Kingdom,2010-11-14 11:34:00,26,3,529.75,196,176.58,3,3,2,8,Hibernating / Lost,0
@@ -932,7 +932,7 @@ customer_id,country,last_purchase,recency,frequency,monetary,total_units,avg_ord
 13696,United Kingdom,2010-10-14 09:44:00,57,3,2020.4,552,673.47,2,3,4,9,Loyal Customers,1
 13698,United Kingdom,2010-04-22 11:52:00,232,2,451.73,227,225.86,1,2,2,5,Hibernating / Lost,2
 13699,United Kingdom,2010-06-07 13:03:00,186,1,455.57,153,455.57,1,1,2,4,Hibernating / Lost,2
-13700,United Kingdom,2010-10-18 11:38:00,53,3,348.34,505,116.11,2,3,2,7,Hibernating / Lost,0
+13700,United Kingdom,2010-10-18 11:38:00,53,3,348.34,505,116.11,2,3,2,7,At Risk,0
 13701,United Kingdom,2010-09-19 12:39:00,82,1,161.0,80,161.0,2,1,1,4,Hibernating / Lost,2
 13702,United Kingdom,2010-09-20 11:40:00,81,1,135.18,74,135.18,2,1,1,4,Hibernating / Lost,2
 13703,United Kingdom,2010-10-20 13:11:00,51,1,326.06,118,326.06,3,1,2,6,Potential Loyalists,2
@@ -995,8 +995,8 @@ customer_id,country,last_purchase,recency,frequency,monetary,total_units,avg_ord
 13781,United Kingdom,2010-04-26 14:30:00,228,2,650.99,270,325.5,1,2,2,5,Hibernating / Lost,2
 13782,United Kingdom,2010-09-12 10:40:00,89,7,877.22,274,125.32,2,4,3,9,Loyal Customers,1
 13783,United Kingdom,2010-08-09 09:23:00,123,4,1542.09,3437,385.52,2,3,3,8,Loyal Customers,1
-13784,United Kingdom,2010-10-01 08:19:00,70,3,447.44,334,149.15,2,3,2,7,Hibernating / Lost,1
-13785,United Kingdom,2010-10-07 09:25:00,64,4,542.49,151,135.62,2,3,2,7,Hibernating / Lost,1
+13784,United Kingdom,2010-10-01 08:19:00,70,3,447.44,334,149.15,2,3,2,7,At Risk,1
+13785,United Kingdom,2010-10-07 09:25:00,64,4,542.49,151,135.62,2,3,2,7,At Risk,1
 13786,United Kingdom,2010-12-07 13:53:00,3,6,3127.99,1515,521.33,4,4,4,12,Champions,3
 13787,United Kingdom,2010-09-07 11:55:00,94,4,913.46,661,228.36,2,3,3,8,Loyal Customers,1
 13788,United Kingdom,2010-07-22 15:50:00,141,1,3.75,1,3.75,1,1,1,3,Hibernating / Lost,2
@@ -1020,7 +1020,7 @@ customer_id,country,last_purchase,recency,frequency,monetary,total_units,avg_ord
 13815,Germany,2010-10-29 11:42:00,42,4,3070.38,2800,767.6,3,3,4,10,Loyal Customers,1
 13818,United Kingdom,2010-10-06 12:35:00,65,1,61.28,60,61.28,2,1,1,4,Hibernating / Lost,2
 13819,United Kingdom,2010-02-08 15:30:00,305,3,1502.0,1200,500.67,1,3,3,7,Loyal Customers,1
-13820,United Kingdom,2010-10-17 13:46:00,54,3,652.75,285,217.58,2,3,2,7,Hibernating / Lost,1
+13820,United Kingdom,2010-10-17 13:46:00,54,3,652.75,285,217.58,2,3,2,7,At Risk,1
 13821,United Kingdom,2010-11-11 13:24:00,29,4,993.44,324,248.36,3,3,3,9,Loyal Customers,1
 13823,United Kingdom,2010-11-24 13:32:00,16,5,2445.79,1125,489.16,4,3,4,11,Loyal Customers,3
 13824,United Kingdom,2010-11-25 17:33:00,15,7,1615.82,674,230.83,4,4,3,11,Loyal Customers,3
@@ -1031,7 +1031,7 @@ customer_id,country,last_purchase,recency,frequency,monetary,total_units,avg_ord
 13832,United Kingdom,2010-10-13 14:41:00,58,1,557.6899999999999,392,557.69,2,1,2,5,Hibernating / Lost,2
 13833,United Kingdom,2010-10-31 14:11:00,40,1,316.56,126,316.56,3,1,2,6,Potential Loyalists,0
 13834,United Kingdom,2010-05-12 10:27:00,212,2,324.19,221,162.1,1,2,2,5,Hibernating / Lost,2
-13835,United Kingdom,2010-07-08 11:50:00,155,3,260.7,78,86.9,1,3,1,5,Hibernating / Lost,2
+13835,United Kingdom,2010-07-08 11:50:00,155,3,260.7,78,86.9,1,3,1,5,At Risk,2
 13836,United Kingdom,2010-11-05 13:31:00,35,2,620.37,273,310.18,3,2,2,7,Potential Loyalists,0
 13838,United Kingdom,2010-12-05 10:45:00,5,7,1245.91,520,177.99,4,4,3,11,Loyal Customers,3
 13839,United Kingdom,2010-08-10 13:52:00,122,1,139.95000000000002,25,139.95,2,1,1,4,Hibernating / Lost,2
@@ -1110,7 +1110,7 @@ customer_id,country,last_purchase,recency,frequency,monetary,total_units,avg_ord
 13952,United Kingdom,2010-11-24 14:29:00,16,12,9572.45,4516,797.7,4,4,4,12,Champions,3
 13953,United Kingdom,2010-10-26 15:16:00,45,5,3125.0,2500,625.0,3,3,4,10,Loyal Customers,1
 13955,United Kingdom,2010-11-29 17:35:00,11,1,221.10999999999999,118,221.11,4,1,1,6,Potential Loyalists,0
-13957,United Kingdom,2010-10-18 10:02:00,53,3,458.25,157,152.75,2,3,2,7,Hibernating / Lost,1
+13957,United Kingdom,2010-10-18 10:02:00,53,3,458.25,157,152.75,2,3,2,7,At Risk,1
 13958,United Kingdom,2010-11-25 10:11:00,15,8,4709.2300000000005,2264,588.65,4,4,4,12,Champions,3
 13959,United Kingdom,2010-11-05 16:52:00,35,3,470.73,339,156.91,3,3,2,8,Hibernating / Lost,0
 13961,United Kingdom,2010-11-12 14:40:00,28,1,538.4,226,538.4,3,1,2,6,Potential Loyalists,0
@@ -1129,7 +1129,7 @@ customer_id,country,last_purchase,recency,frequency,monetary,total_units,avg_ord
 13976,United Kingdom,2010-07-21 09:27:00,142,3,834.38,298,278.13,1,3,3,7,Loyal Customers,1
 13977,United Kingdom,2010-10-24 14:08:00,47,1,519.8100000000001,303,519.81,3,1,2,6,Potential Loyalists,0
 13979,United Kingdom,2010-11-11 14:10:00,29,6,2503.76,1602,417.29,3,4,4,11,Loyal Customers,1
-13980,United Kingdom,2010-09-26 12:58:00,75,4,568.68,291,142.17,2,3,2,7,Hibernating / Lost,1
+13980,United Kingdom,2010-09-26 12:58:00,75,4,568.68,291,142.17,2,3,2,7,At Risk,1
 13981,United Kingdom,2010-10-20 10:03:00,51,1,331.14,234,331.14,3,1,2,6,Potential Loyalists,2
 13982,United Kingdom,2010-12-09 13:57:00,1,6,2511.08,1550,418.51,4,4,4,12,Champions,3
 13983,United Kingdom,2010-12-08 10:38:00,2,10,4479.82,2962,447.98,4,4,4,12,Champions,3
@@ -1142,8 +1142,8 @@ customer_id,country,last_purchase,recency,frequency,monetary,total_units,avg_ord
 13993,United Kingdom,2010-11-25 11:03:00,15,10,3309.35,1235,330.94,4,4,4,12,Champions,3
 13995,United Kingdom,2010-11-25 16:31:00,15,9,2508.32,1480,278.7,4,4,4,12,Champions,3
 13996,United Kingdom,2010-11-18 16:27:00,22,2,845.76,612,422.88,3,2,3,8,Potential Loyalists,0
-13997,United Kingdom,2010-07-08 18:06:00,155,3,376.46,143,125.49,1,3,2,6,Hibernating / Lost,2
-13998,United Kingdom,2010-09-19 10:20:00,82,3,566.7,204,188.9,2,3,2,7,Hibernating / Lost,1
+13997,United Kingdom,2010-07-08 18:06:00,155,3,376.46,143,125.49,1,3,2,6,At Risk,2
+13998,United Kingdom,2010-09-19 10:20:00,82,3,566.7,204,188.9,2,3,2,7,At Risk,1
 13999,United Kingdom,2010-11-30 09:46:00,10,17,5600.45,2800,329.44,4,4,4,12,Champions,3
 14000,United Kingdom,2010-10-21 15:35:00,50,4,1410.68,1128,352.67,3,3,3,9,Loyal Customers,1
 14001,United Kingdom,2010-12-01 12:58:00,9,7,2487.01,911,355.29,4,4,4,12,Champions,3
@@ -1172,7 +1172,7 @@ customer_id,country,last_purchase,recency,frequency,monetary,total_units,avg_ord
 14032,United Kingdom,2010-12-08 10:53:00,2,6,1874.68,1884,312.45,4,4,4,12,Champions,3
 14033,United Kingdom,2010-06-02 15:10:00,191,1,109.44,576,109.44,1,1,1,3,Hibernating / Lost,2
 14035,United Kingdom,2010-10-29 10:10:00,42,4,1366.73,666,341.68,3,3,3,9,Loyal Customers,1
-14037,United Kingdom,2010-08-18 12:52:00,114,4,689.75,544,172.44,2,3,2,7,Hibernating / Lost,1
+14037,United Kingdom,2010-08-18 12:52:00,114,4,689.75,544,172.44,2,3,2,7,At Risk,1
 14038,United Kingdom,2010-11-07 14:52:00,33,2,1509.5,743,754.75,3,2,3,8,Potential Loyalists,1
 14039,United Kingdom,2010-05-13 10:15:00,211,1,115.08000000000001,100,115.08,1,1,1,3,Hibernating / Lost,2
 14040,United Kingdom,2010-11-18 13:01:00,22,23,8963.49,3428,389.72,3,4,4,11,Loyal Customers,3
@@ -1244,7 +1244,7 @@ customer_id,country,last_purchase,recency,frequency,monetary,total_units,avg_ord
 14135,United Kingdom,2010-12-07 12:37:00,3,11,4953.61,5505,450.33,4,4,4,12,Champions,3
 14136,United Kingdom,2010-11-04 11:53:00,36,5,1570.81,1148,314.16,3,3,3,9,Loyal Customers,1
 14137,United Kingdom,2010-01-13 12:30:00,331,1,332.7,462,332.7,1,1,2,4,Hibernating / Lost,2
-14139,United Kingdom,2010-08-06 14:00:00,126,3,670.98,539,223.66,2,3,2,7,Hibernating / Lost,1
+14139,United Kingdom,2010-08-06 14:00:00,126,3,670.98,539,223.66,2,3,2,7,At Risk,1
 14142,United Kingdom,2010-12-01 16:33:00,9,2,671.34,518,335.67,4,2,2,8,Potential Loyalists,0
 14144,United Kingdom,2010-08-10 15:17:00,122,1,30.599999999999998,12,30.6,2,1,1,4,Hibernating / Lost,2
 14145,United Kingdom,2010-09-06 09:53:00,95,3,3857.85,899,1285.95,2,3,4,9,Loyal Customers,1
@@ -1267,14 +1267,14 @@ customer_id,country,last_purchase,recency,frequency,monetary,total_units,avg_ord
 14169,United Kingdom,2010-10-05 08:45:00,66,2,613.11,201,306.56,2,2,2,6,Hibernating / Lost,1
 14170,United Kingdom,2010-11-29 13:10:00,11,3,570.18,270,190.06,4,3,2,9,Hibernating / Lost,0
 14171,United Kingdom,2009-12-09 13:50:00,366,1,135.0,44,135.0,1,1,1,3,Hibernating / Lost,2
-14172,United Kingdom,2010-04-13 13:26:00,241,3,369.02,78,123.01,1,3,2,6,Hibernating / Lost,2
+14172,United Kingdom,2010-04-13 13:26:00,241,3,369.02,78,123.01,1,3,2,6,At Risk,2
 14173,United Kingdom,2010-03-08 13:24:00,277,2,135.16,44,67.58,1,2,1,4,Hibernating / Lost,2
 14175,United Kingdom,2010-10-17 13:59:00,54,5,4456.58,1494,891.32,2,3,4,9,Loyal Customers,1
 14176,United Kingdom,2010-12-07 11:45:00,3,2,339.11,117,169.56,4,2,2,8,Potential Loyalists,0
 14177,United Kingdom,2010-11-23 14:23:00,17,9,1660.23,839,184.47,4,4,3,11,Loyal Customers,3
 14180,United Kingdom,2010-12-02 13:08:00,8,9,1570.73,159,174.53,4,4,3,11,Loyal Customers,3
 14181,United Kingdom,2010-10-25 08:27:00,46,2,308.35,120,154.18,3,2,2,7,Potential Loyalists,0
-14182,United Kingdom,2010-09-22 11:45:00,79,4,678.77,174,169.69,2,3,2,7,Hibernating / Lost,1
+14182,United Kingdom,2010-09-22 11:45:00,79,4,678.77,174,169.69,2,3,2,7,At Risk,1
 14183,United Kingdom,2010-10-24 14:45:00,47,2,278.34000000000003,60,139.17,3,2,1,6,Potential Loyalists,0
 14186,United Kingdom,2010-10-08 13:30:00,63,5,1550.63,1550,310.13,2,3,3,8,Loyal Customers,1
 14187,United Kingdom,2010-08-23 12:06:00,109,1,123.5,50,123.5,2,1,1,4,Hibernating / Lost,2
@@ -1352,7 +1352,7 @@ customer_id,country,last_purchase,recency,frequency,monetary,total_units,avg_ord
 14279,United Kingdom,2010-07-07 08:42:00,156,2,191.86,46,95.93,1,2,1,4,Hibernating / Lost,2
 14281,United Kingdom,2010-10-27 14:45:00,44,1,245.15,45,245.15,3,1,1,5,Potential Loyalists,2
 14282,United Kingdom,2010-12-07 12:21:00,3,11,4120.32,2810,374.57,4,4,4,12,Champions,3
-14283,United Kingdom,2010-09-02 14:46:00,99,4,628.4399999999999,550,157.11,2,3,2,7,Hibernating / Lost,1
+14283,United Kingdom,2010-09-02 14:46:00,99,4,628.4399999999999,550,157.11,2,3,2,7,At Risk,1
 14284,United Kingdom,2010-02-24 12:06:00,289,1,704.4,349,704.4,1,1,3,5,At Risk,2
 14285,United Kingdom,2010-07-14 14:07:00,149,4,1374.41,413,343.6,1,3,3,7,Loyal Customers,1
 14286,United Kingdom,2010-10-31 15:39:00,40,4,3851.0099999999998,4457,962.75,3,3,4,10,Loyal Customers,1
@@ -1382,7 +1382,7 @@ customer_id,country,last_purchase,recency,frequency,monetary,total_units,avg_ord
 14319,United Kingdom,2010-10-11 13:38:00,60,1,494.85,329,494.85,2,1,2,5,Hibernating / Lost,2
 14320,United Kingdom,2010-06-11 12:45:00,182,3,868.96,388,289.65,1,3,3,7,Loyal Customers,1
 14321,United Kingdom,2010-10-04 12:48:00,67,2,687.3100000000001,869,343.66,2,2,2,6,Hibernating / Lost,1
-14322,United Kingdom,2010-10-06 15:17:00,65,4,474.1,158,118.52,2,3,2,7,Hibernating / Lost,1
+14322,United Kingdom,2010-10-06 15:17:00,65,4,474.1,158,118.52,2,3,2,7,At Risk,1
 14324,United Kingdom,2010-10-26 11:44:00,45,2,701.61,402,350.8,3,2,3,8,Potential Loyalists,0
 14325,United Kingdom,2010-05-19 09:20:00,205,1,245.48000000000002,320,245.48,1,1,1,3,Hibernating / Lost,2
 14326,United Kingdom,2010-09-02 13:29:00,99,2,757.13,469,378.56,2,2,3,7,At Risk,1
@@ -1447,7 +1447,7 @@ customer_id,country,last_purchase,recency,frequency,monetary,total_units,avg_ord
 14421,United Kingdom,2010-07-15 12:30:00,148,4,1656.26,977,414.06,1,3,3,7,Loyal Customers,1
 14422,United Kingdom,2010-11-30 10:43:00,10,13,6007.88,3161,462.14,4,4,4,12,Champions,3
 14423,United Kingdom,2010-09-28 10:42:00,73,2,651.41,299,325.7,2,2,2,6,Hibernating / Lost,1
-14425,United Kingdom,2010-10-01 10:24:00,70,3,661.39,325,220.46,2,3,2,7,Hibernating / Lost,1
+14425,United Kingdom,2010-10-01 10:24:00,70,3,661.39,325,220.46,2,3,2,7,At Risk,1
 14426,United Kingdom,2010-11-01 16:24:00,39,7,7246.27,4324,1035.18,3,4,4,11,Loyal Customers,3
 14427,United Kingdom,2010-08-02 11:25:00,130,2,900.1800000000001,310,450.09,2,2,3,7,At Risk,1
 14429,United Kingdom,2010-11-01 10:08:00,39,1,516.28,286,516.28,3,1,2,6,Potential Loyalists,0
@@ -1471,7 +1471,7 @@ customer_id,country,last_purchase,recency,frequency,monetary,total_units,avg_ord
 14451,United Kingdom,2010-11-15 14:09:00,25,10,2614.78,1359,261.48,3,4,4,11,Loyal Customers,3
 14452,United Kingdom,2010-11-09 14:13:00,31,2,399.9,169,199.95,3,2,2,7,Potential Loyalists,0
 14454,United Kingdom,2010-11-28 13:26:00,12,5,977.3,400,195.46,4,3,3,10,Loyal Customers,0
-14455,United Kingdom,2010-10-03 15:48:00,68,4,617.72,706,154.43,2,3,2,7,Hibernating / Lost,1
+14455,United Kingdom,2010-10-03 15:48:00,68,4,617.72,706,154.43,2,3,2,7,At Risk,1
 14458,United Kingdom,2010-11-24 12:43:00,16,1,219.26999999999998,309,219.27,4,1,1,6,Potential Loyalists,0
 14459,United Kingdom,2010-02-26 13:26:00,287,1,3537.821,1543,3537.82,1,1,4,6,At Risk,1
 14460,United Kingdom,2010-11-08 15:00:00,32,6,659.16,998,109.86,3,4,2,9,Hibernating / Lost,1
@@ -1489,7 +1489,7 @@ customer_id,country,last_purchase,recency,frequency,monetary,total_units,avg_ord
 14472,United Kingdom,2010-01-19 13:09:00,325,1,266.05,136,266.05,1,1,1,3,Hibernating / Lost,2
 14474,United Kingdom,2010-05-09 12:12:00,215,1,711.23,308,711.23,1,1,3,5,At Risk,2
 14475,United Kingdom,2010-10-27 09:20:00,44,1,225.3,94,225.3,3,1,1,5,Potential Loyalists,2
-14477,United Kingdom,2010-09-29 14:05:00,72,3,660.0,400,220.0,2,3,2,7,Hibernating / Lost,1
+14477,United Kingdom,2010-09-29 14:05:00,72,3,660.0,400,220.0,2,3,2,7,At Risk,1
 14478,United Kingdom,2010-11-22 15:29:00,18,4,1276.66,1226,319.17,4,3,3,10,Loyal Customers,1
 14479,United Kingdom,2010-12-09 12:59:00,1,3,982.86,503,327.62,4,3,3,10,Loyal Customers,0
 14480,United Kingdom,2010-11-02 12:35:00,38,3,1020.47,527,340.16,3,3,3,9,Loyal Customers,1
@@ -1517,7 +1517,7 @@ customer_id,country,last_purchase,recency,frequency,monetary,total_units,avg_ord
 14509,United Kingdom,2010-06-23 13:21:00,170,1,110.95,38,110.95,1,1,1,3,Hibernating / Lost,2
 14510,United Kingdom,2010-11-29 12:46:00,11,3,979.85,793,326.62,4,3,3,10,Loyal Customers,0
 14512,United Kingdom,2010-11-21 13:00:00,19,5,940.69,614,188.14,3,4,3,10,Loyal Customers,1
-14513,United Kingdom,2010-09-29 12:11:00,72,3,332.42,232,110.81,2,3,2,7,Hibernating / Lost,2
+14513,United Kingdom,2010-09-29 12:11:00,72,3,332.42,232,110.81,2,3,2,7,At Risk,2
 14514,United Kingdom,2010-09-29 13:14:00,72,6,3389.84,1798,564.97,2,4,4,10,Loyal Customers,1
 14515,United Kingdom,2010-11-17 12:24:00,23,6,1647.17,783,274.53,3,4,3,10,Loyal Customers,1
 14516,United Kingdom,2010-07-11 14:07:00,152,1,151.17,63,151.17,1,1,1,3,Hibernating / Lost,2
@@ -1543,14 +1543,14 @@ customer_id,country,last_purchase,recency,frequency,monetary,total_units,avg_ord
 14545,United Kingdom,2010-02-03 15:23:00,310,1,349.25,236,349.25,1,1,2,4,Hibernating / Lost,2
 14546,United Kingdom,2010-11-28 12:15:00,12,6,2610.91,1375,435.15,4,4,4,12,Champions,3
 14548,United Kingdom,2010-08-12 15:48:00,120,7,1888.49,730,269.78,2,4,4,10,Loyal Customers,1
-14549,United Kingdom,2010-10-15 08:26:00,56,3,624.36,258,208.12,2,3,2,7,Hibernating / Lost,1
+14549,United Kingdom,2010-10-15 08:26:00,56,3,624.36,258,208.12,2,3,2,7,At Risk,1
 14550,United Kingdom,2010-11-16 14:05:00,24,2,587.69,382,293.85,3,2,2,7,Potential Loyalists,0
 14551,United Kingdom,2010-10-24 14:45:00,47,5,691.86,380,138.37,3,4,2,9,Hibernating / Lost,1
 14552,United Kingdom,2010-11-24 12:36:00,16,2,343.71,168,171.86,4,2,2,8,Potential Loyalists,0
 14553,United Kingdom,2010-10-24 12:00:00,47,4,959.33,625,239.83,3,3,3,9,Loyal Customers,1
 14555,United Kingdom,2010-11-23 11:35:00,17,4,1991.49,720,497.87,4,3,4,11,Loyal Customers,1
 14556,United Kingdom,2010-04-22 14:57:00,232,3,815.69,323,271.9,1,3,3,7,Loyal Customers,1
-14558,United Kingdom,2010-02-23 12:51:00,290,3,655.5,162,218.5,1,3,2,6,Hibernating / Lost,2
+14558,United Kingdom,2010-02-23 12:51:00,290,3,655.5,162,218.5,1,3,2,6,At Risk,2
 14559,United Kingdom,2010-11-14 16:05:00,26,1,75.6,72,75.6,3,1,1,5,Potential Loyalists,0
 14560,United Kingdom,2010-11-25 09:50:00,15,22,3876.2599999999998,3320,176.19,4,4,4,12,Champions,3
 14562,United Kingdom,2010-11-14 11:10:00,26,8,1631.38,759,203.92,3,4,3,10,Loyal Customers,3
@@ -1559,7 +1559,7 @@ customer_id,country,last_purchase,recency,frequency,monetary,total_units,avg_ord
 14565,United Kingdom,2010-08-23 09:48:00,109,1,760.1,400,760.1,2,1,3,6,At Risk,2
 14566,Channel Islands,2010-10-18 14:57:00,53,3,2660.0,1600,886.67,2,3,4,9,Loyal Customers,1
 14568,Channel Islands,2010-09-30 17:15:00,71,1,919.7,645,919.7,2,1,3,6,At Risk,2
-14569,United Kingdom,2010-09-13 10:51:00,88,3,369.94,178,123.31,2,3,2,7,Hibernating / Lost,2
+14569,United Kingdom,2010-09-13 10:51:00,88,3,369.94,178,123.31,2,3,2,7,At Risk,2
 14570,United Kingdom,2010-09-22 13:07:00,79,1,295.19,269,295.19,2,1,1,4,Hibernating / Lost,2
 14571,United Kingdom,2010-10-10 15:06:00,61,1,160.0,56,160.0,2,1,1,4,Hibernating / Lost,2
 14572,United Kingdom,2010-10-18 17:11:00,53,4,2716.44,1456,679.11,2,3,4,9,Loyal Customers,1
@@ -1630,7 +1630,7 @@ customer_id,country,last_purchase,recency,frequency,monetary,total_units,avg_ord
 14655,United Kingdom,2010-11-16 12:28:00,24,3,1946.28,1252,648.76,3,3,4,10,Loyal Customers,1
 14656,United Kingdom,2010-10-20 13:26:00,51,3,498.95,189,166.32,3,3,2,8,Hibernating / Lost,1
 14657,United Kingdom,2010-10-06 15:33:00,65,2,601.97,413,300.98,2,2,2,6,Hibernating / Lost,1
-14662,United Kingdom,2010-10-08 13:31:00,63,3,635.06,329,211.69,2,3,2,7,Hibernating / Lost,1
+14662,United Kingdom,2010-10-08 13:31:00,63,3,635.06,329,211.69,2,3,2,7,At Risk,1
 14663,United Kingdom,2010-10-05 13:21:00,66,2,490.6,397,245.3,2,2,2,6,Hibernating / Lost,2
 14665,United Kingdom,2010-10-08 14:40:00,63,2,913.95,404,456.98,2,2,3,7,At Risk,1
 14667,United Kingdom,2010-12-09 14:19:00,1,31,12386.51,7311,399.56,4,4,4,12,Champions,3
@@ -1661,7 +1661,7 @@ customer_id,country,last_purchase,recency,frequency,monetary,total_units,avg_ord
 14694,United Kingdom,2010-04-01 19:46:00,253,1,244.31,193,244.31,1,1,1,3,Hibernating / Lost,2
 14695,United Kingdom,2010-07-08 14:18:00,155,3,1534.22,661,511.41,1,3,3,7,Loyal Customers,1
 14696,United Kingdom,2010-12-01 15:37:00,9,2,688.95,521,344.48,4,2,2,8,Potential Loyalists,0
-14699,United Kingdom,2010-09-30 15:14:00,71,3,593.47,407,197.82,2,3,2,7,Hibernating / Lost,1
+14699,United Kingdom,2010-09-30 15:14:00,71,3,593.47,407,197.82,2,3,2,7,At Risk,1
 14700,United Kingdom,2010-10-20 12:26:00,51,2,880.96,292,440.48,3,2,3,8,Potential Loyalists,1
 14701,United Kingdom,2010-09-23 11:46:00,78,6,1961.02,823,326.84,2,4,4,10,Loyal Customers,1
 14702,United Kingdom,2010-12-09 19:23:00,1,13,3415.64,1597,262.74,4,4,4,12,Champions,3
@@ -1747,7 +1747,7 @@ customer_id,country,last_purchase,recency,frequency,monetary,total_units,avg_ord
 14813,United Kingdom,2010-12-05 11:57:00,5,4,888.91,392,222.23,4,3,3,10,Loyal Customers,0
 14814,United Kingdom,2010-05-07 14:10:00,217,1,152.96,92,152.96,1,1,1,3,Hibernating / Lost,2
 14817,United Kingdom,2010-11-09 12:15:00,31,5,2599.52,1802,519.9,3,4,4,11,Loyal Customers,1
-14818,United Kingdom,2010-09-07 14:16:00,94,3,495.76,219,165.25,2,3,2,7,Hibernating / Lost,1
+14818,United Kingdom,2010-09-07 14:16:00,94,3,495.76,219,165.25,2,3,2,7,At Risk,1
 14819,United Kingdom,2010-08-02 17:19:00,130,2,184.34,61,92.17,2,2,1,5,Hibernating / Lost,2
 14820,United Kingdom,2010-11-24 17:15:00,16,5,767.47,471,153.49,4,4,3,11,Loyal Customers,0
 14821,United Kingdom,2010-12-08 08:43:00,2,7,1230.15,459,175.74,4,4,3,11,Loyal Customers,3
@@ -1848,16 +1848,16 @@ customer_id,country,last_purchase,recency,frequency,monetary,total_units,avg_ord
 14944,United Kingdom,2010-11-15 10:46:00,25,7,3784.42,2047,540.63,3,4,4,11,Loyal Customers,3
 14945,United Kingdom,2010-10-22 11:26:00,49,1,179.4,156,179.4,3,1,1,5,Potential Loyalists,2
 14947,United Kingdom,2010-11-16 18:30:00,24,4,758.97,237,189.74,3,3,3,9,Loyal Customers,1
-14949,United Kingdom,2010-08-27 15:38:00,105,4,515.0,250,128.75,2,3,2,7,Hibernating / Lost,1
+14949,United Kingdom,2010-08-27 15:38:00,105,4,515.0,250,128.75,2,3,2,7,At Risk,1
 14952,United Kingdom,2010-11-08 12:21:00,32,21,9529.86,3622,453.8,3,4,4,11,Loyal Customers,3
-14953,United Kingdom,2010-10-17 12:52:00,54,3,683.15,788,227.72,2,3,2,7,Hibernating / Lost,1
+14953,United Kingdom,2010-10-17 12:52:00,54,3,683.15,788,227.72,2,3,2,7,At Risk,1
 14954,United Kingdom,2010-01-05 16:38:00,339,1,167.27,92,167.27,1,1,1,3,Hibernating / Lost,2
 14955,United Kingdom,2009-12-07 11:35:00,368,1,163.77,74,163.77,1,1,1,3,Hibernating / Lost,2
 14956,United Kingdom,2010-10-14 16:40:00,57,1,1325.0,2500,1325.0,2,1,3,6,At Risk,1
 14957,United Kingdom,2010-03-05 10:50:00,280,1,203.2,63,203.2,1,1,1,3,Hibernating / Lost,2
-14958,United Kingdom,2010-04-23 14:31:00,231,3,458.26,120,152.75,1,3,2,6,Hibernating / Lost,2
+14958,United Kingdom,2010-04-23 14:31:00,231,3,458.26,120,152.75,1,3,2,6,At Risk,2
 14961,United Kingdom,2010-11-25 09:46:00,15,13,9365.47,4664,720.42,4,4,4,12,Champions,3
-14962,United Kingdom,2010-06-18 15:57:00,175,3,240.21000000000004,79,80.07,1,3,1,5,Hibernating / Lost,2
+14962,United Kingdom,2010-06-18 15:57:00,175,3,240.21000000000004,79,80.07,1,3,1,5,At Risk,2
 14963,United Kingdom,2010-11-25 11:19:00,15,7,1651.23,1128,235.89,4,4,3,11,Loyal Customers,3
 14966,United Kingdom,2010-11-17 13:14:00,23,5,881.24,881,176.25,3,4,3,10,Loyal Customers,1
 14967,United Kingdom,2010-09-24 11:11:00,77,5,1518.81,512,303.76,2,4,3,9,Loyal Customers,1
@@ -1925,7 +1925,7 @@ customer_id,country,last_purchase,recency,frequency,monetary,total_units,avg_ord
 15048,United Kingdom,2010-12-06 12:15:00,4,1,98.7,32,98.7,4,1,1,6,Potential Loyalists,0
 15050,United Kingdom,2010-10-14 14:18:00,57,2,2349.5,1384,1174.75,2,2,4,8,At Risk,1
 15051,United Kingdom,2010-11-25 16:46:00,15,6,2543.55,2042,423.92,4,4,4,12,Champions,3
-15055,United Kingdom,2010-08-22 11:06:00,110,3,549.12,225,183.04,2,3,2,7,Hibernating / Lost,1
+15055,United Kingdom,2010-08-22 11:06:00,110,3,549.12,225,183.04,2,3,2,7,At Risk,1
 15056,United Kingdom,2010-07-07 15:58:00,156,1,113.64999999999999,69,113.65,1,1,1,3,Hibernating / Lost,2
 15057,United Kingdom,2010-09-22 14:22:00,79,3,1766.46,726,588.82,2,3,4,9,Loyal Customers,1
 15058,United Kingdom,2010-11-28 10:42:00,12,5,1285.04,591,257.01,4,4,3,11,Loyal Customers,1
@@ -2014,13 +2014,13 @@ customer_id,country,last_purchase,recency,frequency,monetary,total_units,avg_ord
 15180,United Kingdom,2010-12-07 14:57:00,3,3,816.9300000000001,654,272.31,4,3,3,10,Loyal Customers,0
 15181,United Kingdom,2010-10-15 11:47:00,56,2,510.72,144,255.36,2,2,2,6,Hibernating / Lost,0
 15182,United Kingdom,2010-11-19 10:31:00,21,9,2376.1020000000003,933,264.01,3,4,4,11,Loyal Customers,3
-15183,United Kingdom,2010-06-10 10:43:00,183,3,639.93,297,213.31,1,3,2,6,Hibernating / Lost,1
+15183,United Kingdom,2010-06-10 10:43:00,183,3,639.93,297,213.31,1,3,2,6,At Risk,1
 15184,United Kingdom,2010-11-17 12:41:00,23,2,283.19,263,141.6,3,2,1,6,Potential Loyalists,0
 15186,United Kingdom,2010-08-22 15:00:00,110,3,991.7900000000001,501,330.6,2,3,3,8,Loyal Customers,1
 15188,United Kingdom,2009-12-14 13:30:00,361,1,310.43,233,310.43,1,1,2,4,Hibernating / Lost,2
 15189,United Kingdom,2010-11-23 18:47:00,17,5,1298.99,753,259.8,4,4,3,11,Loyal Customers,1
 15190,United Kingdom,2010-10-01 13:09:00,70,1,834.4399999999999,790,834.44,2,1,3,6,At Risk,2
-15191,United Kingdom,2010-09-02 15:37:00,99,3,588.05,287,196.02,2,3,2,7,Hibernating / Lost,1
+15191,United Kingdom,2010-09-02 15:37:00,99,3,588.05,287,196.02,2,3,2,7,At Risk,1
 15192,United Kingdom,2010-12-09 14:56:00,1,3,937.07,726,312.36,4,3,3,10,Loyal Customers,0
 15194,United Kingdom,2010-12-06 15:00:00,4,14,4811.16,3466,343.65,4,4,4,12,Champions,3
 15196,United Kingdom,2010-10-03 10:50:00,68,2,313.7,130,156.85,2,2,2,6,Hibernating / Lost,2
@@ -2043,8 +2043,8 @@ customer_id,country,last_purchase,recency,frequency,monetary,total_units,avg_ord
 15219,United Kingdom,2010-03-01 11:33:00,284,1,379.7,226,379.7,1,1,2,4,Hibernating / Lost,2
 15221,United Kingdom,2010-12-08 13:08:00,2,4,2062.2000000000003,244,515.55,4,3,4,11,Loyal Customers,3
 15222,United Kingdom,2010-08-24 10:39:00,108,10,2965.91,4018,296.59,2,4,4,10,Loyal Customers,1
-15223,United Kingdom,2010-04-09 11:34:00,245,3,662.2,172,220.73,1,3,2,6,Hibernating / Lost,1
-15224,United Kingdom,2010-07-15 09:08:00,148,3,549.28,291,183.09,1,3,2,6,Hibernating / Lost,1
+15223,United Kingdom,2010-04-09 11:34:00,245,3,662.2,172,220.73,1,3,2,6,At Risk,1
+15224,United Kingdom,2010-07-15 09:08:00,148,3,549.28,291,183.09,1,3,2,6,At Risk,1
 15227,United Kingdom,2010-11-08 13:31:00,32,4,1269.0900000000001,467,317.27,3,3,3,9,Loyal Customers,1
 15228,United Kingdom,2010-10-07 14:24:00,64,2,2193.56,1120,1096.78,2,2,4,8,At Risk,1
 15229,United Kingdom,2010-05-02 13:50:00,222,1,160.5,114,160.5,1,1,1,3,Hibernating / Lost,2
@@ -2084,7 +2084,7 @@ customer_id,country,last_purchase,recency,frequency,monetary,total_units,avg_ord
 15273,United Kingdom,2010-04-19 11:31:00,235,1,228.96,216,228.96,1,1,1,3,Hibernating / Lost,2
 15276,United Kingdom,2010-11-10 16:07:00,30,3,491.17,256,163.72,3,3,2,8,Hibernating / Lost,0
 15277,United Kingdom,2010-10-10 16:02:00,61,1,220.44,168,220.44,2,1,1,4,Hibernating / Lost,2
-15278,United Kingdom,2010-05-27 10:03:00,197,4,496.15999999999997,458,124.04,1,3,2,6,Hibernating / Lost,1
+15278,United Kingdom,2010-05-27 10:03:00,197,4,496.15999999999997,458,124.04,1,3,2,6,At Risk,1
 15279,United Kingdom,2010-11-24 13:03:00,16,4,1290.03,613,322.51,4,3,3,10,Loyal Customers,1
 15280,United Kingdom,2010-08-08 12:21:00,124,2,284.4,353,142.2,2,2,1,5,Hibernating / Lost,2
 15281,United Kingdom,2010-11-26 16:31:00,14,7,6211.42,4022,887.35,4,4,4,12,Champions,3
@@ -2117,7 +2117,7 @@ customer_id,country,last_purchase,recency,frequency,monetary,total_units,avg_ord
 15317,United Kingdom,2010-01-31 15:55:00,313,1,129.75,45,129.75,1,1,1,3,Hibernating / Lost,2
 15321,United Kingdom,2010-09-28 18:11:00,73,9,3961.42,2472,440.16,2,4,4,10,Loyal Customers,1
 15322,United Kingdom,2010-08-20 13:10:00,112,1,711.18,555,711.18,2,1,3,6,At Risk,2
-15323,United Kingdom,2010-05-26 10:01:00,198,3,434.6,188,144.87,1,3,2,6,Hibernating / Lost,2
+15323,United Kingdom,2010-05-26 10:01:00,198,3,434.6,188,144.87,1,3,2,6,At Risk,2
 15324,United Kingdom,2010-01-07 14:37:00,337,1,140.22000000000003,74,140.22,1,1,1,3,Hibernating / Lost,2
 15325,United Kingdom,2010-11-09 13:14:00,31,7,1439.72,1151,205.67,3,4,3,10,Loyal Customers,1
 15326,United Kingdom,2010-04-09 15:22:00,245,4,1388.81,965,347.2,1,3,3,7,Loyal Customers,1
@@ -2139,8 +2139,8 @@ customer_id,country,last_purchase,recency,frequency,monetary,total_units,avg_ord
 15353,United Kingdom,2010-12-07 11:49:00,3,6,2336.0,1181,389.33,4,4,4,12,Champions,3
 15356,United Kingdom,2010-12-06 14:05:00,4,4,664.66,324,166.16,4,3,2,9,Hibernating / Lost,0
 15358,United Kingdom,2010-12-09 10:04:00,1,22,8703.210000000001,8328,395.6,4,4,4,12,Champions,3
-15359,United Kingdom,2010-02-15 10:47:00,298,8,181.35,145,22.67,1,4,1,6,Hibernating / Lost,2
-15361,United Kingdom,2010-07-01 14:15:00,162,3,270.15000000000003,37,90.05,1,3,1,5,Hibernating / Lost,2
+15359,United Kingdom,2010-02-15 10:47:00,298,8,181.35,145,22.67,1,4,1,6,At Risk,2
+15361,United Kingdom,2010-07-01 14:15:00,162,3,270.15000000000003,37,90.05,1,3,1,5,At Risk,2
 15362,United Kingdom,2010-09-17 10:37:00,84,2,613.08,368,306.54,2,2,2,6,Hibernating / Lost,1
 15363,United Kingdom,2010-12-02 12:28:00,8,2,678.11,383,339.06,4,2,2,8,Potential Loyalists,0
 15365,United Kingdom,2010-11-01 10:44:00,39,6,2242.81,1047,373.8,3,4,4,11,Loyal Customers,1
@@ -2167,10 +2167,10 @@ customer_id,country,last_purchase,recency,frequency,monetary,total_units,avg_ord
 15390,Canada,2010-11-08 15:19:00,32,2,1216.66,894,608.33,3,2,3,8,Potential Loyalists,1
 15391,United Kingdom,2010-05-04 15:04:00,220,1,289.87,109,289.87,1,1,1,3,Hibernating / Lost,2
 15392,United Kingdom,2010-11-30 09:50:00,10,3,1376.0900000000001,867,458.7,4,3,3,10,Loyal Customers,0
-15393,United Kingdom,2010-05-21 11:34:00,203,3,659.48,228,219.83,1,3,2,6,Hibernating / Lost,1
+15393,United Kingdom,2010-05-21 11:34:00,203,3,659.48,228,219.83,1,3,2,6,At Risk,1
 15394,United Kingdom,2010-11-09 12:26:00,31,7,3103.26,1462,443.32,3,4,4,11,Loyal Customers,3
 15396,United Kingdom,2010-05-05 09:04:00,219,1,508.20000000000005,156,508.2,1,1,2,4,Hibernating / Lost,2
-15400,United Kingdom,2010-10-15 12:00:00,56,3,586.1,272,195.37,2,3,2,7,Hibernating / Lost,1
+15400,United Kingdom,2010-10-15 12:00:00,56,3,586.1,272,195.37,2,3,2,7,At Risk,1
 15401,United Kingdom,2010-09-13 13:42:00,88,2,216.95000000000002,93,108.48,2,2,1,5,Hibernating / Lost,2
 15402,United Kingdom,2010-11-17 12:58:00,23,4,1203.77,1340,300.94,3,3,3,9,Loyal Customers,1
 15403,United Kingdom,2010-08-05 12:21:00,127,2,170.88,492,85.44,2,2,1,5,Hibernating / Lost,2
@@ -2180,7 +2180,7 @@ customer_id,country,last_purchase,recency,frequency,monetary,total_units,avg_ord
 15409,United Kingdom,2009-12-18 15:35:00,357,1,131.25,59,131.25,1,1,1,3,Hibernating / Lost,2
 15410,United Kingdom,2010-05-20 09:53:00,204,2,1234.88,702,617.44,1,2,3,6,At Risk,1
 15413,United Kingdom,2010-01-17 11:33:00,327,5,6798.72,2694,1359.74,1,4,4,9,Loyal Customers,1
-15416,United Kingdom,2010-08-18 09:48:00,114,3,588.5,330,196.17,2,3,2,7,Hibernating / Lost,1
+15416,United Kingdom,2010-08-18 09:48:00,114,3,588.5,330,196.17,2,3,2,7,At Risk,1
 15418,United Kingdom,2010-10-10 13:38:00,61,2,449.42,264,224.71,2,2,2,6,Hibernating / Lost,0
 15420,United Kingdom,2010-10-01 15:46:00,70,6,743.0,844,123.83,2,4,3,9,Loyal Customers,1
 15421,United Kingdom,2010-11-19 13:21:00,21,6,2854.98,1427,475.83,3,4,4,11,Loyal Customers,3
@@ -2200,7 +2200,7 @@ customer_id,country,last_purchase,recency,frequency,monetary,total_units,avg_ord
 15443,United Kingdom,2010-08-22 12:45:00,110,7,1900.64,1060,271.52,2,4,4,10,Loyal Customers,1
 15445,United Kingdom,2010-04-28 15:00:00,226,1,171.0,60,171.0,1,1,1,3,Hibernating / Lost,2
 15446,United Kingdom,2010-11-28 11:59:00,12,3,396.75,262,132.25,4,3,2,9,Hibernating / Lost,0
-15447,United Kingdom,2010-06-30 13:06:00,163,4,337.71000000000004,143,84.43,1,3,2,6,Hibernating / Lost,2
+15447,United Kingdom,2010-06-30 13:06:00,163,4,337.71000000000004,143,84.43,1,3,2,6,At Risk,2
 15448,United Kingdom,2010-02-03 13:29:00,310,1,294.17,255,294.17,1,1,1,3,Hibernating / Lost,2
 15451,United Kingdom,2010-10-01 13:40:00,70,2,226.86,76,113.43,2,2,1,5,Hibernating / Lost,2
 15452,United Kingdom,2010-11-14 15:14:00,26,3,1256.63,807,418.88,3,3,3,9,Loyal Customers,1
@@ -2231,7 +2231,7 @@ customer_id,country,last_purchase,recency,frequency,monetary,total_units,avg_ord
 15485,United Kingdom,2010-12-01 13:23:00,9,5,3186.01,1263,637.2,4,4,4,12,Champions,3
 15486,United Kingdom,2010-06-30 13:15:00,163,1,102.0,40,102.0,1,1,1,3,Hibernating / Lost,2
 15487,United Kingdom,2010-01-29 12:07:00,315,1,231.32,144,231.32,1,1,1,3,Hibernating / Lost,2
-15488,United Kingdom,2010-09-09 11:59:00,92,4,340.6,178,85.15,2,3,2,7,Hibernating / Lost,1
+15488,United Kingdom,2010-09-09 11:59:00,92,4,340.6,178,85.15,2,3,2,7,At Risk,1
 15489,United Kingdom,2010-11-04 11:48:00,36,5,1285.3300000000002,656,257.07,3,4,3,10,Loyal Customers,1
 15490,United Kingdom,2010-10-05 13:11:00,66,1,210.85,82,210.85,2,1,1,4,Hibernating / Lost,2
 15493,United Kingdom,2010-11-15 12:43:00,25,4,2159.78,654,539.95,3,3,4,10,Loyal Customers,1
@@ -2244,7 +2244,7 @@ customer_id,country,last_purchase,recency,frequency,monetary,total_units,avg_ord
 15501,United Kingdom,2010-10-31 11:15:00,40,2,399.95,205,199.98,3,2,2,7,Potential Loyalists,0
 15502,United Kingdom,2010-12-06 14:55:00,4,5,3548.34,1613,709.67,4,4,4,12,Champions,3
 15503,United Kingdom,2009-12-13 11:34:00,362,1,116.26,60,116.26,1,1,1,3,Hibernating / Lost,2
-15504,United Kingdom,2010-07-07 12:02:00,156,3,338.62,105,112.87,1,3,2,6,Hibernating / Lost,2
+15504,United Kingdom,2010-07-07 12:02:00,156,3,338.62,105,112.87,1,3,2,6,At Risk,2
 15506,United Kingdom,2010-11-23 12:48:00,17,3,1058.25,795,352.75,4,3,3,10,Loyal Customers,0
 15509,United Kingdom,2010-11-24 14:48:00,16,1,152.41,58,152.41,4,1,1,6,Potential Loyalists,0
 15512,United Kingdom,2010-11-14 12:39:00,26,2,210.58,167,105.29,3,2,1,6,Potential Loyalists,0
@@ -2273,7 +2273,7 @@ customer_id,country,last_purchase,recency,frequency,monetary,total_units,avg_ord
 15546,United Kingdom,2010-04-12 11:51:00,242,2,1079.1000000000001,198,539.55,1,2,3,6,At Risk,1
 15547,United Kingdom,2010-11-28 13:56:00,12,12,5092.05,3252,424.34,4,4,4,12,Champions,3
 15548,United Kingdom,2010-04-23 12:20:00,231,1,158.09,64,158.09,1,1,1,3,Hibernating / Lost,2
-15549,United Kingdom,2010-10-14 16:54:00,57,5,652.7,242,130.54,2,4,2,8,Hibernating / Lost,1
+15549,United Kingdom,2010-10-14 16:54:00,57,5,652.7,242,130.54,2,4,2,8,At Risk,1
 15550,United Kingdom,2010-11-26 11:14:00,14,8,1635.42,844,204.43,4,4,3,11,Loyal Customers,3
 15551,United Kingdom,2010-11-10 14:04:00,30,6,1243.75,578,207.29,3,4,3,10,Loyal Customers,1
 15552,United Kingdom,2010-03-26 16:17:00,259,1,162.4,106,162.4,1,1,1,3,Hibernating / Lost,2
@@ -2290,7 +2290,7 @@ customer_id,country,last_purchase,recency,frequency,monetary,total_units,avg_ord
 15570,United Kingdom,2010-12-05 12:57:00,5,14,5105.32,2181,364.67,4,4,4,12,Champions,3
 15571,United Kingdom,2010-11-18 14:25:00,22,10,3241.92,2147,324.19,3,4,4,11,Loyal Customers,3
 15572,United Kingdom,2010-11-24 13:16:00,16,3,1431.78,876,477.26,4,3,3,10,Loyal Customers,0
-15573,United Kingdom,2010-03-31 13:40:00,254,3,597.23,415,199.08,1,3,2,6,Hibernating / Lost,2
+15573,United Kingdom,2010-03-31 13:40:00,254,3,597.23,415,199.08,1,3,2,6,At Risk,2
 15574,United Kingdom,2010-12-02 15:46:00,8,3,774.84,577,258.28,4,3,3,10,Loyal Customers,0
 15575,United Kingdom,2010-03-30 12:50:00,255,1,30.1,6,30.1,1,1,1,3,Hibernating / Lost,2
 15577,United Kingdom,2009-12-16 14:54:00,359,2,137.15,31,68.58,1,2,1,4,Hibernating / Lost,2
@@ -2303,7 +2303,7 @@ customer_id,country,last_purchase,recency,frequency,monetary,total_units,avg_ord
 15587,United Kingdom,2010-11-12 12:07:00,28,3,608.4000000000001,216,202.8,3,3,2,8,Hibernating / Lost,0
 15588,United Kingdom,2010-01-31 12:19:00,313,1,579.6,96,579.6,1,1,2,4,Hibernating / Lost,2
 15590,United Kingdom,2010-11-22 14:49:00,18,5,1496.6,832,299.32,4,4,3,11,Loyal Customers,1
-15591,United Kingdom,2010-05-06 09:23:00,218,3,217.9,58,72.63,1,3,1,5,Hibernating / Lost,2
+15591,United Kingdom,2010-05-06 09:23:00,218,3,217.9,58,72.63,1,3,1,5,At Risk,2
 15595,United Kingdom,2010-08-09 12:27:00,123,1,357.6,144,357.6,2,1,2,5,Hibernating / Lost,2
 15596,United Kingdom,2010-12-09 16:10:00,1,5,1723.45,815,344.69,4,4,4,12,Champions,3
 15597,United Kingdom,2010-05-13 13:10:00,211,1,238.8,114,238.8,1,1,1,3,Hibernating / Lost,2
@@ -2369,7 +2369,7 @@ customer_id,country,last_purchase,recency,frequency,monetary,total_units,avg_ord
 15681,United Kingdom,2010-11-25 15:07:00,15,9,1563.54,576,173.73,4,4,3,11,Loyal Customers,3
 15682,United Kingdom,2010-04-19 15:30:00,235,2,318.24,222,159.12,1,2,2,5,Hibernating / Lost,2
 15683,United Kingdom,2010-08-23 12:01:00,109,1,330.79,201,330.79,2,1,2,5,Hibernating / Lost,2
-15684,United Kingdom,2010-06-10 18:51:00,183,3,173.95,77,57.98,1,3,1,5,Hibernating / Lost,2
+15684,United Kingdom,2010-06-10 18:51:00,183,3,173.95,77,57.98,1,3,1,5,At Risk,2
 15685,United Kingdom,2010-09-15 13:43:00,86,1,55.980000000000004,36,55.98,2,1,1,4,Hibernating / Lost,2
 15686,United Kingdom,2010-10-15 13:50:00,56,1,90.0,72,90.0,2,1,1,4,Hibernating / Lost,2
 15688,United Kingdom,2010-10-17 12:06:00,54,1,190.57,95,190.57,2,1,1,4,Hibernating / Lost,2
@@ -2389,10 +2389,10 @@ customer_id,country,last_purchase,recency,frequency,monetary,total_units,avg_ord
 15711,United Kingdom,2010-06-01 12:14:00,192,2,420.25,199,210.12,1,2,2,5,Hibernating / Lost,2
 15712,United Kingdom,2010-11-25 18:04:00,15,7,2400.05,791,342.86,4,4,4,12,Champions,3
 15713,United Kingdom,2010-12-08 15:16:00,2,3,654.09,360,218.03,4,3,2,9,Hibernating / Lost,0
-15714,United Kingdom,2010-09-12 14:22:00,89,3,453.93,175,151.31,2,3,2,7,Hibernating / Lost,1
-15715,United Kingdom,2010-06-02 09:56:00,191,5,658.02,246,131.6,1,4,2,7,Hibernating / Lost,1
+15714,United Kingdom,2010-09-12 14:22:00,89,3,453.93,175,151.31,2,3,2,7,At Risk,1
+15715,United Kingdom,2010-06-02 09:56:00,191,5,658.02,246,131.6,1,4,2,7,At Risk,1
 15716,United Kingdom,2010-12-05 12:26:00,5,8,1911.03,1064,238.88,4,4,4,12,Champions,3
-15717,United Kingdom,2010-10-14 18:02:00,57,4,456.70000000000005,154,114.18,2,3,2,7,Hibernating / Lost,1
+15717,United Kingdom,2010-10-14 18:02:00,57,4,456.70000000000005,154,114.18,2,3,2,7,At Risk,1
 15718,United Kingdom,2010-06-17 16:20:00,176,1,293.79,95,293.79,1,1,1,3,Hibernating / Lost,2
 15719,United Kingdom,2010-11-23 13:07:00,17,18,5165.9,2638,286.99,4,4,4,12,Champions,3
 15720,United Kingdom,2010-06-07 15:40:00,186,1,140.49,46,140.49,1,1,1,3,Hibernating / Lost,2
@@ -2420,7 +2420,7 @@ customer_id,country,last_purchase,recency,frequency,monetary,total_units,avg_ord
 15754,United Kingdom,2010-08-03 09:15:00,129,6,2579.04,1563,429.84,2,4,4,10,Loyal Customers,1
 15755,United Kingdom,2010-11-25 14:25:00,15,11,3628.87,2607,329.9,4,4,4,12,Champions,3
 15757,United Kingdom,2010-11-18 10:45:00,22,4,2225.94,1266,556.48,3,3,4,10,Loyal Customers,1
-15759,United Kingdom,2010-07-16 10:37:00,147,4,577.8900000000001,463,144.47,1,3,2,6,Hibernating / Lost,1
+15759,United Kingdom,2010-07-16 10:37:00,147,4,577.8900000000001,463,144.47,1,3,2,6,At Risk,1
 15761,United Kingdom,2010-09-23 09:33:00,78,1,143.05,31,143.05,2,1,1,4,Hibernating / Lost,2
 15764,United Kingdom,2010-10-01 14:07:00,70,2,1223.1100000000001,895,611.56,2,2,3,7,At Risk,1
 15765,United Kingdom,2010-02-11 10:25:00,302,1,370.63,335,370.63,1,1,2,4,Hibernating / Lost,2
@@ -2451,7 +2451,7 @@ customer_id,country,last_purchase,recency,frequency,monetary,total_units,avg_ord
 15797,United Kingdom,2010-05-07 15:09:00,217,2,613.6800000000001,408,306.84,1,2,2,5,Hibernating / Lost,2
 15798,United Kingdom,2010-08-04 09:13:00,128,3,1535.37,915,511.79,2,3,3,8,Loyal Customers,1
 15799,United Kingdom,2010-10-17 14:26:00,54,1,537.1999999999999,386,537.2,2,1,2,5,Hibernating / Lost,0
-15800,United Kingdom,2010-09-12 16:17:00,89,5,530.18,243,106.04,2,4,2,8,Hibernating / Lost,1
+15800,United Kingdom,2010-09-12 16:17:00,89,5,530.18,243,106.04,2,4,2,8,At Risk,1
 15803,United Kingdom,2010-09-20 13:08:00,81,3,1513.84,740,504.61,2,3,3,8,Loyal Customers,1
 15805,United Kingdom,2010-11-19 11:27:00,21,13,4660.75,2838,358.52,3,4,4,11,Loyal Customers,3
 15807,United Kingdom,2010-10-27 13:04:00,44,2,913.62,1102,456.81,3,2,3,8,Potential Loyalists,1
@@ -2479,7 +2479,7 @@ customer_id,country,last_purchase,recency,frequency,monetary,total_units,avg_ord
 15842,United Kingdom,2010-11-11 14:08:00,29,2,548.8,296,274.4,3,2,2,7,Potential Loyalists,0
 15845,United Kingdom,2010-06-21 11:40:00,172,3,714.51,202,238.17,1,3,3,7,Loyal Customers,1
 15846,United Kingdom,2010-11-19 14:40:00,21,1,107.01,79,107.01,3,1,1,5,Potential Loyalists,0
-15847,United Kingdom,2010-10-07 18:19:00,64,3,433.3,194,144.43,2,3,2,7,Hibernating / Lost,1
+15847,United Kingdom,2010-10-07 18:19:00,64,3,433.3,194,144.43,2,3,2,7,At Risk,1
 15848,United Kingdom,2010-03-28 10:54:00,257,1,137.99,45,137.99,1,1,1,3,Hibernating / Lost,2
 15850,United Kingdom,2010-11-28 12:32:00,12,4,771.87,1036,192.97,4,3,3,10,Loyal Customers,0
 15851,United Kingdom,2010-07-01 12:34:00,162,1,109.73,67,109.73,1,1,1,3,Hibernating / Lost,2
@@ -2493,7 +2493,7 @@ customer_id,country,last_purchase,recency,frequency,monetary,total_units,avg_ord
 15860,United Kingdom,2010-12-06 11:38:00,4,10,1496.3,893,149.63,4,4,3,11,Loyal Customers,3
 15861,United Kingdom,2010-09-09 19:56:00,92,4,1213.98,1305,303.5,2,3,3,8,Loyal Customers,1
 15862,United Kingdom,2010-12-01 11:21:00,9,10,2028.49,1054,202.85,4,4,4,12,Champions,3
-15863,United Kingdom,2010-04-01 15:40:00,253,3,286.26,143,95.42,1,3,1,5,Hibernating / Lost,2
+15863,United Kingdom,2010-04-01 15:40:00,253,3,286.26,143,95.42,1,3,1,5,At Risk,2
 15864,United Kingdom,2010-11-23 15:02:00,17,1,244.44000000000003,294,244.44,4,1,1,6,Potential Loyalists,0
 15865,United Kingdom,2010-10-22 15:24:00,49,2,1346.29,773,673.14,3,2,3,8,Potential Loyalists,1
 15867,United Kingdom,2010-12-05 14:17:00,5,17,5177.92,2976,304.58,4,4,4,12,Champions,3
@@ -2502,7 +2502,7 @@ customer_id,country,last_purchase,recency,frequency,monetary,total_units,avg_ord
 15870,United Kingdom,2010-11-08 10:57:00,32,3,506.02,171,168.67,3,3,2,8,Hibernating / Lost,0
 15871,United Kingdom,2010-09-28 14:16:00,73,1,33.099999999999994,5,33.1,2,1,1,4,Hibernating / Lost,2
 15872,United Kingdom,2010-11-26 12:05:00,14,2,413.0,280,206.5,4,2,2,8,Potential Loyalists,0
-15873,United Kingdom,2010-07-28 12:41:00,135,4,313.91999999999996,1152,78.48,2,3,2,7,Hibernating / Lost,2
+15873,United Kingdom,2010-07-28 12:41:00,135,4,313.91999999999996,1152,78.48,2,3,2,7,At Risk,2
 15874,United Kingdom,2010-11-17 10:32:00,23,14,6878.88,2568,491.35,3,4,4,11,Loyal Customers,3
 15875,United Kingdom,2010-03-03 16:51:00,282,1,108.52,74,108.52,1,1,1,3,Hibernating / Lost,2
 15876,United Kingdom,2010-10-26 18:58:00,45,2,1449.1399999999999,886,724.57,3,2,3,8,Potential Loyalists,1
@@ -2523,7 +2523,7 @@ customer_id,country,last_purchase,recency,frequency,monetary,total_units,avg_ord
 15898,United Kingdom,2010-12-07 13:30:00,3,22,4125.51,1817,187.52,4,4,4,12,Champions,3
 15899,United Kingdom,2010-12-06 10:36:00,4,1,56.25,39,56.25,4,1,1,6,Potential Loyalists,0
 15900,United Kingdom,2010-10-22 10:44:00,49,3,549.29,440,183.1,3,3,2,8,Hibernating / Lost,1
-15901,United Kingdom,2010-09-14 13:37:00,87,3,318.14,314,106.05,2,3,2,7,Hibernating / Lost,2
+15901,United Kingdom,2010-09-14 13:37:00,87,3,318.14,314,106.05,2,3,2,7,At Risk,2
 15902,United Kingdom,2010-11-24 16:57:00,16,1,145.01,124,145.01,4,1,1,6,Potential Loyalists,0
 15903,United Kingdom,2010-11-26 12:44:00,14,5,3813.0800000000004,1516,762.62,4,4,4,12,Champions,3
 15905,United Kingdom,2010-06-14 16:00:00,179,1,114.69,82,114.69,1,1,1,3,Hibernating / Lost,2
@@ -2536,10 +2536,10 @@ customer_id,country,last_purchase,recency,frequency,monetary,total_units,avg_ord
 15914,United Kingdom,2010-11-26 16:10:00,14,2,205.99,149,103.0,4,2,1,7,Potential Loyalists,0
 15915,United Kingdom,2010-11-03 11:13:00,37,1,364.24,413,364.24,3,1,2,6,Potential Loyalists,0
 15916,United Kingdom,2010-12-08 13:14:00,2,7,1874.83,931,267.83,4,4,4,12,Champions,3
-15917,United Kingdom,2010-04-12 15:01:00,242,4,407.07,206,101.77,1,3,2,6,Hibernating / Lost,2
+15917,United Kingdom,2010-04-12 15:01:00,242,4,407.07,206,101.77,1,3,2,6,At Risk,2
 15918,United Kingdom,2010-03-18 11:40:00,267,1,248.65,87,248.65,1,1,1,3,Hibernating / Lost,2
 15919,United Kingdom,2010-12-06 11:26:00,4,1,214.07999999999998,175,214.08,4,1,1,6,Potential Loyalists,0
-15920,United Kingdom,2010-10-11 13:57:00,60,5,401.64,139,80.33,2,4,2,8,Hibernating / Lost,1
+15920,United Kingdom,2010-10-11 13:57:00,60,5,401.64,139,80.33,2,4,2,8,At Risk,1
 15921,United Kingdom,2010-11-08 10:24:00,32,3,442.58,171,147.53,3,3,2,8,Hibernating / Lost,0
 15922,United Kingdom,2010-12-01 13:51:00,9,1,369.5,138,369.5,4,1,2,7,Potential Loyalists,0
 15923,United Kingdom,2010-12-02 12:16:00,8,1,127.08,122,127.08,4,1,1,6,Potential Loyalists,0
@@ -2551,7 +2551,7 @@ customer_id,country,last_purchase,recency,frequency,monetary,total_units,avg_ord
 15931,United Kingdom,2010-10-07 16:46:00,64,1,239.9,118,239.9,2,1,1,4,Hibernating / Lost,2
 15934,United Kingdom,2010-10-18 10:13:00,53,2,2190.66,2166,1095.33,2,2,4,8,At Risk,1
 15936,United Kingdom,2010-11-25 16:39:00,15,2,282.79,211,141.4,4,2,1,7,Potential Loyalists,0
-15938,United Kingdom,2010-09-09 17:07:00,92,4,330.23,209,82.56,2,3,2,7,Hibernating / Lost,1
+15938,United Kingdom,2010-09-09 17:07:00,92,4,330.23,209,82.56,2,3,2,7,At Risk,1
 15939,United Kingdom,2010-11-30 12:07:00,10,1,2904.83,1500,2904.83,4,1,4,9,Potential Loyalists,0
 15941,United Kingdom,2010-03-12 14:45:00,273,1,405.0,60,405.0,1,1,2,4,Hibernating / Lost,2
 15943,United Kingdom,2010-02-28 12:49:00,285,2,271.28999999999996,183,135.64,1,2,1,4,Hibernating / Lost,2
@@ -2567,7 +2567,7 @@ customer_id,country,last_purchase,recency,frequency,monetary,total_units,avg_ord
 15956,United Kingdom,2010-06-06 13:06:00,187,2,617.6,278,308.8,1,2,2,5,Hibernating / Lost,2
 15957,United Kingdom,2010-10-15 12:22:00,56,2,492.36,242,246.18,2,2,2,6,Hibernating / Lost,0
 15958,United Kingdom,2010-11-01 12:22:00,39,3,357.77,121,119.26,3,3,2,8,Hibernating / Lost,0
-15959,United Kingdom,2010-01-26 16:38:00,318,3,542.89,269,180.96,1,3,2,6,Hibernating / Lost,2
+15959,United Kingdom,2010-01-26 16:38:00,318,3,542.89,269,180.96,1,3,2,6,At Risk,2
 15960,United Kingdom,2010-11-30 15:57:00,10,4,410.95,258,102.74,4,3,2,9,Hibernating / Lost,0
 15961,United Kingdom,2010-11-25 15:59:00,15,1,451.28999999999996,154,451.29,4,1,2,7,Potential Loyalists,0
 15962,United Kingdom,2010-09-16 13:48:00,85,1,289.48,228,289.48,2,1,1,4,Hibernating / Lost,2
@@ -2720,7 +2720,7 @@ customer_id,country,last_purchase,recency,frequency,monetary,total_units,avg_ord
 16153,United Kingdom,2010-10-15 09:29:00,56,6,3309.2599999999998,2620,551.54,2,4,4,10,Loyal Customers,1
 16155,United Kingdom,2010-11-23 12:03:00,17,5,796.9,495,159.38,4,4,3,11,Loyal Customers,0
 16156,United Kingdom,2010-11-22 09:57:00,18,11,3096.14,1932,281.47,4,4,4,12,Champions,3
-16158,United Kingdom,2010-07-05 13:55:00,158,9,628.32,182,69.81,1,4,2,7,Hibernating / Lost,1
+16158,United Kingdom,2010-07-05 13:55:00,158,9,628.32,182,69.81,1,4,2,7,At Risk,1
 16159,United Kingdom,2010-08-26 13:40:00,106,3,884.59,399,294.86,2,3,3,8,Loyal Customers,1
 16161,United Kingdom,2010-12-06 10:03:00,4,25,7210.59,3760,288.42,4,4,4,12,Champions,3
 16163,United Kingdom,2010-12-09 16:28:00,1,5,1992.98,576,398.6,4,4,4,12,Champions,3
@@ -2778,7 +2778,7 @@ customer_id,country,last_purchase,recency,frequency,monetary,total_units,avg_ord
 16231,United Kingdom,2010-11-25 15:00:00,15,4,1074.47,563,268.62,4,3,3,10,Loyal Customers,0
 16232,United Kingdom,2010-10-15 16:00:00,56,3,1722.09,1299,574.03,2,3,4,9,Loyal Customers,1
 16233,United Kingdom,2010-12-08 12:51:00,2,7,1429.03,515,204.15,4,4,3,11,Loyal Customers,3
-16234,United Kingdom,2010-08-20 14:33:00,112,3,333.18,170,111.06,2,3,2,7,Hibernating / Lost,2
+16234,United Kingdom,2010-08-20 14:33:00,112,3,333.18,170,111.06,2,3,2,7,At Risk,2
 16235,United Kingdom,2010-11-29 09:22:00,11,4,1186.4,458,296.6,4,3,3,10,Loyal Customers,0
 16237,United Kingdom,2010-09-28 17:02:00,73,1,136.65,57,136.65,2,1,1,4,Hibernating / Lost,2
 16238,United Kingdom,2010-10-13 12:36:00,58,1,63.66,85,63.66,2,1,1,4,Hibernating / Lost,2
@@ -2850,9 +2850,9 @@ customer_id,country,last_purchase,recency,frequency,monetary,total_units,avg_ord
 16327,United Kingdom,2010-12-05 12:43:00,5,11,6844.37,5920,622.22,4,4,4,12,Champions,3
 16328,United Kingdom,2010-05-25 14:02:00,199,1,310.83,141,310.83,1,1,2,4,Hibernating / Lost,2
 16329,United Kingdom,2010-10-08 12:44:00,63,4,1664.92,797,416.23,2,3,3,8,Loyal Customers,1
-16330,United Kingdom,2010-10-11 14:59:00,60,4,373.46999999999997,179,93.37,2,3,2,7,Hibernating / Lost,1
+16330,United Kingdom,2010-10-11 14:59:00,60,4,373.46999999999997,179,93.37,2,3,2,7,At Risk,1
 16331,United Kingdom,2010-10-03 13:47:00,68,6,2037.7,756,339.62,2,4,4,10,Loyal Customers,1
-16332,United Kingdom,2010-10-04 13:13:00,67,4,414.69,325,103.67,2,3,2,7,Hibernating / Lost,1
+16332,United Kingdom,2010-10-04 13:13:00,67,4,414.69,325,103.67,2,3,2,7,At Risk,1
 16334,United Kingdom,2010-08-04 16:38:00,128,1,263.73,206,263.73,2,1,1,4,Hibernating / Lost,2
 16335,United Kingdom,2010-06-06 11:35:00,187,7,2753.52,1004,393.36,1,4,4,9,Loyal Customers,1
 16336,United Kingdom,2010-10-15 12:32:00,56,4,3517.69,1473,879.42,2,3,4,9,Loyal Customers,1
@@ -2893,7 +2893,7 @@ customer_id,country,last_purchase,recency,frequency,monetary,total_units,avg_ord
 16386,United Kingdom,2010-11-17 11:19:00,23,1,765.59,495,765.59,3,1,3,7,Potential Loyalists,0
 16387,United Kingdom,2010-11-09 09:02:00,31,4,788.1,404,197.02,3,3,3,9,Loyal Customers,1
 16388,United Kingdom,2010-02-24 10:20:00,289,1,186.05,83,186.05,1,1,1,3,Hibernating / Lost,2
-16390,United Kingdom,2010-06-21 10:11:00,172,3,467.5,122,155.83,1,3,2,6,Hibernating / Lost,2
+16390,United Kingdom,2010-06-21 10:11:00,172,3,467.5,122,155.83,1,3,2,6,At Risk,2
 16391,United Kingdom,2010-11-04 12:27:00,36,4,1048.86,713,262.21,3,3,3,9,Loyal Customers,1
 16392,United Kingdom,2010-10-22 11:40:00,49,2,537.56,402,268.78,3,2,2,7,Potential Loyalists,0
 16393,United Kingdom,2010-12-05 13:10:00,5,11,2441.61,1514,221.96,4,4,4,12,Champions,3
@@ -2912,7 +2912,7 @@ customer_id,country,last_purchase,recency,frequency,monetary,total_units,avg_ord
 16411,United Kingdom,2010-12-05 13:26:00,5,3,673.24,399,224.41,4,3,2,9,Hibernating / Lost,0
 16412,United Kingdom,2010-11-11 11:52:00,29,4,457.2,225,114.3,3,3,2,8,Hibernating / Lost,0
 16413,United Kingdom,2010-11-29 12:49:00,11,1,259.83,135,259.83,4,1,1,6,Potential Loyalists,0
-16414,United Kingdom,2010-10-04 12:19:00,67,3,424.96000000000004,174,141.65,2,3,2,7,Hibernating / Lost,1
+16414,United Kingdom,2010-10-04 12:19:00,67,3,424.96000000000004,174,141.65,2,3,2,7,At Risk,1
 16415,United Kingdom,2010-05-05 11:51:00,219,2,496.49,330,248.24,1,2,2,5,Hibernating / Lost,2
 16416,United Kingdom,2010-11-14 13:24:00,26,6,1906.48,1526,317.75,3,4,4,11,Loyal Customers,1
 16417,United Kingdom,2010-08-04 09:08:00,128,1,35.7,6,35.7,2,1,1,4,Hibernating / Lost,2
@@ -2927,11 +2927,11 @@ customer_id,country,last_purchase,recency,frequency,monetary,total_units,avg_ord
 16433,United Kingdom,2010-10-27 12:26:00,44,1,200.26,108,200.26,3,1,1,5,Potential Loyalists,2
 16434,United Kingdom,2010-09-19 13:36:00,82,5,1161.89,550,232.38,2,4,3,9,Loyal Customers,1
 16435,United Kingdom,2010-07-15 18:22:00,148,3,1003.0699999999999,608,334.36,1,3,3,7,Loyal Customers,1
-16436,United Kingdom,2010-02-09 13:19:00,304,3,319.14,227,106.38,1,3,2,6,Hibernating / Lost,2
+16436,United Kingdom,2010-02-09 13:19:00,304,3,319.14,227,106.38,1,3,2,6,At Risk,2
 16437,United Kingdom,2010-11-23 16:59:00,17,2,301.25,197,150.62,4,2,1,7,Potential Loyalists,0
 16439,United Kingdom,2009-12-17 14:22:00,358,1,310.70000000000005,74,310.7,1,1,2,4,Hibernating / Lost,2
 16440,United Kingdom,2010-08-03 11:32:00,129,1,216.3,90,216.3,2,1,1,4,Hibernating / Lost,2
-16441,United Kingdom,2010-10-18 12:57:00,53,3,631.98,304,210.66,2,3,2,7,Hibernating / Lost,1
+16441,United Kingdom,2010-10-18 12:57:00,53,3,631.98,304,210.66,2,3,2,7,At Risk,1
 16442,United Kingdom,2010-04-14 13:35:00,240,2,282.68,137,141.34,1,2,1,4,Hibernating / Lost,2
 16443,United Kingdom,2010-07-07 11:57:00,156,1,162.24,96,162.24,1,1,1,3,Hibernating / Lost,2
 16444,United Kingdom,2010-11-14 10:21:00,26,13,2971.21,1538,228.55,3,4,4,11,Loyal Customers,3
@@ -2997,13 +2997,13 @@ customer_id,country,last_purchase,recency,frequency,monetary,total_units,avg_ord
 16534,United Kingdom,2010-03-07 15:47:00,278,1,635.9,168,635.9,1,1,2,4,Hibernating / Lost,2
 16535,United Kingdom,2010-11-19 13:01:00,21,1,358.28999999999996,307,358.29,3,1,2,6,Potential Loyalists,0
 16537,United Kingdom,2010-03-08 13:41:00,277,1,10.55,19,10.55,1,1,1,3,Hibernating / Lost,2
-16538,United Kingdom,2010-06-16 16:59:00,177,3,395.07,254,131.69,1,3,2,6,Hibernating / Lost,2
+16538,United Kingdom,2010-06-16 16:59:00,177,3,395.07,254,131.69,1,3,2,6,At Risk,2
 16539,United Kingdom,2010-12-01 15:40:00,9,7,2343.2,838,334.74,4,4,4,12,Champions,3
 16540,United Kingdom,2010-10-21 17:22:00,50,1,205.75,105,205.75,3,1,1,5,Potential Loyalists,2
 16541,United Kingdom,2009-12-04 13:22:00,371,1,424.03,173,424.03,1,1,2,4,Hibernating / Lost,2
 16542,United Kingdom,2010-11-03 14:44:00,37,1,137.7,96,137.7,3,1,1,5,Potential Loyalists,2
 16543,United Kingdom,2010-04-27 11:38:00,227,1,292.21,317,292.21,1,1,1,3,Hibernating / Lost,2
-16544,United Kingdom,2010-07-08 11:11:00,155,4,376.70000000000005,150,94.18,1,3,2,6,Hibernating / Lost,2
+16544,United Kingdom,2010-07-08 11:11:00,155,4,376.70000000000005,150,94.18,1,3,2,6,At Risk,2
 16545,United Kingdom,2010-11-29 10:39:00,11,1,350.52,244,350.52,4,1,2,7,Potential Loyalists,0
 16546,United Kingdom,2010-12-02 12:07:00,8,4,4819.32,3818,1204.83,4,3,4,11,Loyal Customers,3
 16547,United Kingdom,2010-06-11 13:02:00,182,1,104.25999999999999,108,104.26,1,1,1,3,Hibernating / Lost,2
@@ -3086,7 +3086,7 @@ customer_id,country,last_purchase,recency,frequency,monetary,total_units,avg_ord
 16655,United Kingdom,2010-10-24 14:59:00,47,7,2633.74,1575,376.25,3,4,4,11,Loyal Customers,1
 16656,United Kingdom,2010-10-15 13:15:00,56,15,8207.37,6539,547.16,2,4,4,10,Loyal Customers,3
 16658,United Kingdom,2010-12-06 13:47:00,4,5,680.83,269,136.17,4,4,2,10,Hibernating / Lost,0
-16660,United Kingdom,2010-10-13 11:38:00,58,3,611.9000000000001,420,203.97,2,3,2,7,Hibernating / Lost,1
+16660,United Kingdom,2010-10-13 11:38:00,58,3,611.9000000000001,420,203.97,2,3,2,7,At Risk,1
 16661,United Kingdom,2010-06-17 15:24:00,176,4,932.76,364,233.19,1,3,3,7,Loyal Customers,1
 16662,United Kingdom,2010-11-10 16:56:00,30,1,151.05,35,151.05,3,1,1,5,Potential Loyalists,0
 16663,United Kingdom,2009-12-10 13:12:00,365,1,165.0,100,165.0,1,1,1,3,Hibernating / Lost,2
@@ -3227,14 +3227,14 @@ customer_id,country,last_purchase,recency,frequency,monetary,total_units,avg_ord
 16859,United Kingdom,2010-10-19 09:07:00,52,5,1184.6,1072,236.92,3,4,3,10,Loyal Customers,1
 16860,United Kingdom,2010-09-13 10:05:00,88,3,1610.62,625,536.87,2,3,3,8,Loyal Customers,1
 16861,United Kingdom,2010-11-14 13:54:00,26,3,772.83,476,257.61,3,3,3,9,Loyal Customers,0
-16862,United Kingdom,2010-06-10 13:05:00,183,4,662.33,513,165.58,1,3,2,6,Hibernating / Lost,1
+16862,United Kingdom,2010-06-10 13:05:00,183,4,662.33,513,165.58,1,3,2,6,At Risk,1
 16863,United Kingdom,2010-12-08 08:58:00,2,2,495.72,336,247.86,4,2,2,8,Potential Loyalists,0
 16864,United Kingdom,2010-10-01 16:16:00,70,2,409.25,283,204.62,2,2,2,6,Hibernating / Lost,2
 16865,United Kingdom,2010-11-03 11:34:00,37,1,130.95,157,130.95,3,1,1,5,Potential Loyalists,2
 16867,United Kingdom,2010-01-19 09:11:00,325,1,76.74000000000001,58,76.74,1,1,1,3,Hibernating / Lost,2
 16868,United Kingdom,2010-11-10 13:17:00,30,3,384.56,112,128.19,3,3,2,8,Hibernating / Lost,0
 16870,United Kingdom,2010-08-27 13:53:00,105,1,450.15999999999997,278,450.16,2,1,2,5,Hibernating / Lost,2
-16872,United Kingdom,2010-10-08 15:20:00,63,3,533.11,479,177.7,2,3,2,7,Hibernating / Lost,1
+16872,United Kingdom,2010-10-08 15:20:00,63,3,533.11,479,177.7,2,3,2,7,At Risk,1
 16873,United Kingdom,2010-10-06 15:34:00,65,6,7493.77,4761,1248.96,2,4,4,10,Loyal Customers,1
 16874,United Kingdom,2010-11-25 13:08:00,15,1,209.89000000000001,78,209.89,4,1,1,6,Potential Loyalists,0
 16875,United Kingdom,2010-09-28 17:11:00,73,6,2139.0,1030,356.5,2,4,4,10,Loyal Customers,1
@@ -3247,7 +3247,7 @@ customer_id,country,last_purchase,recency,frequency,monetary,total_units,avg_ord
 16887,United Kingdom,2010-11-04 11:29:00,36,2,465.84000000000003,267,232.92,3,2,2,7,Potential Loyalists,0
 16888,United Kingdom,2010-11-04 12:39:00,36,3,434.2,145,144.73,3,3,2,8,Hibernating / Lost,0
 16889,United Kingdom,2010-11-07 10:46:00,33,3,947.98,686,315.99,3,3,3,9,Loyal Customers,1
-16890,United Kingdom,2010-08-20 11:23:00,112,3,277.91,241,92.64,2,3,1,6,Hibernating / Lost,2
+16890,United Kingdom,2010-08-20 11:23:00,112,3,277.91,241,92.64,2,3,1,6,At Risk,2
 16891,United Kingdom,2010-12-03 11:35:00,7,7,1202.77,473,171.82,4,4,3,11,Loyal Customers,3
 16892,United Kingdom,2010-06-03 15:17:00,190,2,236.56,131,118.28,1,2,1,4,Hibernating / Lost,2
 16893,United Kingdom,2010-12-08 12:06:00,2,2,249.47,116,124.74,4,2,1,7,Potential Loyalists,0
@@ -3286,16 +3286,16 @@ customer_id,country,last_purchase,recency,frequency,monetary,total_units,avg_ord
 16936,United Kingdom,2010-11-19 11:54:00,21,1,286.39,168,286.39,3,1,1,5,Potential Loyalists,0
 16937,United Kingdom,2010-07-28 17:56:00,135,1,196.25,123,196.25,2,1,1,4,Hibernating / Lost,2
 16938,United Kingdom,2010-11-23 13:01:00,17,5,4283.68,2508,856.74,4,4,4,12,Champions,3
-16939,United Kingdom,2010-08-08 12:24:00,124,3,433.85,229,144.62,2,3,2,7,Hibernating / Lost,2
+16939,United Kingdom,2010-08-08 12:24:00,124,3,433.85,229,144.62,2,3,2,7,At Risk,2
 16940,United Kingdom,2010-09-15 12:53:00,86,5,3377.78,2334,675.56,2,4,4,10,Loyal Customers,1
 16941,United Kingdom,2010-04-07 11:13:00,247,1,33.0,12,33.0,1,2,1,4,Hibernating / Lost,2
 16944,United Kingdom,2010-04-09 11:03:00,245,1,101.36,27,101.36,1,2,1,4,Hibernating / Lost,2
 16945,United Kingdom,2010-11-11 12:19:00,29,14,4202.66,3164,300.19,3,4,4,11,Loyal Customers,3
 16946,United Kingdom,2010-11-21 14:06:00,19,5,1222.04,509,244.41,3,4,3,10,Loyal Customers,1
-16947,United Kingdom,2010-09-03 12:22:00,98,3,540.23,342,180.08,2,3,2,7,Hibernating / Lost,1
-16948,United Kingdom,2010-10-06 13:08:00,65,4,433.75,477,108.44,2,3,2,7,Hibernating / Lost,1
+16947,United Kingdom,2010-09-03 12:22:00,98,3,540.23,342,180.08,2,3,2,7,At Risk,1
+16948,United Kingdom,2010-10-06 13:08:00,65,4,433.75,477,108.44,2,3,2,7,At Risk,1
 16950,United Kingdom,2010-12-07 15:20:00,3,8,2527.21,1812,315.9,4,4,4,12,Champions,3
-16952,United Kingdom,2010-09-24 15:35:00,77,3,628.22,251,209.41,2,3,2,7,Hibernating / Lost,1
+16952,United Kingdom,2010-09-24 15:35:00,77,3,628.22,251,209.41,2,3,2,7,At Risk,1
 16954,United Kingdom,2010-11-25 14:57:00,15,11,3996.7999999999997,3032,363.35,4,4,4,12,Champions,3
 16955,United Kingdom,2010-12-06 10:38:00,4,4,790.74,557,197.68,4,3,3,10,Loyal Customers,0
 16958,United Kingdom,2010-09-30 14:25:00,71,1,778.49,514,778.49,2,2,3,7,At Risk,2
@@ -3346,7 +3346,7 @@ customer_id,country,last_purchase,recency,frequency,monetary,total_units,avg_ord
 17023,United Kingdom,2010-10-18 15:37:00,53,3,800.18,530,266.73,2,3,3,8,Loyal Customers,1
 17025,United Kingdom,2010-12-01 15:46:00,9,4,1152.87,789,288.22,4,3,3,10,Loyal Customers,0
 17026,United Kingdom,2010-12-05 12:47:00,5,2,54.15,35,27.08,4,2,1,7,Potential Loyalists,0
-17027,United Kingdom,2010-09-19 14:11:00,82,3,433.07,229,144.36,2,3,2,7,Hibernating / Lost,1
+17027,United Kingdom,2010-09-19 14:11:00,82,3,433.07,229,144.36,2,3,2,7,At Risk,1
 17028,United Kingdom,2010-05-07 15:33:00,217,3,1593.83,856,531.28,1,3,3,7,Loyal Customers,1
 17029,United Kingdom,2010-11-22 10:46:00,18,5,1421.3,865,284.26,4,4,3,11,Loyal Customers,1
 17031,United Kingdom,2010-11-26 15:17:00,14,4,2393.5,1360,598.38,4,3,4,11,Loyal Customers,1
@@ -3367,7 +3367,7 @@ customer_id,country,last_purchase,recency,frequency,monetary,total_units,avg_ord
 17048,United Kingdom,2010-09-28 16:50:00,73,4,1146.33,583,286.58,2,3,3,8,Loyal Customers,1
 17049,United Kingdom,2010-11-29 13:00:00,11,10,4287.5,1600,428.75,4,4,4,12,Champions,3
 17050,United Kingdom,2010-11-29 17:20:00,11,4,1162.82,836,290.7,4,3,3,10,Loyal Customers,0
-17051,United Kingdom,2010-09-19 15:09:00,82,3,465.6,328,155.2,2,3,2,7,Hibernating / Lost,1
+17051,United Kingdom,2010-09-19 15:09:00,82,3,465.6,328,155.2,2,3,2,7,At Risk,1
 17055,United Kingdom,2010-09-20 12:21:00,81,1,232.85,83,232.85,2,2,1,5,Hibernating / Lost,2
 17056,United Kingdom,2009-12-01 12:55:00,374,1,128.60000000000002,26,128.6,1,2,1,4,Hibernating / Lost,2
 17057,United Kingdom,2010-04-22 19:21:00,232,1,288.79,122,288.79,1,2,1,4,Hibernating / Lost,2
@@ -3376,7 +3376,7 @@ customer_id,country,last_purchase,recency,frequency,monetary,total_units,avg_ord
 17063,United Kingdom,2010-10-28 15:59:00,43,6,2177.39,1129,362.9,3,4,4,11,Loyal Customers,1
 17065,United Kingdom,2010-03-12 11:41:00,273,2,194.7,82,97.35,1,2,1,4,Hibernating / Lost,2
 17066,United Kingdom,2009-12-13 13:24:00,362,1,228.34,93,228.34,1,2,1,4,Hibernating / Lost,2
-17067,United Kingdom,2009-12-15 08:39:00,360,3,454.54,322,151.51,1,3,2,6,Hibernating / Lost,2
+17067,United Kingdom,2009-12-15 08:39:00,360,3,454.54,322,151.51,1,3,2,6,At Risk,2
 17068,United Kingdom,2010-12-06 13:58:00,4,27,4594.19,2261,170.16,4,4,4,12,Champions,3
 17069,United Kingdom,2010-12-01 16:49:00,9,6,3084.58,1827,514.1,4,4,4,12,Champions,3
 17070,United Kingdom,2010-10-25 15:57:00,46,1,133.18,101,133.18,3,2,1,6,Potential Loyalists,2
@@ -3441,7 +3441,7 @@ customer_id,country,last_purchase,recency,frequency,monetary,total_units,avg_ord
 17150,United Kingdom,2010-11-28 11:27:00,12,6,1357.95,397,226.32,4,4,3,11,Loyal Customers,3
 17151,United Kingdom,2009-12-04 14:56:00,371,1,231.90000000000003,42,231.9,1,2,1,4,Hibernating / Lost,2
 17152,United Kingdom,2010-10-10 12:40:00,61,1,327.0,60,327.0,2,2,2,6,Hibernating / Lost,2
-17155,United Kingdom,2010-06-30 09:24:00,163,5,640.76,745,128.15,1,4,2,7,Hibernating / Lost,1
+17155,United Kingdom,2010-06-30 09:24:00,163,5,640.76,745,128.15,1,4,2,7,At Risk,1
 17156,United Kingdom,2010-08-05 11:30:00,127,1,591.87,391,591.87,2,2,2,6,Hibernating / Lost,2
 17157,United Kingdom,2010-08-16 13:22:00,116,17,4832.9,1920,284.29,2,4,4,10,Loyal Customers,3
 17158,United Kingdom,2010-06-10 10:38:00,183,2,713.03,369,356.52,1,2,3,6,At Risk,2
@@ -3464,10 +3464,10 @@ customer_id,country,last_purchase,recency,frequency,monetary,total_units,avg_ord
 17181,United Kingdom,2010-12-01 12:38:00,9,2,225.45000000000002,243,112.72,4,2,1,7,Potential Loyalists,0
 17182,United Kingdom,2010-10-13 10:09:00,58,2,321.3,54,160.65,2,2,2,6,Hibernating / Lost,2
 17184,United Kingdom,2010-05-19 14:24:00,205,2,198.41000000000003,73,99.21,1,2,1,4,Hibernating / Lost,2
-17185,United Kingdom,2010-04-27 12:15:00,227,3,229.46,119,76.49,1,3,1,5,Hibernating / Lost,2
+17185,United Kingdom,2010-04-27 12:15:00,227,3,229.46,119,76.49,1,3,1,5,At Risk,2
 17187,United Kingdom,2010-07-01 14:38:00,162,1,263.76,282,263.76,1,2,1,4,Hibernating / Lost,2
 17188,United Kingdom,2010-09-19 12:05:00,82,6,2118.7000000000003,1241,353.12,2,4,4,10,Loyal Customers,1
-17189,United Kingdom,2010-05-27 20:11:00,196,3,569.88,375,189.96,1,3,2,6,Hibernating / Lost,2
+17189,United Kingdom,2010-05-27 20:11:00,196,3,569.88,375,189.96,1,3,2,6,At Risk,2
 17190,United Kingdom,2010-11-01 14:22:00,39,5,1279.99,2053,256.0,3,4,3,10,Loyal Customers,1
 17191,United Kingdom,2010-12-06 14:46:00,4,11,2726.77,1362,247.89,4,4,4,12,Champions,3
 17192,United Kingdom,2010-06-21 16:07:00,172,1,75.28,45,75.28,1,2,1,4,Hibernating / Lost,2
@@ -3485,7 +3485,7 @@ customer_id,country,last_purchase,recency,frequency,monetary,total_units,avg_ord
 17205,United Kingdom,2010-10-19 16:11:00,52,2,615.27,1330,307.64,3,2,2,7,Potential Loyalists,0
 17207,United Kingdom,2010-02-25 19:08:00,288,1,291.77,232,291.77,1,2,1,4,Hibernating / Lost,2
 17208,United Kingdom,2010-11-09 12:50:00,31,1,111.15,101,111.15,3,2,1,6,Potential Loyalists,0
-17209,United Kingdom,2010-02-28 16:01:00,285,3,595.7,723,198.57,1,3,2,6,Hibernating / Lost,2
+17209,United Kingdom,2010-02-28 16:01:00,285,3,595.7,723,198.57,1,3,2,6,At Risk,2
 17210,United Kingdom,2010-11-12 12:15:00,28,1,251.72,242,251.72,3,2,1,6,Potential Loyalists,0
 17211,United Kingdom,2010-12-05 12:44:00,5,6,1729.43,1022,288.24,4,4,4,12,Champions,3
 17212,United Kingdom,2010-09-07 15:46:00,94,2,567.5600000000001,580,283.78,2,2,2,6,Hibernating / Lost,2
@@ -3496,7 +3496,7 @@ customer_id,country,last_purchase,recency,frequency,monetary,total_units,avg_ord
 17218,United Kingdom,2010-12-06 15:25:00,4,9,2224.96,1236,247.22,4,4,4,12,Champions,3
 17219,United Kingdom,2010-10-19 11:29:00,52,1,144.9,99,144.9,3,2,1,6,Potential Loyalists,2
 17220,United Kingdom,2010-10-18 11:25:00,53,7,1263.86,764,180.55,2,4,3,9,Loyal Customers,1
-17221,United Kingdom,2010-04-27 10:27:00,227,3,642.14,426,214.05,1,3,2,6,Hibernating / Lost,1
+17221,United Kingdom,2010-04-27 10:27:00,227,3,642.14,426,214.05,1,3,2,6,At Risk,1
 17222,United Kingdom,2010-08-19 13:48:00,113,5,1234.96,733,246.99,2,4,3,9,Loyal Customers,1
 17223,United Kingdom,2010-12-06 14:08:00,4,2,398.99,108,199.5,4,2,2,8,Potential Loyalists,0
 17224,United Kingdom,2010-07-26 13:30:00,137,1,100.86,65,100.86,1,2,1,4,Hibernating / Lost,2
@@ -3524,7 +3524,7 @@ customer_id,country,last_purchase,recency,frequency,monetary,total_units,avg_ord
 17251,United Kingdom,2010-11-22 10:42:00,18,2,529.15,269,264.58,4,2,2,8,Potential Loyalists,0
 17254,United Kingdom,2010-11-03 14:00:00,37,1,198.29,146,198.29,3,2,1,6,Potential Loyalists,0
 17255,United Kingdom,2010-11-14 14:56:00,26,2,490.21999999999997,356,245.11,3,2,2,7,Potential Loyalists,0
-17256,United Kingdom,2010-08-15 13:19:00,117,3,258.93,158,86.31,2,3,1,6,Hibernating / Lost,2
+17256,United Kingdom,2010-08-15 13:19:00,117,3,258.93,158,86.31,2,3,1,6,At Risk,2
 17257,United Kingdom,2010-09-29 12:51:00,72,2,189.78,187,94.89,2,2,1,5,Hibernating / Lost,2
 17258,United Kingdom,2010-11-08 12:37:00,32,2,417.3,188,208.65,3,2,2,7,Potential Loyalists,0
 17259,United Kingdom,2010-12-06 12:55:00,4,5,1239.11,712,247.82,4,4,3,11,Loyal Customers,3
@@ -3583,7 +3583,7 @@ customer_id,country,last_purchase,recency,frequency,monetary,total_units,avg_ord
 17326,United Kingdom,2010-10-27 15:38:00,44,2,312.35,136,156.18,3,2,2,7,Potential Loyalists,0
 17327,United Kingdom,2010-10-26 09:54:00,45,2,152.35,59,76.18,3,2,1,6,Potential Loyalists,2
 17328,United Kingdom,2010-02-04 17:11:00,309,1,104.7,86,104.7,1,2,1,4,Hibernating / Lost,2
-17329,United Kingdom,2009-12-08 16:57:00,367,3,475.42,288,158.47,1,3,2,6,Hibernating / Lost,2
+17329,United Kingdom,2009-12-08 16:57:00,367,3,475.42,288,158.47,1,3,2,6,At Risk,2
 17330,United Kingdom,2010-06-13 12:34:00,180,2,59.900000000000006,2,29.95,1,2,1,4,Hibernating / Lost,2
 17332,United Kingdom,2010-06-29 16:10:00,164,5,827.77,769,165.55,1,4,3,8,Loyal Customers,1
 17334,United Kingdom,2010-10-29 12:16:00,42,1,328.13,251,328.13,3,2,2,7,Potential Loyalists,0
@@ -3618,15 +3618,15 @@ customer_id,country,last_purchase,recency,frequency,monetary,total_units,avg_ord
 17366,United Kingdom,2010-10-03 16:04:00,68,2,1077.24,504,538.62,2,2,3,7,At Risk,1
 17368,United Kingdom,2010-11-29 15:48:00,11,6,879.42,942,146.57,4,4,3,11,Loyal Customers,3
 17369,United Kingdom,2010-09-10 09:49:00,91,1,979.1999999999999,1152,979.2,2,2,3,7,At Risk,2
-17371,United Kingdom,2010-03-26 14:01:00,259,3,232.97,128,77.66,1,3,1,5,Hibernating / Lost,2
+17371,United Kingdom,2010-03-26 14:01:00,259,3,232.97,128,77.66,1,3,1,5,At Risk,2
 17372,United Kingdom,2010-11-23 11:12:00,17,19,2979.28,1112,156.8,4,4,4,12,Champions,3
-17373,United Kingdom,2010-10-17 13:35:00,54,3,520.58,330,173.53,2,3,2,7,Hibernating / Lost,1
+17373,United Kingdom,2010-10-17 13:35:00,54,3,520.58,330,173.53,2,3,2,7,At Risk,1
 17374,United Kingdom,2010-11-09 17:14:00,31,1,231.34,70,231.34,3,2,1,6,Potential Loyalists,0
 17375,United Kingdom,2010-10-04 09:14:00,67,1,260.45,113,260.45,2,2,1,5,Hibernating / Lost,2
 17376,United Kingdom,2010-10-31 10:42:00,40,2,250.44,158,125.22,3,2,1,6,Potential Loyalists,0
 17377,United Kingdom,2010-12-09 10:42:00,1,60,14169.210000000001,5474,236.15,4,4,4,12,Champions,3
 17378,United Kingdom,2010-11-30 18:46:00,10,1,10.95,1,10.95,4,2,1,7,Potential Loyalists,0
-17380,United Kingdom,2010-10-01 16:42:00,70,3,645.0,252,215.0,2,3,2,7,Hibernating / Lost,1
+17380,United Kingdom,2010-10-01 16:42:00,70,3,645.0,252,215.0,2,3,2,7,At Risk,1
 17381,United Kingdom,2010-12-06 09:45:00,4,12,19726.76,20118,1643.9,4,4,4,12,Champions,3
 17382,United Kingdom,2010-09-30 10:53:00,71,7,836.88,432,119.55,2,4,3,9,Loyal Customers,1
 17383,United Kingdom,2010-09-12 14:54:00,89,1,110.69999999999999,12,110.7,2,2,1,5,Hibernating / Lost,2
@@ -3748,7 +3748,7 @@ customer_id,country,last_purchase,recency,frequency,monetary,total_units,avg_ord
 17550,United Kingdom,2010-11-07 14:51:00,33,6,2239.48,882,373.25,3,4,4,11,Loyal Customers,1
 17552,United Kingdom,2010-12-02 18:46:00,8,10,2154.88,1376,215.49,4,4,4,12,Champions,3
 17553,United Kingdom,2010-08-24 09:49:00,108,3,2270.0,1240,756.67,2,3,4,9,Loyal Customers,1
-17555,United Kingdom,2010-10-10 12:09:00,61,3,565.43,391,188.48,2,3,2,7,Hibernating / Lost,1
+17555,United Kingdom,2010-10-10 12:09:00,61,3,565.43,391,188.48,2,3,2,7,At Risk,1
 17556,United Kingdom,2010-11-25 17:00:00,15,1,142.77,83,142.77,4,2,1,7,Potential Loyalists,0
 17557,United Kingdom,2009-12-07 10:15:00,368,1,34.0,4,34.0,1,2,1,4,Hibernating / Lost,2
 17558,United Kingdom,2010-11-11 14:36:00,29,1,259.17,54,259.17,3,2,1,6,Potential Loyalists,0
@@ -3787,7 +3787,7 @@ customer_id,country,last_purchase,recency,frequency,monetary,total_units,avg_ord
 17601,United Kingdom,2010-11-24 14:29:00,16,1,296.65,191,296.65,4,2,1,7,Potential Loyalists,0
 17602,United Kingdom,2010-08-24 17:31:00,108,8,2300.01,1764,287.5,2,4,4,10,Loyal Customers,1
 17603,United Kingdom,2010-04-01 11:51:00,253,3,1393.66,564,464.55,1,3,3,7,Loyal Customers,1
-17604,United Kingdom,2010-10-13 10:17:00,58,4,633.02,445,158.26,2,3,2,7,Hibernating / Lost,1
+17604,United Kingdom,2010-10-13 10:17:00,58,4,633.02,445,158.26,2,3,2,7,At Risk,1
 17605,United Kingdom,2010-04-28 14:45:00,226,1,160.75,71,160.75,1,2,1,4,Hibernating / Lost,2
 17606,United Kingdom,2009-12-02 13:32:00,373,1,87.30000000000001,42,87.3,1,2,1,4,Hibernating / Lost,2
 17607,United Kingdom,2010-11-28 13:11:00,12,1,333.81,269,333.81,4,2,2,8,Potential Loyalists,0
@@ -3857,15 +3857,15 @@ customer_id,country,last_purchase,recency,frequency,monetary,total_units,avg_ord
 17694,United Kingdom,2010-07-16 10:22:00,147,2,1412.85,1309,706.42,1,3,3,7,Loyal Customers,1
 17695,United Kingdom,2010-11-10 14:44:00,30,3,980.7,1030,326.9,3,3,3,9,Loyal Customers,1
 17696,United Kingdom,2010-11-22 09:55:00,18,19,5393.88,4135,283.89,4,4,4,12,Champions,3
-17699,United Kingdom,2010-08-20 09:39:00,112,2,442.0,208,221.0,2,3,2,7,Hibernating / Lost,2
+17699,United Kingdom,2010-08-20 09:39:00,112,2,442.0,208,221.0,2,3,2,7,At Risk,2
 17700,United Kingdom,2010-11-23 15:55:00,17,10,4145.33,2203,414.53,4,4,4,12,Champions,3
 17702,United Kingdom,2010-11-21 13:15:00,19,2,1319.67,800,659.84,3,3,3,9,Loyal Customers,0
 17703,United Kingdom,2010-10-17 16:16:00,54,1,296.1,307,296.1,2,2,1,5,Hibernating / Lost,2
-17705,United Kingdom,2010-09-10 14:43:00,91,2,260.38,338,130.19,2,3,1,6,Hibernating / Lost,2
+17705,United Kingdom,2010-09-10 14:43:00,91,2,260.38,338,130.19,2,3,1,6,At Risk,2
 17706,United Kingdom,2010-12-08 11:04:00,2,17,10245.49,4150,602.68,4,4,4,12,Champions,3
 17707,United Kingdom,2010-11-28 15:52:00,12,6,456.90000000000003,402,76.15,4,4,2,10,Hibernating / Lost,0
 17708,United Kingdom,2010-11-02 08:57:00,38,2,620.85,297,310.42,3,3,2,8,Hibernating / Lost,0
-17709,United Kingdom,2010-08-26 14:02:00,106,4,533.56,278,133.39,2,3,2,7,Hibernating / Lost,1
+17709,United Kingdom,2010-08-26 14:02:00,106,4,533.56,278,133.39,2,3,2,7,At Risk,1
 17710,United Kingdom,2010-10-12 07:49:00,59,1,293.5,158,293.5,2,2,1,5,Hibernating / Lost,2
 17713,United Kingdom,2010-11-22 16:50:00,18,4,1198.09,989,299.52,4,3,3,10,Loyal Customers,1
 17714,United Kingdom,2010-10-11 08:30:00,60,4,1257.18,516,314.3,2,3,3,8,Loyal Customers,1
@@ -3881,7 +3881,7 @@ customer_id,country,last_purchase,recency,frequency,monetary,total_units,avg_ord
 17728,United Kingdom,2010-10-31 15:50:00,40,2,1362.75,677,681.38,3,3,3,9,Loyal Customers,1
 17729,United Kingdom,2010-04-22 15:03:00,232,1,438.65000000000003,247,438.65,1,2,2,5,Hibernating / Lost,2
 17730,United Kingdom,2010-11-22 12:26:00,18,7,2475.32,1724,353.62,4,4,4,12,Champions,3
-17731,United Kingdom,2010-03-28 12:43:00,257,2,468.88,214,234.44,1,3,2,6,Hibernating / Lost,2
+17731,United Kingdom,2010-03-28 12:43:00,257,2,468.88,214,234.44,1,3,2,6,At Risk,2
 17732,United Kingdom,2010-12-02 09:29:00,8,8,2166.42,1058,270.8,4,4,4,12,Champions,3
 17734,United Kingdom,2010-07-02 10:01:00,161,3,741.69,319,247.23,1,3,3,7,Loyal Customers,1
 17735,United Kingdom,2010-12-07 10:32:00,3,8,4134.91,2462,516.86,4,4,4,12,Champions,3
@@ -3892,12 +3892,12 @@ customer_id,country,last_purchase,recency,frequency,monetary,total_units,avg_ord
 17742,United Kingdom,2010-10-07 15:03:00,64,9,1743.3700000000001,564,193.71,2,4,4,10,Loyal Customers,1
 17743,United Kingdom,2010-09-17 14:54:00,84,1,229.2,96,229.2,2,2,1,5,Hibernating / Lost,2
 17744,United Kingdom,2010-11-24 09:34:00,16,1,326.74,414,326.74,4,2,2,8,Potential Loyalists,0
-17745,United Kingdom,2010-08-19 12:30:00,113,2,600.34,164,300.17,2,3,2,7,Hibernating / Lost,2
+17745,United Kingdom,2010-08-19 12:30:00,113,2,600.34,164,300.17,2,3,2,7,At Risk,2
 17746,United Kingdom,2010-08-25 13:31:00,107,3,793.9300000000001,659,264.64,2,3,3,8,Loyal Customers,1
 17748,United Kingdom,2010-06-30 13:49:00,163,1,358.15,111,358.15,1,2,2,5,Hibernating / Lost,2
 17749,United Kingdom,2010-06-11 14:56:00,182,1,351.66,126,351.66,1,2,2,5,Hibernating / Lost,2
 17751,United Kingdom,2010-10-14 13:57:00,57,1,157.85999999999999,147,157.86,2,2,1,5,Hibernating / Lost,2
-17753,United Kingdom,2010-09-01 15:49:00,100,4,382.06,124,95.52,2,3,2,7,Hibernating / Lost,1
+17753,United Kingdom,2010-09-01 15:49:00,100,4,382.06,124,95.52,2,3,2,7,At Risk,1
 17754,United Kingdom,2010-11-30 11:31:00,10,8,2786.57,2550,348.32,4,4,4,12,Champions,3
 17756,United Kingdom,2010-11-29 12:20:00,11,3,728.75,399,242.92,4,3,3,10,Loyal Customers,0
 17757,United Kingdom,2010-12-06 13:41:00,4,28,3773.11,1833,134.75,4,4,4,12,Champions,3
@@ -3905,29 +3905,29 @@ customer_id,country,last_purchase,recency,frequency,monetary,total_units,avg_ord
 17759,United Kingdom,2010-11-11 15:09:00,29,2,441.92,268,220.96,3,3,2,8,Hibernating / Lost,0
 17760,United Kingdom,2010-12-01 15:08:00,9,5,631.34,457,126.27,4,4,2,10,Hibernating / Lost,0
 17762,United Kingdom,2010-09-09 17:40:00,92,1,129.75,129,129.75,2,2,1,5,Hibernating / Lost,2
-17763,United Kingdom,2010-02-24 13:34:00,289,3,71.15,29,23.72,1,3,1,5,Hibernating / Lost,2
+17763,United Kingdom,2010-02-24 13:34:00,289,3,71.15,29,23.72,1,3,1,5,At Risk,2
 17764,United Kingdom,2010-11-02 17:12:00,38,3,741.02,323,247.01,3,3,3,9,Loyal Customers,1
 17765,United Kingdom,2010-09-17 12:45:00,84,1,156.37,52,156.37,2,2,1,5,Hibernating / Lost,2
 17766,United Kingdom,2010-11-23 14:29:00,17,2,299.61,155,149.8,4,3,1,8,Hibernating / Lost,0
 17767,United Kingdom,2010-10-25 16:22:00,46,1,141.85,70,141.85,3,2,1,6,Potential Loyalists,2
 17768,United Kingdom,2010-11-17 13:42:00,23,4,1210.83,1217,302.71,3,3,3,9,Loyal Customers,1
 17769,United Kingdom,2010-11-21 12:11:00,19,7,3095.95,1307,442.28,3,4,4,11,Loyal Customers,3
-17771,United Kingdom,2010-09-29 16:35:00,72,2,141.6,86,70.8,2,3,1,6,Hibernating / Lost,2
+17771,United Kingdom,2010-09-29 16:35:00,72,2,141.6,86,70.8,2,3,1,6,At Risk,2
 17772,United Kingdom,2010-11-12 11:31:00,28,1,187.3,58,187.3,3,2,1,6,Potential Loyalists,0
-17773,United Kingdom,2010-07-13 14:07:00,150,2,575.37,254,287.68,1,3,2,6,Hibernating / Lost,2
+17773,United Kingdom,2010-07-13 14:07:00,150,2,575.37,254,287.68,1,3,2,6,At Risk,2
 17774,United Kingdom,2010-11-07 12:31:00,33,5,2059.1,1075,411.82,3,4,4,11,Loyal Customers,1
 17776,United Kingdom,2010-11-18 12:14:00,22,2,329.3,270,164.65,3,3,2,8,Hibernating / Lost,0
 17778,United Kingdom,2010-02-16 12:44:00,297,1,197.70000000000002,214,197.7,1,2,1,4,Hibernating / Lost,2
-17780,United Kingdom,2010-02-10 13:43:00,303,3,346.56,156,115.52,1,3,2,6,Hibernating / Lost,2
+17780,United Kingdom,2010-02-10 13:43:00,303,3,346.56,156,115.52,1,3,2,6,At Risk,2
 17782,United Kingdom,2010-11-22 11:15:00,18,2,679.02,538,339.51,4,3,2,9,Hibernating / Lost,0
 17783,United Kingdom,2010-07-15 12:50:00,148,1,93.49,84,93.49,1,2,1,4,Hibernating / Lost,2
 17784,United Kingdom,2010-06-07 16:08:00,186,1,112.86,72,112.86,1,2,1,4,Hibernating / Lost,2
-17785,United Kingdom,2010-09-20 14:14:00,81,2,271.44,160,135.72,2,3,1,6,Hibernating / Lost,2
+17785,United Kingdom,2010-09-20 14:14:00,81,2,271.44,160,135.72,2,3,1,6,At Risk,2
 17787,United Kingdom,2010-12-03 13:43:00,7,1,736.28,356,736.28,4,2,3,9,Potential Loyalists,0
 17789,United Kingdom,2010-02-16 13:16:00,297,1,171.25,125,171.25,1,2,1,4,Hibernating / Lost,2
 17790,United Kingdom,2010-11-26 10:19:00,14,6,815.11,552,135.85,4,4,3,11,Loyal Customers,1
-17792,United Kingdom,2010-08-29 14:30:00,103,2,368.35,149,184.18,2,3,2,7,Hibernating / Lost,2
-17794,United Kingdom,2010-01-22 10:18:00,322,2,147.3,46,73.65,1,3,1,5,Hibernating / Lost,2
+17792,United Kingdom,2010-08-29 14:30:00,103,2,368.35,149,184.18,2,3,2,7,At Risk,2
+17794,United Kingdom,2010-01-22 10:18:00,322,2,147.3,46,73.65,1,3,1,5,At Risk,2
 17796,United Kingdom,2010-12-05 12:23:00,5,4,661.04,199,165.26,4,3,2,9,Hibernating / Lost,0
 17797,United Kingdom,2010-11-09 14:33:00,31,5,1191.44,588,238.29,3,4,3,10,Loyal Customers,1
 17798,United Kingdom,2010-05-07 11:42:00,217,1,172.17,136,172.17,1,2,1,4,Hibernating / Lost,2
@@ -3938,9 +3938,9 @@ customer_id,country,last_purchase,recency,frequency,monetary,total_units,avg_ord
 17804,United Kingdom,2010-11-28 14:01:00,12,3,383.78000000000003,194,127.93,4,3,2,9,Hibernating / Lost,0
 17805,United Kingdom,2010-04-08 14:36:00,246,1,414.72,648,414.72,1,2,2,5,Hibernating / Lost,2
 17807,United Kingdom,2010-11-09 16:21:00,31,3,437.87,262,145.96,3,3,2,8,Hibernating / Lost,0
-17808,United Kingdom,2010-06-09 10:44:00,184,4,262.64,143,65.66,1,3,1,5,Hibernating / Lost,2
+17808,United Kingdom,2010-06-09 10:44:00,184,4,262.64,143,65.66,1,3,1,5,At Risk,2
 17809,United Kingdom,2010-12-03 12:43:00,7,11,5925.4800000000005,1296,538.68,4,4,4,12,Champions,3
-17810,United Kingdom,2010-02-09 10:47:00,304,2,343.21,117,171.6,1,3,2,6,Hibernating / Lost,2
+17810,United Kingdom,2010-02-09 10:47:00,304,2,343.21,117,171.6,1,3,2,6,At Risk,2
 17811,United Kingdom,2010-11-30 10:56:00,10,8,1757.98,1132,219.75,4,4,4,12,Champions,3
 17812,United Kingdom,2010-12-06 15:27:00,4,4,405.48,242,101.37,4,3,2,9,Hibernating / Lost,0
 17814,United Kingdom,2010-11-29 14:21:00,11,2,1609.37,1435,804.68,4,3,3,10,Loyal Customers,0
@@ -3952,7 +3952,7 @@ customer_id,country,last_purchase,recency,frequency,monetary,total_units,avg_ord
 17820,United Kingdom,2010-11-30 17:43:00,10,1,180.60999999999999,111,180.61,4,2,1,7,Potential Loyalists,0
 17821,United Kingdom,2010-10-29 13:20:00,42,1,334.62,162,334.62,3,2,2,7,Potential Loyalists,0
 17822,United Kingdom,2010-10-15 13:47:00,56,5,2154.08,1372,430.82,2,4,4,10,Loyal Customers,1
-17823,United Kingdom,2010-10-14 16:24:00,57,2,449.25,252,224.62,2,3,2,7,Hibernating / Lost,0
+17823,United Kingdom,2010-10-14 16:24:00,57,2,449.25,252,224.62,2,3,2,7,At Risk,0
 17825,United Kingdom,2010-04-20 12:01:00,234,4,701.96,516,175.49,1,3,3,7,Loyal Customers,1
 17826,United Kingdom,2010-11-30 13:23:00,10,1,133.34,84,133.34,4,2,1,7,Potential Loyalists,0
 17827,United Kingdom,2010-03-28 12:20:00,257,1,388.84,342,388.84,1,2,2,5,Hibernating / Lost,2
@@ -3964,10 +3964,10 @@ customer_id,country,last_purchase,recency,frequency,monetary,total_units,avg_ord
 17841,United Kingdom,2010-12-09 17:27:00,1,91,29560.57,14331,324.84,4,4,4,12,Champions,3
 17842,United Kingdom,2010-04-16 14:23:00,238,1,430.69,89,430.69,1,2,2,5,Hibernating / Lost,2
 17843,United Kingdom,2010-10-24 10:56:00,47,1,114.92,138,114.92,3,2,1,6,Potential Loyalists,2
-17845,United Kingdom,2010-06-02 15:20:00,191,4,596.09,195,149.02,1,3,2,6,Hibernating / Lost,1
-17847,United Kingdom,2010-07-12 10:00:00,151,2,125.74000000000001,28,62.87,1,3,1,5,Hibernating / Lost,2
+17845,United Kingdom,2010-06-02 15:20:00,191,4,596.09,195,149.02,1,3,2,6,At Risk,1
+17847,United Kingdom,2010-07-12 10:00:00,151,2,125.74000000000001,28,62.87,1,3,1,5,At Risk,2
 17848,United Kingdom,2010-10-18 16:38:00,53,21,2637.26,974,125.58,2,4,4,10,Loyal Customers,3
-17849,United Kingdom,2010-08-16 11:31:00,116,4,457.96000000000004,110,114.49,2,3,2,7,Hibernating / Lost,1
+17849,United Kingdom,2010-08-16 11:31:00,116,4,457.96000000000004,110,114.49,2,3,2,7,At Risk,1
 17850,United Kingdom,2010-12-02 15:27:00,8,155,51208.87,21052,330.38,4,4,4,12,Champions,3
 17851,United Kingdom,2010-10-13 15:13:00,58,6,1552.35,933,258.72,2,4,3,9,Loyal Customers,1
 17852,United Kingdom,2010-11-16 12:19:00,24,3,543.47,319,181.16,3,3,2,8,Hibernating / Lost,0
@@ -3993,17 +3993,17 @@ customer_id,country,last_purchase,recency,frequency,monetary,total_units,avg_ord
 17875,United Kingdom,2010-01-20 15:30:00,324,1,167.1,98,167.1,1,2,1,4,Hibernating / Lost,2
 17876,United Kingdom,2010-11-05 10:52:00,35,3,3424.02,1958,1141.34,3,3,4,10,Loyal Customers,1
 17878,United Kingdom,2010-11-09 13:52:00,31,2,999.48,613,499.74,3,3,3,9,Loyal Customers,0
-17880,United Kingdom,2010-03-10 12:39:00,275,2,366.0,152,183.0,1,3,2,6,Hibernating / Lost,2
+17880,United Kingdom,2010-03-10 12:39:00,275,2,366.0,152,183.0,1,3,2,6,At Risk,2
 17882,United Kingdom,2010-11-25 14:40:00,15,2,291.56,130,145.78,4,3,1,8,Hibernating / Lost,0
-17883,United Kingdom,2010-06-18 16:40:00,175,3,324.08,102,108.03,1,3,2,6,Hibernating / Lost,2
+17883,United Kingdom,2010-06-18 16:40:00,175,3,324.08,102,108.03,1,3,2,6,At Risk,2
 17884,United Kingdom,2010-12-06 15:13:00,4,18,2320.92,2166,128.94,4,4,4,12,Champions,3
 17886,United Kingdom,2010-09-28 14:44:00,73,3,703.27,242,234.42,2,3,3,8,Loyal Customers,1
 17888,United Kingdom,2010-11-30 16:17:00,10,17,1091.44,563,64.2,4,4,3,11,Loyal Customers,3
 17889,United Kingdom,2010-11-30 12:33:00,10,5,545.05,326,109.01,4,4,2,10,Hibernating / Lost,0
 17894,United Kingdom,2010-12-08 14:50:00,2,11,1292.39,573,117.49,4,4,3,11,Loyal Customers,3
 17897,United Kingdom,2010-12-07 15:54:00,3,8,1921.9,785,240.24,4,4,4,12,Champions,3
-17898,United Kingdom,2010-09-13 12:01:00,88,2,147.12,61,73.56,2,3,1,6,Hibernating / Lost,2
-17901,United Kingdom,2010-07-06 11:05:00,157,2,149.7,14,74.85,1,3,1,5,Hibernating / Lost,2
+17898,United Kingdom,2010-09-13 12:01:00,88,2,147.12,61,73.56,2,3,1,6,At Risk,2
+17901,United Kingdom,2010-07-06 11:05:00,157,2,149.7,14,74.85,1,3,1,5,At Risk,2
 17902,United Kingdom,2010-06-11 12:25:00,182,1,216.39999999999998,526,216.4,1,2,1,4,Hibernating / Lost,2
 17903,United Kingdom,2010-11-10 15:39:00,30,1,381.09000000000003,142,381.09,3,2,2,7,Potential Loyalists,0
 17905,United Kingdom,2010-12-01 13:21:00,9,10,1569.8799999999999,939,156.99,4,4,3,11,Loyal Customers,3
@@ -4014,16 +4014,16 @@ customer_id,country,last_purchase,recency,frequency,monetary,total_units,avg_ord
 17912,United Kingdom,2010-11-29 13:53:00,11,1,61.54,26,61.54,4,2,1,7,Potential Loyalists,0
 17913,United Kingdom,2010-11-04 19:12:00,36,12,3016.44,1427,251.37,3,4,4,11,Loyal Customers,3
 17915,United Kingdom,2010-06-06 13:22:00,187,1,225.78,184,225.78,1,2,1,4,Hibernating / Lost,2
-17916,United Kingdom,2010-03-21 12:26:00,264,2,43.87,90,21.94,1,3,1,5,Hibernating / Lost,2
-17918,United Kingdom,2010-07-27 11:51:00,136,3,388.44,351,129.48,2,3,2,7,Hibernating / Lost,2
+17916,United Kingdom,2010-03-21 12:26:00,264,2,43.87,90,21.94,1,3,1,5,At Risk,2
+17918,United Kingdom,2010-07-27 11:51:00,136,3,388.44,351,129.48,2,3,2,7,At Risk,2
 17919,United Kingdom,2010-09-27 10:40:00,74,1,536.28,696,536.28,2,2,2,6,Hibernating / Lost,2
 17920,United Kingdom,2010-12-06 16:58:00,4,39,20125.34,10069,516.03,4,4,4,12,Champions,3
 17921,United Kingdom,2010-11-25 19:24:00,15,6,1574.13,566,262.36,4,4,3,11,Loyal Customers,3
 17922,United Kingdom,2010-06-14 16:32:00,179,1,170.4,49,170.4,1,2,1,4,Hibernating / Lost,2
-17923,United Kingdom,2010-06-30 13:41:00,163,2,289.5,90,144.75,1,3,1,5,Hibernating / Lost,2
+17923,United Kingdom,2010-06-30 13:41:00,163,2,289.5,90,144.75,1,3,1,5,At Risk,2
 17924,United Kingdom,2010-12-01 10:51:00,9,2,574.2,108,287.1,4,3,2,9,Hibernating / Lost,0
 17925,United Kingdom,2010-12-02 10:10:00,8,1,244.08,72,244.08,4,2,1,7,Potential Loyalists,0
-17926,United Kingdom,2010-09-21 18:42:00,80,3,638.2,266,212.73,2,3,2,7,Hibernating / Lost,1
+17926,United Kingdom,2010-09-21 18:42:00,80,3,638.2,266,212.73,2,3,2,7,At Risk,1
 17927,United Kingdom,2009-12-18 11:03:00,357,1,294.0,108,294.0,1,2,1,4,Hibernating / Lost,2
 17928,United Kingdom,2010-05-17 15:30:00,207,1,128.7,82,128.7,1,2,1,4,Hibernating / Lost,2
 17929,United Kingdom,2010-11-17 12:01:00,23,8,2239.1,326,279.89,3,4,4,11,Loyal Customers,3
@@ -4036,20 +4036,20 @@ customer_id,country,last_purchase,recency,frequency,monetary,total_units,avg_ord
 17940,United Kingdom,2010-09-20 15:33:00,81,5,26237.4,75824,5247.48,2,4,4,10,Loyal Customers,1
 17941,United Kingdom,2010-04-28 09:23:00,226,3,1128.72,856,376.24,1,3,3,7,Loyal Customers,1
 17944,United Kingdom,2010-10-12 16:25:00,59,1,74.99,84,74.99,2,2,1,5,Hibernating / Lost,2
-17945,United Kingdom,2010-01-12 11:40:00,332,3,359.5,243,119.83,1,3,2,6,Hibernating / Lost,2
+17945,United Kingdom,2010-01-12 11:40:00,332,3,359.5,243,119.83,1,3,2,6,At Risk,2
 17949,United Kingdom,2010-12-03 13:12:00,7,73,51117.0,30110,700.23,4,4,4,12,Champions,3
 17950,United Kingdom,2010-12-09 15:20:00,1,6,947.26,479,157.88,4,4,3,11,Loyal Customers,3
 17951,United Kingdom,2010-12-01 12:40:00,9,2,627.5400000000001,282,313.77,4,3,2,9,Hibernating / Lost,0
 17952,United Kingdom,2010-11-26 13:54:00,14,4,788.46,477,197.12,4,3,3,10,Loyal Customers,0
 17953,United Kingdom,2010-06-17 15:08:00,176,1,148.67000000000002,73,148.67,1,2,1,4,Hibernating / Lost,2
 17954,United Kingdom,2010-12-07 12:37:00,3,9,1616.38,1018,179.6,4,4,3,11,Loyal Customers,3
-17955,United Kingdom,2010-02-22 11:22:00,291,2,392.6,408,196.3,1,3,2,6,Hibernating / Lost,2
+17955,United Kingdom,2010-02-22 11:22:00,291,2,392.6,408,196.3,1,3,2,6,At Risk,2
 17958,United Kingdom,2009-12-11 15:37:00,364,1,465.42,200,465.42,1,2,2,5,Hibernating / Lost,2
 17959,United Kingdom,2010-04-26 14:12:00,228,1,140.75,49,140.75,1,2,1,4,Hibernating / Lost,2
-17960,United Kingdom,2010-07-05 09:56:00,158,2,61.300000000000004,19,30.65,1,3,1,5,Hibernating / Lost,2
+17960,United Kingdom,2010-07-05 09:56:00,158,2,61.300000000000004,19,30.65,1,3,1,5,At Risk,2
 17961,United Kingdom,2010-12-02 19:18:00,8,62,1697.85,976,27.38,4,4,3,11,Loyal Customers,3
-17962,United Kingdom,2010-06-08 16:24:00,185,3,563.5,505,187.83,1,3,2,6,Hibernating / Lost,2
-17963,United Kingdom,2010-08-25 15:58:00,107,4,643.16,341,160.79,2,3,2,7,Hibernating / Lost,1
+17962,United Kingdom,2010-06-08 16:24:00,185,3,563.5,505,187.83,1,3,2,6,At Risk,2
+17963,United Kingdom,2010-08-25 15:58:00,107,4,643.16,341,160.79,2,3,2,7,At Risk,1
 17964,United Kingdom,2010-12-02 13:32:00,8,1,261.76,195,261.76,4,2,1,7,Potential Loyalists,0
 17965,United Kingdom,2010-12-09 18:09:00,1,17,4554.26,2905,267.9,4,4,4,12,Champions,3
 17966,United Kingdom,2010-04-27 10:14:00,227,5,865.49,1347,173.1,1,4,3,8,Loyal Customers,1
@@ -4068,7 +4068,7 @@ customer_id,country,last_purchase,recency,frequency,monetary,total_units,avg_ord
 17983,United Kingdom,2010-11-09 13:24:00,31,1,171.71,108,171.71,3,2,1,6,Potential Loyalists,0
 17984,United Kingdom,2010-11-12 14:13:00,28,4,996.01,840,249.0,3,3,3,9,Loyal Customers,1
 17987,United Kingdom,2010-11-28 16:04:00,12,4,766.87,720,191.72,4,3,3,10,Loyal Customers,0
-17988,United Kingdom,2010-08-09 16:56:00,123,6,284.57,136,47.43,2,4,1,7,Hibernating / Lost,1
+17988,United Kingdom,2010-08-09 16:56:00,123,6,284.57,136,47.43,2,4,1,7,At Risk,1
 17989,United Kingdom,2010-11-25 13:49:00,15,1,207.32999999999998,300,207.33,4,2,1,7,Potential Loyalists,0
 17990,United Kingdom,2010-11-24 09:57:00,16,3,896.77,363,298.92,4,3,3,10,Loyal Customers,0
 17991,United Kingdom,2010-04-27 12:46:00,227,1,205.3,67,205.3,1,2,1,4,Hibernating / Lost,2
@@ -4080,7 +4080,7 @@ customer_id,country,last_purchase,recency,frequency,monetary,total_units,avg_ord
 17998,United Kingdom,2010-11-24 15:31:00,16,3,639.24,561,213.08,4,3,2,9,Hibernating / Lost,0
 17999,United Kingdom,2010-12-08 15:17:00,2,2,338.41,161,169.2,4,3,2,9,Hibernating / Lost,0
 18000,United Kingdom,2010-05-24 17:34:00,200,1,124.25,109,124.25,1,2,1,4,Hibernating / Lost,2
-18001,United Kingdom,2010-09-16 11:37:00,85,4,509.01,512,127.25,2,3,2,7,Hibernating / Lost,1
+18001,United Kingdom,2010-09-16 11:37:00,85,4,509.01,512,127.25,2,3,2,7,At Risk,1
 18002,United Kingdom,2010-11-29 10:57:00,11,4,237.62,70,59.4,4,3,1,8,Hibernating / Lost,0
 18003,United Kingdom,2010-11-28 15:09:00,12,1,353.51,297,353.51,4,2,2,8,Potential Loyalists,0
 18006,United Kingdom,2010-11-23 10:22:00,17,3,524.83,175,174.94,4,3,2,9,Hibernating / Lost,0
@@ -4093,7 +4093,7 @@ customer_id,country,last_purchase,recency,frequency,monetary,total_units,avg_ord
 18017,United Kingdom,2010-10-04 15:11:00,67,1,165.0,100,165.0,2,2,1,5,Hibernating / Lost,2
 18018,United Kingdom,2010-11-05 15:52:00,35,2,175.85,131,87.92,3,3,1,7,Hibernating / Lost,0
 18020,United Kingdom,2010-06-14 12:31:00,179,1,190.48000000000002,67,190.48,1,2,1,4,Hibernating / Lost,2
-18021,United Kingdom,2010-07-18 10:52:00,145,2,216.41,168,108.2,1,3,1,5,Hibernating / Lost,2
+18021,United Kingdom,2010-07-18 10:52:00,145,2,216.41,168,108.2,1,3,1,5,At Risk,2
 18022,United Kingdom,2010-11-19 13:16:00,21,4,893.9,605,223.48,3,3,3,9,Loyal Customers,1
 18025,United Kingdom,2010-11-25 12:37:00,15,6,1177.72,1053,196.29,4,4,3,11,Loyal Customers,1
 18026,United Kingdom,2010-07-27 10:37:00,136,2,2074.07,530,1037.04,2,3,4,9,Loyal Customers,1
@@ -4103,7 +4103,7 @@ customer_id,country,last_purchase,recency,frequency,monetary,total_units,avg_ord
 18034,United Kingdom,2010-11-29 12:36:00,11,1,334.67,391,334.67,4,2,2,8,Potential Loyalists,0
 18035,United Kingdom,2010-11-19 13:46:00,21,2,546.34,550,273.17,3,3,2,8,Hibernating / Lost,0
 18036,United Kingdom,2010-11-19 13:56:00,21,8,1142.37,509,142.8,3,4,3,10,Loyal Customers,3
-18037,United Kingdom,2010-10-14 12:46:00,57,9,97.39999999999999,17,10.82,2,4,1,7,Hibernating / Lost,0
+18037,United Kingdom,2010-10-14 12:46:00,57,9,97.39999999999999,17,10.82,2,4,1,7,At Risk,0
 18038,United Kingdom,2010-06-01 15:59:00,192,1,141.48,80,141.48,1,2,1,4,Hibernating / Lost,2
 18039,United Kingdom,2010-11-30 13:07:00,10,4,548.22,555,137.06,4,3,2,9,Hibernating / Lost,0
 18041,United Kingdom,2010-12-09 13:24:00,1,20,4536.29,4026,226.81,4,4,4,12,Champions,3
@@ -4113,16 +4113,16 @@ customer_id,country,last_purchase,recency,frequency,monetary,total_units,avg_ord
 18046,United Kingdom,2010-02-28 11:36:00,285,1,189.63,44,189.63,1,2,1,4,Hibernating / Lost,2
 18047,United Kingdom,2010-11-23 13:11:00,17,2,326.09,130,163.04,4,3,2,9,Hibernating / Lost,0
 18048,United Kingdom,2010-08-03 13:03:00,129,1,222.64,129,222.64,2,2,1,5,Hibernating / Lost,2
-18049,United Kingdom,2010-09-28 14:26:00,73,2,500.5,400,250.25,2,3,2,7,Hibernating / Lost,2
+18049,United Kingdom,2010-09-28 14:26:00,73,2,500.5,400,250.25,2,3,2,7,At Risk,2
 18050,United Kingdom,2010-11-11 15:51:00,29,1,337.66,210,337.66,3,2,2,7,Potential Loyalists,0
 18051,United Kingdom,2010-03-15 13:58:00,270,7,2282.28,1661,326.04,1,4,4,9,Loyal Customers,1
 18052,United Kingdom,2010-05-24 11:11:00,200,1,10877.18,17766,10877.18,1,2,4,7,At Risk,1
-18053,United Kingdom,2010-07-02 11:42:00,161,2,271.05,107,135.52,1,3,1,5,Hibernating / Lost,2
+18053,United Kingdom,2010-07-02 11:42:00,161,2,271.05,107,135.52,1,3,1,5,At Risk,2
 18054,United Kingdom,2010-11-12 08:18:00,28,1,176.5,96,176.5,3,2,1,6,Potential Loyalists,0
 18055,United Kingdom,2010-12-07 09:13:00,3,6,4381.78,1376,730.3,4,4,4,12,Champions,3
 18056,United Kingdom,2010-03-31 12:29:00,254,1,190.95,123,190.95,1,2,1,4,Hibernating / Lost,2
 18057,United Kingdom,2010-11-11 16:55:00,29,3,1168.14,930,389.38,3,3,3,9,Loyal Customers,1
-18058,United Kingdom,2010-06-16 13:45:00,177,2,603.9,306,301.95,1,3,2,6,Hibernating / Lost,2
+18058,United Kingdom,2010-06-16 13:45:00,177,2,603.9,306,301.95,1,3,2,6,At Risk,2
 18060,United Kingdom,2010-10-27 16:41:00,44,2,1185.46,902,592.73,3,3,3,9,Loyal Customers,1
 18061,United Kingdom,2010-12-08 13:03:00,2,19,4369.56,2652,229.98,4,4,4,12,Champions,3
 18062,United Kingdom,2010-11-18 10:05:00,22,3,912.15,435,304.05,3,3,3,9,Loyal Customers,0
@@ -4137,7 +4137,7 @@ customer_id,country,last_purchase,recency,frequency,monetary,total_units,avg_ord
 18075,United Kingdom,2010-11-30 12:09:00,10,10,3171.54,1817,317.15,4,4,4,12,Champions,3
 18076,United Kingdom,2010-11-24 14:02:00,16,1,151.49,164,151.49,4,2,1,7,Potential Loyalists,0
 18077,United Kingdom,2010-12-08 10:21:00,2,8,1699.25,1352,212.41,4,4,3,11,Loyal Customers,3
-18078,United Kingdom,2010-10-10 16:01:00,61,2,389.40000000000003,225,194.7,2,3,2,7,Hibernating / Lost,2
+18078,United Kingdom,2010-10-10 16:01:00,61,2,389.40000000000003,225,194.7,2,3,2,7,At Risk,2
 18079,United Kingdom,2010-08-05 12:19:00,127,1,590.78,1383,590.78,2,2,2,6,Hibernating / Lost,2
 18083,United Kingdom,2010-11-07 11:44:00,33,1,463.53,268,463.53,3,2,2,7,Potential Loyalists,0
 18084,United Kingdom,2010-11-21 15:47:00,19,2,704.75,443,352.38,3,3,3,9,Loyal Customers,0
@@ -4159,11 +4159,11 @@ customer_id,country,last_purchase,recency,frequency,monetary,total_units,avg_ord
 18103,United Kingdom,2010-06-08 13:36:00,185,1,105.8,23,105.8,1,2,1,4,Hibernating / Lost,2
 18106,United Kingdom,2010-08-20 14:14:00,112,5,1019.16,380,203.83,2,4,3,9,Loyal Customers,1
 18107,United Kingdom,2010-09-23 13:03:00,78,1,165.88,65,165.88,2,2,1,5,Hibernating / Lost,2
-18108,United Kingdom,2010-04-22 09:38:00,232,2,577.8100000000001,177,288.91,1,3,2,6,Hibernating / Lost,2
+18108,United Kingdom,2010-04-22 09:38:00,232,2,577.8100000000001,177,288.91,1,3,2,6,At Risk,2
 18109,United Kingdom,2010-12-05 10:58:00,5,13,1828.24,647,140.63,4,4,4,12,Champions,3
 18110,United Kingdom,2010-10-24 14:21:00,47,1,193.48000000000002,97,193.48,3,2,1,6,Potential Loyalists,2
 18111,United Kingdom,2010-04-29 12:58:00,225,1,405.85,232,405.85,1,2,2,5,Hibernating / Lost,2
-18112,United Kingdom,2010-10-17 13:16:00,54,2,420.67,188,210.34,2,3,2,7,Hibernating / Lost,0
+18112,United Kingdom,2010-10-17 13:16:00,54,2,420.67,188,210.34,2,3,2,7,At Risk,0
 18113,United Kingdom,2010-12-06 12:31:00,4,1,76.32000000000001,72,76.32,4,2,1,7,Potential Loyalists,0
 18115,United Kingdom,2010-01-11 11:57:00,333,1,9.700000000000001,3,9.7,1,2,1,4,Hibernating / Lost,2
 18116,United Kingdom,2010-11-28 15:31:00,12,5,731.38,430,146.28,4,4,3,11,Loyal Customers,0
@@ -4175,10 +4175,10 @@ customer_id,country,last_purchase,recency,frequency,monetary,total_units,avg_ord
 18128,United Kingdom,2010-06-20 13:19:00,173,1,399.29,216,399.29,1,2,2,5,Hibernating / Lost,2
 18131,United Kingdom,2010-03-18 08:48:00,267,1,222.95999999999998,552,222.96,1,2,1,4,Hibernating / Lost,2
 18132,United Kingdom,2010-07-23 16:54:00,140,1,220.13,212,220.13,1,2,1,4,Hibernating / Lost,2
-18134,United Kingdom,2010-04-20 14:02:00,234,2,445.0,128,222.5,1,3,2,6,Hibernating / Lost,2
+18134,United Kingdom,2010-04-20 14:02:00,234,2,445.0,128,222.5,1,3,2,6,At Risk,2
 18135,United Kingdom,2010-11-12 10:34:00,28,5,567.71,404,113.54,3,4,2,9,Hibernating / Lost,1
 18136,United Kingdom,2010-10-26 15:57:00,45,2,847.03,481,423.52,3,3,3,9,Loyal Customers,1
-18137,United Kingdom,2010-06-06 14:18:00,187,2,145.99,59,73.0,1,3,1,5,Hibernating / Lost,2
+18137,United Kingdom,2010-06-06 14:18:00,187,2,145.99,59,73.0,1,3,1,5,At Risk,2
 18140,West Indies,2010-08-23 11:58:00,109,1,536.41,395,536.41,2,2,2,6,Hibernating / Lost,2
 18141,United Kingdom,2010-11-03 11:44:00,37,2,882.47,433,441.24,3,3,3,9,Loyal Customers,0
 18144,United Kingdom,2010-12-01 13:45:00,9,8,2169.25,896,271.16,4,4,4,12,Champions,3
@@ -4212,7 +4212,7 @@ customer_id,country,last_purchase,recency,frequency,monetary,total_units,avg_ord
 18187,United Kingdom,2010-03-18 09:49:00,267,1,724.89,310,724.89,1,2,3,6,At Risk,2
 18188,United Kingdom,2010-10-05 09:38:00,66,3,1279.55,720,426.52,2,3,3,8,Loyal Customers,1
 18189,United Kingdom,2010-03-24 09:57:00,261,1,313.49,270,313.49,1,2,2,5,Hibernating / Lost,2
-18190,United Kingdom,2010-04-15 09:45:00,239,3,461.16,350,153.72,1,3,2,6,Hibernating / Lost,2
+18190,United Kingdom,2010-04-15 09:45:00,239,3,461.16,350,153.72,1,3,2,6,At Risk,2
 18191,United Kingdom,2010-08-19 17:42:00,113,1,321.59999999999997,192,321.6,2,2,2,6,Hibernating / Lost,2
 18193,United Kingdom,2010-11-24 12:25:00,16,2,963.59,802,481.8,4,3,3,10,Loyal Customers,0
 18194,United Kingdom,2010-09-27 13:08:00,74,5,3188.2000000000003,1142,637.64,2,4,4,10,Loyal Customers,1
@@ -4229,8 +4229,8 @@ customer_id,country,last_purchase,recency,frequency,monetary,total_units,avg_ord
 18212,United Kingdom,2010-01-31 14:42:00,313,1,298.3,66,298.3,1,2,1,4,Hibernating / Lost,2
 18214,United Kingdom,2010-06-27 11:21:00,166,4,1780.34,989,445.08,1,3,4,8,Loyal Customers,1
 18215,United Kingdom,2010-09-28 16:18:00,73,4,1933.15,1013,483.29,2,3,4,9,Loyal Customers,1
-18217,United Kingdom,2010-07-14 12:27:00,149,2,323.29,249,161.65,1,3,2,6,Hibernating / Lost,2
-18218,United Kingdom,2010-04-22 12:38:00,232,2,479.91999999999996,492,239.96,1,3,2,6,Hibernating / Lost,2
+18217,United Kingdom,2010-07-14 12:27:00,149,2,323.29,249,161.65,1,3,2,6,At Risk,2
+18218,United Kingdom,2010-04-22 12:38:00,232,2,479.91999999999996,492,239.96,1,3,2,6,At Risk,2
 18219,United Kingdom,2010-12-06 10:05:00,4,8,1493.1200000000001,768,186.64,4,4,3,11,Loyal Customers,3
 18220,United Kingdom,2010-11-10 14:22:00,30,5,1616.48,1064,323.3,3,4,3,10,Loyal Customers,1
 18221,United Kingdom,2010-11-14 15:46:00,26,1,383.33,209,383.33,3,2,2,7,Potential Loyalists,0
@@ -4248,7 +4248,7 @@ customer_id,country,last_purchase,recency,frequency,monetary,total_units,avg_ord
 18241,United Kingdom,2010-10-20 11:58:00,51,4,913.9,420,228.48,3,3,3,9,Loyal Customers,1
 18242,United Kingdom,2010-09-20 13:57:00,81,4,1372.72,1004,343.18,2,3,3,8,Loyal Customers,1
 18243,United Kingdom,2010-10-21 14:29:00,50,1,515.78,221,515.78,3,2,2,7,Potential Loyalists,0
-18244,United Kingdom,2010-10-05 11:15:00,66,2,568.64,856,284.32,2,3,2,7,Hibernating / Lost,1
+18244,United Kingdom,2010-10-05 11:15:00,66,2,568.64,856,284.32,2,3,2,7,At Risk,1
 18245,United Kingdom,2010-11-25 16:52:00,15,13,3757.92,3310,289.07,4,4,4,12,Champions,3
 18246,United Kingdom,2010-04-09 10:19:00,245,1,162.72,48,162.72,1,2,1,4,Hibernating / Lost,2
 18247,United Kingdom,2010-10-21 09:49:00,50,3,839.73,335,279.91,3,3,3,9,Loyal Customers,1
@@ -4269,7 +4269,7 @@ customer_id,country,last_purchase,recency,frequency,monetary,total_units,avg_ord
 18268,United Kingdom,2010-04-27 15:47:00,227,5,1464.73,709,292.95,1,4,3,8,Loyal Customers,1
 18269,United Kingdom,2010-12-08 13:53:00,2,1,168.6,76,168.6,4,2,1,7,Potential Loyalists,0
 18270,United Kingdom,2010-10-03 10:49:00,68,1,161.4,108,161.4,2,2,1,5,Hibernating / Lost,2
-18271,United Kingdom,2010-04-09 09:26:00,245,2,680.85,319,340.42,1,3,2,6,Hibernating / Lost,2
+18271,United Kingdom,2010-04-09 09:26:00,245,2,680.85,319,340.42,1,3,2,6,At Risk,2
 18272,United Kingdom,2010-06-09 14:37:00,184,3,1307.4,830,435.8,1,3,3,7,Loyal Customers,1
 18273,United Kingdom,2010-04-28 12:24:00,226,1,153.0,60,153.0,1,2,1,4,Hibernating / Lost,2
 18275,United Kingdom,2010-05-10 15:46:00,214,2,741.85,417,370.92,1,3,3,7,Loyal Customers,2
