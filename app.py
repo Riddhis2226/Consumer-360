@@ -284,10 +284,13 @@ def inject_css(t: dict[str, str]) -> None:
             color: {t['text_secondary']} !important;
         }}
         div[data-baseweb="select"] > div,
+        div[data-baseweb="select"] div[class*="control"],
         div[data-baseweb="input"] > div,
-        div[data-baseweb="base-input"] {{
+        div[data-baseweb="base-input"],
+        div[data-baseweb="base-input"] > input,
+        div[data-testid="stTextInput"] input {{
             background-color: {t['bg_pill']} !important;
-            border: 1px solid {t['border_strong']} !important;
+            border-color: {t['border_strong']} !important;
             border-radius: 8px !important;
             color: {t['text_primary']} !important;
         }}
@@ -700,58 +703,223 @@ def get_db_engine():
     return None
 
 
+def _norm_key(name: str) -> str:
+    return "".join(ch for ch in str(name).lower() if ch.isalnum())
+
+
+def _quote_ident(col: str) -> str:
+    return '"' + col.replace('"', '""') + '"'
+
+
+def _resolve_col(cols: list[str], aliases: list[str]) -> str | None:
+    norm_map = {_norm_key(c): c for c in cols}
+    for alias in aliases:
+        if found := norm_map.get(_norm_key(alias)):
+            return found
+    return None
+
+
+def _resolve_table(conn, candidates: list[str]) -> tuple[str, list[str]]:
+    from sqlalchemy import text
+
+    for tbl in candidates:
+        rows = conn.execute(
+            text(
+                """
+                SELECT column_name
+                FROM information_schema.columns
+                WHERE table_schema = 'public' AND table_name = :tbl
+                ORDER BY ordinal_position
+                """
+            ),
+            {"tbl": tbl},
+        ).fetchall()
+        if rows:
+            return tbl, [str(r[0]) for r in rows]
+    return candidates[0], []
+
+
+def _get_table_columns(conn, table_name: str) -> list[str]:
+    _, cols = _resolve_table(conn, [table_name])
+    return cols
+
+
+def _normalize_df_columns(df: pd.DataFrame, canonical_map: dict[str, list[str]]) -> pd.DataFrame:
+    rename_map: dict[str, str] = {}
+    cols = list(df.columns)
+    for target, aliases in canonical_map.items():
+        if target in cols:
+            continue
+        found = _resolve_col(cols, [target, *aliases])
+        if found and found not in rename_map:
+            rename_map[found] = target
+    return df.rename(columns=rename_map) if rename_map else df
+
+
+COHORT_ALIASES: dict[str, list[str]] = {
+    "First Purchase Month": ["cohort_month", "first_purchase_month"],
+    "Months Since First Purchase": ["cohort_index", "months_since_first_purchase", "period_number"],
+    "Active Customers": ["active_customers", "customers"],
+    "Cohort Size": ["cohort_size"],
+    "Retention Rate (%)": ["retention_rate", "retention_pct", "retention_rate_pct"],
+}
+
+SEGMENT_ALIASES: dict[str, list[str]] = {
+    "Customer ID": ["customer_id", "customerid"],
+    "Country": ["country"],
+    "Last Purchase": ["last_purchase", "last_purchase_date"],
+    "Days Inactive": ["days_inactive", "recency", "recency_days"],
+    "Total Orders": ["total_orders", "frequency", "order_count"],
+    "Total Spend": ["total_spend", "monetary", "total_revenue", "revenue"],
+    "Total Units": ["total_units", "units", "total_quantity"],
+    "Avg Order Value": ["avg_order_value", "aov"],
+    "Recency Score": ["recency_score", "r_score"],
+    "Frequency Score": ["frequency_score", "f_score"],
+    "Spend Score": ["spend_score", "monetary_score", "m_score"],
+    "Overall Score": ["overall_score", "rfm_score"],
+    "Customer Tier": ["customer_tier", "rfm_segment", "segment", "tier"],
+    "Buyer Group": ["buyer_group", "kmeans_cluster", "cluster_label", "cluster"],
+}
+
+BUNDLE_ALIASES: dict[str, list[str]] = {
+    "Product A Code": ["product_a_code", "stock_code_a", "antecedent_code"],
+    "Product A": ["product_a", "description_a", "antecedent"],
+    "Product B Code": ["product_b_code", "stock_code_b", "consequent_code"],
+    "Product B": ["product_b", "description_b", "consequent"],
+    "Orders Together": ["orders_together", "pair_count", "pair_orders", "co_occurrence", "count"],
+    "Product A Orders": ["product_a_orders", "item_a_count"],
+    "Product B Orders": ["product_b_orders", "item_b_count"],
+    "Order Share (%)": ["order_share", "order_share_pct", "support", "support_pct"],
+    "Buy A -> Buy B (%)": ["buy_a_to_buy_b", "confidence_a_to_b_pct", "confidence_a_to_b", "confidence", "confidence_pct"],
+    "Buy B -> Buy A (%)": ["buy_b_to_buy_a", "confidence_b_to_a_pct", "confidence_b_to_a"],
+    "Bundle Lift": ["bundle_lift", "lift"],
+}
+
+
 @st.cache_data(ttl=1800, show_spinner=False)
 def load_core_bi_data() -> dict[str, pd.DataFrame]:
     """
     Ultra-lightweight startup loader (~7,000 rows total instead of ~460,000 rows).
-    Aggregates retail_transactions in SQL so cold starts finish in seconds with minimal RAM.
+    Auto-detects actual PostgreSQL column names (Title Case or snake_case) so schema
+    variations never trigger UndefinedColumn errors, with automatic CSV fallback.
     """
+    from sqlalchemy.exc import SQLAlchemyError
+
     engine = get_db_engine()
     if engine is not None:
-        sql_summary = """
-            SELECT
-                t."Year-Month",
-                t."Country",
-                COALESCE(s."Customer Tier", 'Other') AS "Customer Tier",
-                COALESCE(s."Buyer Group", 'Other') AS "Buyer Group",
-                SUM(t."Line Revenue") AS "Revenue",
-                COUNT(DISTINCT t."Invoice No") AS "Orders",
-                COUNT(DISTINCT t."Customer ID") AS "Customers",
-                SUM(t."Quantity") AS "Units",
-                COUNT(*) AS "Lines"
-            FROM public.retail_transactions t
-            LEFT JOIN public.customer_segments s ON t."Customer ID" = s."Customer ID"
-            GROUP BY 1, 2, 3, 4
-        """
-        sql_timing = """
-            SELECT
-                t."Year-Month",
-                t."Country",
-                COALESCE(s."Customer Tier", 'Other') AS "Customer Tier",
-                COALESCE(s."Buyer Group", 'Other') AS "Buyer Group",
-                TO_CHAR(t."Order Date", 'FMDay') AS "Weekday",
-                t."Order Hour",
-                SUM(t."Line Revenue") AS "Revenue"
-            FROM public.retail_transactions t
-            LEFT JOIN public.customer_segments s ON t."Customer ID" = s."Customer ID"
-            WHERE t."Order Date" IS NOT NULL
-            GROUP BY 1, 2, 3, 4, 5, 6
-        """
-        with engine.connect() as conn:
-            return {
-                "cohort_retention": pd.read_sql("SELECT * FROM public.cohort_retention", conn),
-                "customer_segments": pd.read_sql("SELECT * FROM public.customer_segments", conn),
-                "tx_summary": pd.read_sql(sql_summary, conn),
-                "tx_timing": pd.read_sql(sql_timing, conn),
-            }
+        try:
+            with engine.connect() as conn:
+                tx_tbl, tx_cols = _resolve_table(conn, ["retail_transactions", "cleaned_transactions"])
+                seg_tbl, seg_cols = _resolve_table(conn, ["customer_segments"])
+
+                t_cid = _resolve_col(tx_cols, ["Customer ID", "customer_id", "customerid"])
+                t_country = _resolve_col(tx_cols, ["Country", "country"])
+                t_rev = _resolve_col(tx_cols, ["Line Revenue", "line_revenue", "revenue", "total_price", "total_amount"])
+                t_inv = _resolve_col(tx_cols, ["Invoice No", "invoice_no", "invoice", "invoiceno"])
+                t_qty = _resolve_col(tx_cols, ["Quantity", "quantity", "qty"])
+                t_date = _resolve_col(tx_cols, ["Order Date", "order_date", "invoice_date", "invoicedate"])
+                t_ym = _resolve_col(tx_cols, ["Year-Month", "year_month", "yearmonth"])
+                t_hour = _resolve_col(tx_cols, ["Order Hour", "order_hour", "hour"])
+
+                s_cid = _resolve_col(seg_cols, ["Customer ID", "customer_id", "customerid"])
+                s_tier = _resolve_col(seg_cols, ["Customer Tier", "customer_tier", "rfm_segment", "segment", "tier"])
+                s_group = _resolve_col(seg_cols, ["Buyer Group", "buyer_group", "kmeans_cluster", "cluster_label", "cluster"])
+
+                if not all([t_cid, t_country, t_rev, t_inv, t_qty, s_cid]):
+                    raise KeyError(
+                        f"Missing required columns. retail_transactions={tx_cols}, customer_segments={seg_cols}"
+                    )
+
+                ym_expr = (
+                    f"t.{_quote_ident(t_ym)}"
+                    if t_ym
+                    else f"TO_CHAR(CAST(t.{_quote_ident(t_date)} AS TIMESTAMP), 'YYYY-MM')"
+                )
+                tier_expr = (
+                    f"COALESCE(CAST(s.{_quote_ident(s_tier)} AS TEXT), 'Other')"
+                    if s_tier
+                    else "'Other'"
+                )
+                group_expr = (
+                    f"COALESCE(CAST(s.{_quote_ident(s_group)} AS TEXT), 'Other')"
+                    if s_group
+                    else "'Other'"
+                )
+                join_clause = (
+                    f"LEFT JOIN public.{_quote_ident(seg_tbl)} s "
+                    f"ON t.{_quote_ident(t_cid)} = s.{_quote_ident(s_cid)}"
+                )
+
+                sql_summary = f"""
+                    SELECT
+                        {ym_expr} AS "Year-Month",
+                        t.{_quote_ident(t_country)} AS "Country",
+                        {tier_expr} AS "Customer Tier",
+                        {group_expr} AS "Buyer Group",
+                        SUM(t.{_quote_ident(t_rev)}) AS "Revenue",
+                        COUNT(DISTINCT t.{_quote_ident(t_inv)}) AS "Orders",
+                        COUNT(DISTINCT t.{_quote_ident(t_cid)}) AS "Customers",
+                        SUM(t.{_quote_ident(t_qty)}) AS "Units",
+                        COUNT(*) AS "Lines"
+                    FROM public.{_quote_ident(tx_tbl)} t
+                    {join_clause}
+                    GROUP BY 1, 2, 3, 4
+                """
+
+                if t_date:
+                    hour_expr = (
+                        f"t.{_quote_ident(t_hour)}"
+                        if t_hour
+                        else f"EXTRACT(HOUR FROM CAST(t.{_quote_ident(t_date)} AS TIMESTAMP))::INTEGER"
+                    )
+                    sql_timing = f"""
+                        SELECT
+                            {ym_expr} AS "Year-Month",
+                            t.{_quote_ident(t_country)} AS "Country",
+                            {tier_expr} AS "Customer Tier",
+                            {group_expr} AS "Buyer Group",
+                            TO_CHAR(CAST(t.{_quote_ident(t_date)} AS TIMESTAMP), 'FMDay') AS "Weekday",
+                            {hour_expr} AS "Order Hour",
+                            SUM(t.{_quote_ident(t_rev)}) AS "Revenue"
+                        FROM public.{_quote_ident(tx_tbl)} t
+                        {join_clause}
+                        WHERE t.{_quote_ident(t_date)} IS NOT NULL
+                        GROUP BY 1, 2, 3, 4, 5, 6
+                    """
+                    df_timing = pd.read_sql(sql_timing, conn)
+                else:
+                    df_timing = pd.DataFrame(
+                        columns=["Year-Month", "Country", "Customer Tier", "Buyer Group", "Weekday", "Order Hour", "Revenue"]
+                    )
+
+                df_cohort = _normalize_df_columns(
+                    pd.read_sql("SELECT * FROM public.cohort_retention", conn),
+                    COHORT_ALIASES,
+                )
+                df_seg = _normalize_df_columns(
+                    pd.read_sql("SELECT * FROM public.customer_segments", conn),
+                    SEGMENT_ALIASES,
+                )
+                if "Buyer Group" not in df_seg.columns:
+                    df_seg["Buyer Group"] = "Core"
+                df_summary = pd.read_sql(sql_summary, conn)
+                return {
+                    "cohort_retention": df_cohort,
+                    "customer_segments": df_seg,
+                    "tx_summary": df_summary,
+                    "tx_timing": df_timing,
+                }
+        except (SQLAlchemyError, pd.errors.DatabaseError, KeyError):
+            if not DEFAULT_DATA_DIR.exists():
+                raise
 
     # Portable CSV fallback (aggregates once in cache, then discards 400k-row raw table)
     if not DEFAULT_DATA_DIR.exists():
         raise FileNotFoundError(
             "Unable to connect to database and data/supabase_db CSVs were not found."
         )
-    df_cohort = pd.read_csv(DEFAULT_DATA_DIR / "cohort_retention.csv")
-    df_seg = pd.read_csv(DEFAULT_DATA_DIR / "customer_segments.csv")
+    df_cohort = _normalize_df_columns(pd.read_csv(DEFAULT_DATA_DIR / "cohort_retention.csv"), COHORT_ALIASES)
+    df_seg = _normalize_df_columns(pd.read_csv(DEFAULT_DATA_DIR / "customer_segments.csv"), SEGMENT_ALIASES)
     tx = pd.read_csv(
         DEFAULT_DATA_DIR / "retail_transactions.csv",
         usecols=[
@@ -797,50 +965,73 @@ def load_core_bi_data() -> dict[str, pd.DataFrame]:
 @st.cache_data(ttl=1800, show_spinner=False)
 def load_bundles_data() -> pd.DataFrame:
     """Lazy-loaded only when the Merchandising & Bundles tab or Export panel is opened."""
+    from sqlalchemy.exc import SQLAlchemyError
+
     engine = get_db_engine()
     if engine is not None:
-        sql = """
-            SELECT *
-            FROM public.product_bundles
-            ORDER BY "Orders Together" DESC
-            LIMIT 8000
-        """
-        with engine.connect() as conn:
-            return pd.read_sql(sql, conn)
-    return pd.read_csv(DEFAULT_DATA_DIR / "product_bundles.csv").nlargest(8000, "Orders Together")
+        try:
+            with engine.connect() as conn:
+                b_tbl, b_cols = _resolve_table(conn, ["product_bundles", "product_affinity"])
+                order_col = _resolve_col(b_cols, ["Orders Together", "orders_together", "pair_count", "pair_orders", "count"])
+                order_sql = f"ORDER BY {_quote_ident(order_col)} DESC" if order_col else ""
+                sql = f"SELECT * FROM public.{_quote_ident(b_tbl)} {order_sql} LIMIT 8000"
+                return _normalize_df_columns(pd.read_sql(sql, conn), BUNDLE_ALIASES)
+        except (SQLAlchemyError, pd.errors.DatabaseError):
+            if not DEFAULT_DATA_DIR.exists():
+                raise
+    return _normalize_df_columns(
+        pd.read_csv(DEFAULT_DATA_DIR / "product_bundles.csv"), BUNDLE_ALIASES
+    ).nlargest(8000, "Orders Together")
 
 
 @st.cache_data(ttl=600, show_spinner=False)
 def load_customer_top_products(customer_id: int, month_start: str, month_end: str) -> tuple[list[str], int]:
     """On-demand 3-row query for the selected Customer 360 account."""
     from sqlalchemy import text
+    from sqlalchemy.exc import SQLAlchemyError
 
     engine = get_db_engine()
     if engine is not None:
-        sql = text(
-            """
-            SELECT "Product Name", SUM("Line Revenue") AS rev, COUNT(*) AS cnt
-            FROM public.retail_transactions
-            WHERE "Customer ID" = :cid
-              AND "Year-Month" BETWEEN :m_start AND :m_end
-            GROUP BY "Product Name"
-            ORDER BY rev DESC
-            LIMIT 3
-            """
-        )
-        sql_cnt = text(
-            """
-            SELECT COUNT(*) FROM public.retail_transactions
-            WHERE "Customer ID" = :cid
-              AND "Year-Month" BETWEEN :m_start AND :m_end
-            """
-        )
-        with engine.connect() as conn:
-            rows = conn.execute(sql, {"cid": customer_id, "m_start": month_start, "m_end": month_end}).fetchall()
-            total_items = int(
-                conn.execute(sql_cnt, {"cid": customer_id, "m_start": month_start, "m_end": month_end}).scalar() or 0
-            )
-        return [str(r[0]) for r in rows], total_items
+        try:
+            with engine.connect() as conn:
+                tx_tbl, tx_cols = _resolve_table(conn, ["retail_transactions", "cleaned_transactions"])
+                t_cid = _resolve_col(tx_cols, ["Customer ID", "customer_id", "customerid"])
+                t_prod = _resolve_col(tx_cols, ["Product Name", "product_name", "description"])
+                t_rev = _resolve_col(tx_cols, ["Line Revenue", "line_revenue", "revenue", "total_price"])
+                t_ym = _resolve_col(tx_cols, ["Year-Month", "year_month", "yearmonth"])
+                t_date = _resolve_col(tx_cols, ["Order Date", "order_date", "invoice_date"])
+                if not all([t_cid, t_prod, t_rev]):
+                    return [], 0
+                ym_expr = (
+                    _quote_ident(t_ym)
+                    if t_ym
+                    else f"TO_CHAR(CAST({_quote_ident(t_date)} AS TIMESTAMP), 'YYYY-MM')"
+                )
+                sql = text(
+                    f"""
+                    SELECT {_quote_ident(t_prod)}, SUM({_quote_ident(t_rev)}) AS rev
+                    FROM public.{_quote_ident(tx_tbl)}
+                    WHERE {_quote_ident(t_cid)} = :cid
+                      AND {ym_expr} BETWEEN :m_start AND :m_end
+                    GROUP BY 1
+                    ORDER BY rev DESC
+                    LIMIT 3
+                    """
+                )
+                sql_cnt = text(
+                    f"""
+                    SELECT COUNT(*) FROM public.{_quote_ident(tx_tbl)}
+                    WHERE {_quote_ident(t_cid)} = :cid
+                      AND {ym_expr} BETWEEN :m_start AND :m_end
+                    """
+                )
+                rows = conn.execute(sql, {"cid": customer_id, "m_start": month_start, "m_end": month_end}).fetchall()
+                total_items = int(
+                    conn.execute(sql_cnt, {"cid": customer_id, "m_start": month_start, "m_end": month_end}).scalar() or 0
+                )
+            return [str(r[0]) for r in rows], total_items
+        except SQLAlchemyError:
+            pass
 
     fpath = DEFAULT_DATA_DIR / "retail_transactions.csv"
     if not fpath.exists():
@@ -1389,7 +1580,7 @@ if tab == "Executive Overview":
             fig_conc.update_xaxes(ticksuffix="%", range=[0, max_share * 1.24], title="Share of Total (%)")
             fig_conc.update_yaxes(title="")
             st.plotly_chart(
-                style_plotly(fig_conc, T, height=418, bottom_margin=64, grid="x"),
+                style_plotly(fig_conc, T, height=402, bottom_margin=64, grid="x"),
                 use_container_width=True,
                 config=PLOT_CONFIG,
             )
